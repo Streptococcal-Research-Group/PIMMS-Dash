@@ -1,0 +1,1861 @@
+Locus	Gene	Start	Stop	CDS_length	Product	Total_number_of_insertions	Number_of_unique_insertion_positions(>=3 x coverage)	Unique_insertions_per1KbCDS(>=3 x coverage)	First_unique_insertion_centile_position(>=3 x coverage)	Last_unique_insertion_centile_position(>=3 x coverage)	Normalised_Reads_Mapped (NRM_score)	Normalised_Insertions_Mapped (NIM_score)
+16S ribosomal RNA_1370031	16S ribosomal RNA_1370031	1370031	1371574	1544	16S ribosomal RNA	3	1	0.648	49.4	49.4	0.635	0.212
+16S ribosomal RNA_18012	16S ribosomal RNA_18012	18012	19555	1544	16S ribosomal RNA	6	1	0.648	44.8	44.8	1.270	0.212
+16S ribosomal RNA_309114	16S ribosomal RNA_309114	309114	310657	1544	16S ribosomal RNA	18	2	1.295	44.8	98.6	3.810	0.423
+16S ribosomal RNA_349694	16S ribosomal RNA_349694	349694	351237	1544	16S ribosomal RNA	24	2	1.295	44.8	98.6	5.080	0.423
+16S ribosomal RNA_88250	16S ribosomal RNA_88250	88250	89793	1544	16S ribosomal RNA	13	1	0.648	44.8	44.8	2.752	0.212
+23S ribosomal RNA_1366794	23S ribosomal RNA_1366794	1366794	1369692	2899	23S ribosomal RNA	11	1	0.345	99.5	99.5	1.240	0.113
+23S ribosomal RNA_19894	23S ribosomal RNA_19894	19894	22792	2899	23S ribosomal RNA	6	1	0.345	24.3	24.3	0.676	0.113
+23S ribosomal RNA_310996	23S ribosomal RNA_310996	310996	313894	2899	23S ribosomal RNA	0	0	0	NA	NA	0	0
+23S ribosomal RNA_351576	23S ribosomal RNA_351576	351576	354474	2899	23S ribosomal RNA	0	0	0	NA	NA	0	0
+23S ribosomal RNA_90132	23S ribosomal RNA_90132	90132	93030	2899	23S ribosomal RNA	0	0	0	NA	NA	0	0
+5S ribosomal RNA_1366472	5S ribosomal RNA_1366472	1366472	1366591	120	5S ribosomal RNA	0	0	0	NA	NA	0	0
+5S ribosomal RNA_22995	5S ribosomal RNA_22995	22995	23114	120	5S ribosomal RNA	0	0	0	NA	NA	0	0
+5S ribosomal RNA_314097	5S ribosomal RNA_314097	314097	314239	143	5S ribosomal RNA	12	2	13.986	40.6	79.0	27.427	4.571
+5S ribosomal RNA_354677	5S ribosomal RNA_354677	354677	354799	123	5S ribosomal RNA	6	1	8.130	91.9	91.9	15.943	2.657
+5S ribosomal RNA_93233	5S ribosomal RNA_93233	93233	93352	120	5S ribosomal RNA	0	0	0	NA	NA	0	0
+SUB0001	dnaA	1	1356	1356	chromosomal replication initiator protein	0	0	0	NA	NA	0	0
+SUB0002	dnaN	1510	2646	1137	DNA polymerase III, beta chain	0	0	0	NA	NA	0	0
+SUB0003	NA	2720	2929	210	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB0004	NA	3036	3443	408	putative DNA-binding protein	125	5	12.255	47.3	99.8	100.133	4.005
+SUB0005	NA	3524	4639	1116	putative GTP-binding protein	0	0	0	NA	NA	0	0
+SUB0006	pth	4712	5281	570	peptidyl-tRNA hydrolase	0	0	0	NA	NA	0	0
+SUB0007	trcF	5285	8785	3501	putative transcription-repair coupling factor	1687	27	7.712	11.8	98.8	157.489	2.521
+SUB0008	NA	8772	10259	1488	putative polysaccharide biosynthesis protein	380	17	11.425	1.5	84.7	83.466	3.734
+SUB0009	NA	10288	10560	273	S4 domain containing protein	0	0	0	NA	NA	0	0
+SUB0010	NA	10547	10918	372	putative septum formation initiator protein	0	0	0	NA	NA	0	0
+SUB0011	NA	10920	11048	129	conserved hypothetical protein	629	1	7.752	98.4	98.4	1593.633	2.534
+SUB0012	NA	11051	12337	1287	putative exported protein	0	0	0	NA	NA	0	0
+SUB0013	NA	12334	13617	1284	PP-loop family protein	0	0	0	NA	NA	0	0
+SUB0014	hpt	13622	14164	543	hypoxanthine-guanine phosphoribosyltransferase	22	2	3.683	88.8	96.5	13.242	1.204
+SUB0015	ftsH	14186	16153	1968	putative cell division protease FtsH	13	1	0.508	95.5	95.5	2.159	0.166
+SUB0016	NA	16258	17646	1389	putative amino acid permease	4302	32	23.038	9.6	97.2	1012.268	7.530
+SUB0017	NA	24761	25579	819	rod shape-determining protein MreC	88	6	7.326	11.8	95.8	35.118	2.394
+SUB0018	NA	25583	26083	501	putative membrane protein	198	6	11.976	18.2	97.4	129.168	3.914
+SUB0019	NA	26179	27456	1278	putative amidase	8	1	0.782	99.8	99.8	2.046	0.256
+SUB0020	prsA1	27565	28524	960	ribose-phosphate pyrophosphokinase 1	0	0	0	NA	NA	0	0
+SUB0021	NA	28615	29793	1179	putative aminotransferase	4950	23	19.508	18.0	79.8	1372.204	6.376
+SUB0022	recO	29783	30556	774	DNA repair protein RecO	7	1	1.292	93.7	93.7	2.956	0.422
+SUB0023	plsX	30656	31663	1008	fatty acid/phospholipid synthesis protein	0	0	0	NA	NA	0	0
+SUB0024	NA	31656	31901	246	putative acyl carrier protein	0	0	0	NA	NA	0	0
+SUB0025	purC	32047	32751	705	phosphoribosylaminoimidazole-succinocarboxamide synthase	661	9	12.766	4.0	95.0	306.436	4.172
+SUB0026	NA	32804	36532	3729	putative phosphoribosylformylglycinamidine synthase protein	576	15	4.023	1.0	100.0	50.484	1.315
+SUB0027	purF	36566	38020	1455	putative amidophosphoribosyltransferase precursor	130	6	4.124	5.8	91.3	29.202	1.348
+SUB0028	purM	38555	39577	1023	phosphoribosylformylglycinamidine cyclo-ligase	184	5	4.888	42.2	94.0	58.785	1.597
+SUB0029	purN	39574	40128	555	phosphoribosylglycinamide formyltransferase	3991	3	5.405	10.1	42.0	2350.261	1.767
+SUB0030	purH	40198	41745	1548	bifunctional purine biosynthesis protein PurH [includes: phosphoribosylaminoimidazolecarboxamide formyltransferase IMP cyclohydrolase]	144	3	1.938	1.6	93.2	30.403	0.633
+SUB0031	NA	41809	42093	285	response regulator protein (pseudogene)	31	3	10.526	9.1	89.8	35.550	3.440
+SUB0032	ublA	42852	43082	231	putative bacteriocin	44	3	12.987	14.7	97.8	62.254	4.245
+SUB0033	ublB	43172	44779	1608	putative membrane protein	6134	32	19.900	14.3	97.5	1246.766	6.504
+SUB0034	ublC	44760	45305	546	putative membrane protein	2149	13	23.810	1.3	77.7	1286.385	7.782
+SUB0035	ublD	45305	45946	642	ABC transporter ATP-binding protein	3931	16	24.922	8.7	98.1	2001.222	8.145
+SUB0036	ublE	45943	46209	267	putative membrane protein	241	9	33.708	11.6	95.5	295.007	11.017
+SUB0037A	NA	46237	46416	180	bifunctional purine biosynthesis protein purH [includes: phosphoribosylaminoimidazolecarboxamide formyltransferase IMP cyclohydrolase] (fragment)	147	4	22.222	19.4	85.6	266.914	7.263
+SUB0038	NA	46744	47475	732	GntR family regulatory protein	1288	12	16.393	2.2	68.2	575.085	5.358
+SUB0039	agaS	47494	48669	1176	putative tagatose-6-phosphate aldose/ketose isomerase	167	8	6.803	8.6	96.9	46.413	2.223
+SUB0040	lacD3	48680	49660	981	tagatose 1,6-diphosphate aldolase 3	361	14	14.271	6.3	99.3	120.272	4.664
+SUB0041	NA	49693	50409	717	GntR family regulatory protein	2081	19	26.499	1.7	85.8	948.594	8.661
+SUB0042	NA	50546	52330	1785	putative beta-galactosidase precursor	1521	19	10.644	1.3	98.6	278.496	3.479
+SUB0043	NA	52327	52815	489	sugar phosphotransferase system (PTS), sorbose subfamily, IIB component	79	5	10.225	54.4	94.9	52.801	3.342
+SUB0044	NA	52841	53722	882	sugar phosphotransferase system (PTS), sorbose-specific family, IIC component	370	3	3.401	64.4	86.8	137.107	1.112
+SUB0045	NA	53709	54527	819	sugar phosphotransferase system (PTS), mannose/fructose/sorbose family, IID component	127	2	2.442	59.3	64.5	50.681	0.798
+SUB0046	NA	54529	54936	408	sugar phosphotransferase system (PTS), fructose family, IIA component	41	3	7.353	61.0	78.4	32.844	2.403
+SUB0048	NA	55082	56170	1089	putative amidase	2256	13	11.938	3.3	96.2	677.078	3.902
+SUB0049	NA	56241	56516	276	putative membrane protein	98	4	14.493	16.3	97.5	116.050	4.737
+SUB0051	NA	56703	56948	246	hypothetical protein	311	7	28.455	51.2	91.1	413.193	9.300
+SUB0052	NA	56977	57336	360	putative membrane protein	145	6	16.667	11.4	80.8	131.641	5.447
+SUB0053	purD	57454	58716	1263	phosphoribosylamine-glycine ligase	7	1	0.792	10.4	10.4	1.811	0.259
+SUB0054	purE	58762	59250	489	putative phosphoribosylaminoimidazole carboxylase catalytic subunit	0	0	0	NA	NA	0	0
+SUB0055	purK	59237	60310	1074	putative phosphoribosylaminoimidazole carboxylase ATPase subunit	1051	3	2.793	94.7	98.6	319.835	0.913
+SUB0056	purB	60624	61916	1293	adenylosuccinate lyase	18	1	0.773	82.7	82.7	4.550	0.253
+SUB0057	NA	62014	62949	936	putative DNA-binding protein	41	4	4.274	35.3	95.3	14.316	1.397
+SUB0058	NA	62977	63147	171	putative membrane protein	25	3	17.544	26.9	82.5	47.783	5.734
+SUB0059	ruvB	63179	64183	1005	Holliday junction DNA helicase, subunit B	89	4	3.980	94.5	98.7	28.944	1.301
+SUB0060	NA	64434	64862	429	putative phosphotyrosine protein phosphatase	239	2	4.662	20.0	88.6	182.082	1.524
+SUB0061	NA	64867	65280	414	putative membrane protein	0	0	0	NA	NA	0	0
+SUB0062	NA	65277	67055	1779	acyltransferase family protein	10	1	0.562	25.0	25.0	1.837	0.184
+SUB0063	adhE	67208	69856	2649	aldehyde-alcohol dehydrogenase 2 [includes: alcohol dehydrogenase acetaldehyde dehydrogenase]	1272	14	5.285	6.3	99.1	156.940	1.727
+SUB0064	NA	69910	70095	186	hypothetical protein	0	0	0	NA	NA	0	0
+SUB0065	NA	70212	71699	1488	putative threonine synthase	283	3	2.016	96.2	99.0	62.160	0.659
+SUB0066	NA	71736	73022	1287	multi antimicrobial extrusion (MATE) family transporter	2404	16	12.432	18.6	96.0	610.496	4.063
+SUB0067	rpsJ	73216	73524	309	30S ribosomal protein S10	0	0	0	NA	NA	0	0
+SUB0068	rplC	73629	74255	627	50S ribosomal protein L3	0	0	0	NA	NA	0	0
+SUB0069	rplD	74279	74902	624	50S ribosomal protein L4	0	0	0	NA	NA	0	0
+SUB0070	rplW	74902	75198	297	50S ribosomal protein L23	0	0	0	NA	NA	0	0
+SUB0071	rplB	75216	76049	834	50S ribosomal protein L2	0	0	0	NA	NA	0	0
+SUB0072	rpsS	76146	76424	279	30S ribosomal protein S19	0	0	0	NA	NA	0	0
+SUB0073	rplV	76440	76784	345	50S ribosomal protein L22	0	0	0	NA	NA	0	0
+SUB0074	rpsC	76797	77450	654	30S ribosomal protein S3	0	0	0	NA	NA	0	0
+SUB0075	rplP	77454	77867	414	50S ribosomal protein L16	0	0	0	NA	NA	0	0
+SUB0076	rpmC	77877	78083	207	50S ribosomal protein L29	0	0	0	NA	NA	0	0
+SUB0077	rpsQ	78111	78371	261	30S ribosomal protein S17	0	0	0	NA	NA	0	0
+SUB0078	rplN	78396	78764	369	50S ribosomal protein L14	0	0	0	NA	NA	0	0
+SUB0079	rplX	78848	79153	306	50S ribosomal protein L24	0	0	0	NA	NA	0	0
+SUB0080	rplE	79177	79719	543	50S ribosomal protein L5	0	0	0	NA	NA	0	0
+SUB0081	rpsN	79735	79920	186	30S ribosomal protein S14	0	0	0	NA	NA	0	0
+SUB0082	rpsH	80076	80474	399	30S ribosomal protein S8	0	0	0	NA	NA	0	0
+SUB0083	rplF	80641	81177	537	50S ribosomal protein L6	0	0	0	NA	NA	0	0
+SUB0084	rplR	81266	81631	366	50S ribosomal protein L18	0	0	0	NA	NA	0	0
+SUB0085	rpsE	81650	82144	495	30S ribosomal protein S5	0	0	0	NA	NA	0	0
+SUB0086	rpmD	82159	82341	183	50S ribosomal protein L30	0	0	0	NA	NA	0	0
+SUB0087	rplO	82464	82904	441	50S ribosomal protein L15	0	0	0	NA	NA	0	0
+SUB0088	secY	82921	84225	1305	preprotein translocase SecY subunit	0	0	0	NA	NA	0	0
+SUB0089	adk	84364	85005	642	adenylate kinase	0	0	0	NA	NA	0	0
+SUB0090	infA	85124	85342	219	translation initiation factor IF-1	0	0	0	NA	NA	0	0
+SUB0091	rpmJ	85368	85484	117	50S ribosomal protein L36	0	0	0	NA	NA	0	0
+SUB0092	rpsM	85502	85867	366	30S ribosomal protein S13	0	0	0	NA	NA	0	0
+SUB0093	rpsK	85885	86268	384	30S ribosomal protein S11	0	0	0	NA	NA	0	0
+SUB0094	rpoA	86314	87252	939	DNA-directed RNA polymerase alpha chain	0	0	0	NA	NA	0	0
+SUB0095	rplQ	87267	87653	387	50S ribosomal protein L17	0	0	0	NA	NA	0	0
+SUB0096	NA	94502	94675	174	AraC family regulatory protein (fragment)	1069	8	45.977	25.9	98.3	2007.963	15.027
+SUB0098	NA	95099	95620	522	putative lipoprotein	821	24	45.977	13.0	96.6	514.044	15.027
+SUB0099	NA	96231	96719	489	pyridoxamine 5'-phosphate oxidase protein	498	14	28.630	1.4	92.0	332.849	9.357
+SUB0100	NA	97054	97371	318	putative membrane protein	1248	9	28.302	11.6	87.7	1282.669	9.250
+SUB0101	NA	97545	98591	1047	zinc-binding dehydrogenase	153	8	7.641	20.2	99.9	47.761	2.497
+SUB0102	NA	98802	99701	900	UbiA prenyltransferase family protein	991	10	11.111	22.0	79.0	359.881	3.631
+SUB0103	NA	99734	100945	1212	pyridine nucleotide-disulphide oxidoreductase	1316	10	8.251	4.3	97.7	354.879	2.697
+SUB0104	cydA	101027	102454	1428	cytochrome d ubiquinol oxidase subunit I	1078	17	11.905	12.7	86.6	246.728	3.891
+SUB0105	cydB	102454	103473	1020	cytochrome d ubiquinol oxidase subunit II	1536	19	18.627	13.9	83.1	492.174	6.088
+SUB0106	cydC	103473	105191	1719	ABC transporter ATP-binding membrane protein	787	17	9.889	3.8	99.0	149.633	3.232
+SUB0107	cydD	105184	106929	1746	ABC transporter ATP-binding membrane protein	3727	22	12.600	8.4	97.5	697.658	4.118
+SUB0108	NA	106961	107941	981	polyprenyl synthetase	1526	13	13.252	1.9	74.8	508.408	4.331
+SUB0109	ispE	108150	109001	852	4-diphosphocytidyl-2-c-methyl-D-erythritol kinase	212	8	9.390	0.1	96.7	81.325	3.069
+SUB0110	NA	109062	109505	444	MarR-family regulatory protein	0	0	0	NA	NA	0	0
+SUB0111	NA	109510	110211	702	ABC transporter ATP-binding protein	39	2	2.849	89.6	95.6	18.157	0.931
+SUB0112	NA	110211	111026	816	ABC transporter permease protein	859	4	4.902	49.1	98.8	344.057	1.602
+SUB0113	tyrS	111086	112342	1257	putative tyrosyl-tRNA synthetase	8	1	0.796	98.7	98.7	2.080	0.260
+SUB0114	pbp1B	112434	114752	2319	putative penicillin-binding protein 1B	224	4	1.725	7.6	64.9	31.570	0.564
+SUB0115	rpoB	115016	118582	3567	DNA-directed RNA polymerase beta chain	0	0	0	NA	NA	0	0
+SUB0116	rpoC	118674	122312	3639	DNA-directed RNA polymerase beta' chain	223	2	0.550	97.6	98.7	20.029	0.180
+SUB0117	NA	122367	122798	432	conserved hypothetical protein	1242	13	30.093	8.8	91.4	939.648	9.835
+SUB0118	NA	122871	123812	942	putative competence protein	140	8	8.493	27.8	86.5	48.574	2.776
+SUB0119	NA	123688	124779	1092	putative competence protein	388	17	15.568	3.4	99.5	116.128	5.088
+SUB0120	comYC	124780	125103	324	putative competence protein	173	3	9.259	65.4	78.4	174.513	3.026
+SUB0121	NA	125057	125494	438	putative competence protein	464	7	15.982	2.3	84.7	346.235	5.223
+SUB0122	NA	125466	125765	300	putative exported protein	19	3	10.000	1.3	24.3	20.699	3.268
+SUB0123	NA	125725	126180	456	putative membrane protein	1245	9	19.737	22.4	92.8	892.343	6.451
+SUB0124	NA	126158	126517	360	putative exported protein	102	6	16.667	5.0	89.7	92.603	5.447
+SUB0125	NA	126562	127518	957	conserved hypothetical protein	422	17	17.764	3.0	83.5	144.121	5.806
+SUB0126	ackA	127574	128764	1191	acetate kinase	164	6	5.038	0.3	58.8	45.005	1.647
+SUB0127	NA	128882	129085	204	putative DNA-binding protein	54	3	14.706	1.0	85.3	86.515	4.806
+SUB0128	NA	129087	129539	453	putative membrane protein	3425	5	11.038	2.4	94.7	2471.096	3.607
+SUB0129	NA	129548	130201	654	CAAX amino terminal protease family membrane protein	9730	8	12.232	1.5	88.2	4862.531	3.998
+SUB0130	proC	130227	130997	771	putative pyrroline-5-carboxylate reductase	45	5	6.485	6.2	96.8	19.076	2.120
+SUB0131	pepA	131019	132083	1065	putative glutamyl-aminopeptidase	328	11	10.329	11.0	70.6	100.659	3.376
+SUB0132	NA	132223	132519	297	putative exported protein	5316	9	30.303	31.3	82.5	5849.999	9.904
+SUB0133	NA	132512	132826	315	putative thioredoxin	44	2	6.349	17.8	31.1	45.653	2.075
+SUB0134	NA	132845	133471	627	putative tRNA-binding protein	1099	6	9.569	8.5	55.3	572.872	3.128
+SUB0135	fruA	133665	137474	3810	putative fructan beta-fructosidase precursor	15361	53	13.911	0.7	97.8	1317.716	4.547
+SUB0136	NA	137638	138036	399	putative single stranded DNA-binding protein	218	2	5.013	92.7	96.7	178.571	1.638
+SUB0137	NA	138527	139486	960	putative lipoprotein	241	6	6.250	0.4	99.8	82.049	2.043
+SUB0138	NA	139503	140465	963	putative lipoprotein	623	12	12.461	2.5	97.5	211.441	4.073
+SUB0139	NA	140502	141386	885	transport system permease protein	133	7	7.910	14.4	64.0	49.117	2.585
+SUB0140	NA	141395	142198	804	ABC transporter ATP-binding protein	154	7	8.706	26.7	53.2	62.603	2.846
+SUB0141	NA	142403	143044	642	putative deoxyadenosine kinase protein	783	5	7.788	1.9	22.1	398.615	2.545
+SUB0142	NA	143063	144040	978	putative tRNA-dihydrouridine synthase	65	3	3.067	3.4	30.4	21.722	1.003
+SUB0143	NA	144027	144899	873	33 kDa chaperonin (heat shock protein 33 homolog)	38	2	2.291	45.6	50.4	14.226	0.749
+SUB0144	NA	145040	146539	1500	putative Mga-like regulatory protein	2214	14	9.333	27.3	98.9	482.407	3.050
+SUB0145	lbp	146844	148391	1548	lactoferrin binding protein	201	8	5.168	17.3	96.5	42.438	1.689
+SUB0146	gshA	148492	150753	2262	putative glutamate--cysteine ligase	12	2	0.884	54.2	77.0	1.734	0.289
+SUB0147	NA	150950	151243	294	prophage maintenance system killer protein (fragment)	113	4	13.605	6.5	91.5	125.620	4.447
+SUB0148	NA	151234	151491	258	conserved hypothetical protein	34	3	11.628	46.5	87.2	43.071	3.800
+SUB0149	NA	151522	151653	132	hypothetical protein	0	0	0	NA	NA	0	0
+SUB0150	NA	151684	152934	1251	conserved hypothetical protein	233	10	7.994	9.1	71.4	60.873	2.613
+SUB0151	NA	152943	153803	861	putative membrane protein	35	3	3.484	1.5	53.0	13.286	1.139
+SUB0152	purA	154158	155450	1293	adenylosuccinate synthetase	877	2	1.547	22.4	97.1	221.681	0.506
+SUB0153	NA	155574	155747	174	conserved hypothetical protein	6	1	5.747	11.5	11.5	11.270	1.878
+SUB0154	NA	155829	156185	357	conserved hypothetical protein	46	2	5.602	70.6	82.4	42.113	1.831
+SUB0155	NA	156412	157455	1044	basic membrane protein	513	8	7.663	6.4	85.7	160.599	2.504
+SUB0156	NA	157493	158266	774	putative pyruvate formate-lyase activating enzyme	88	6	7.752	7.0	91.1	37.159	2.534
+SUB0157	NA	158393	159136	744	DeoR family regulatory protein	62	4	5.376	2.7	57.3	27.236	1.757
+SUB0158	NA	159152	160120	969	putative sugar-binding regulatory protein	371	8	8.256	19.7	84.9	125.135	2.698
+SUB0159	NA	160755	162020	1266	conserved hypothetical protein	35365	22	17.378	1.7	96.7	9129.925	5.680
+SUB0160	pflD	162243	164657	2415	putative formate acetyltransferase	1956	22	9.110	7.9	97.1	264.715	2.977
+SUB0161	fsaA	164672	165340	669	putative fructose-6-phosphate aldolase 1	41	6	8.969	6.0	82.2	20.030	2.931
+SUB0162	qacH	165577	165894	318	putative quaternary ammonium compound-resistance protein	41	2	6.289	21.1	34.3	42.139	2.056
+SUB0163	NA	165898	166782	885	binding-protein-dependent transport system membrane protein	600	8	9.040	0.1	93.0	221.582	2.954
+SUB0164	NA	166792	168444	1653	putative fusion protein (pseudogene)	636	14	8.469	4.2	85.4	125.751	2.768
+SUB0165	NA	168496	169005	510	conserved hypothetical protein	312	7	13.725	0.8	90.6	199.946	4.486
+SUB0166	NA	169341	169679	339	DNA-binding protein	56	3	8.850	1.2	46.6	53.990	2.892
+SUB0167	NA	169816	170085	270	conserved hypothetical protein	26	1	3.704	34.1	34.1	31.473	1.210
+SUB0169	NA	170159	171079	921	putative membrane protein	363	9	9.772	1.4	92.7	128.817	3.194
+SUB0170	NA	171148	171945	798	RpiR family regulatory protein	79	6	7.519	29.2	92.7	32.356	2.457
+SUB0172	NA	172080	173066	987	oxidoreductase family protein	4670	9	9.119	15.4	97.1	1546.418	2.980
+SUB0173	NA	173129	174298	1170	NADH:flavin oxidoreductase / NADH oxidase family protein	902	10	8.547	4.8	97.4	251.969	2.793
+SUB0174	NA	174324	175145	822	putative ribosomal RNA large subunit methyltransferase A	73	4	4.866	4.0	91.8	29.025	1.590
+SUB0175	NA	175295	176320	1026	putative microcin immunity protein	406	15	14.620	47.6	96.7	129.332	4.778
+SUB0176	NA	176375	177301	927	putative exported protein	344	8	8.630	8.3	96.1	121.285	2.821
+SUB0177	NA	177288	177827	540	RNA polymerase sigma factor protein	4439	6	11.111	10.9	60.4	2686.697	3.631
+SUB0178	NA	177952	178881	930	CAAX amino terminal protease family protein	28424	12	12.903	23.7	96.1	9989.172	4.217
+SUB0179	NA	178894	179364	471	Acetyltransferase (GNAT) family protein	31	4	8.493	20.6	46.1	21.511	2.776
+SUB0180	NA	179709	180509	801	putative haloacid dehalogenase-like hydrolase	165	15	18.727	10.5	90.1	67.325	6.120
+SUB0181	NA	180612	181580	969	putative extracellular sugar-binding protein	806	10	10.320	2.8	95.0	271.856	3.373
+SUB0182	NA	181583	182917	1335	sensor histidine kinase	1148	19	14.232	8.2	96.9	281.053	4.652
+SUB0183	NA	182895	183575	681	response regulator protein	44	3	4.405	24.5	70.0	21.117	1.440
+SUB0184	NA	183568	184872	1305	extracellular sugar-binding protein	417	13	9.962	9.0	87.7	104.437	3.256
+SUB0185	NA	185018	185455	438	sugar phosphotransferase system (PTS), fructose-specific family, IIA component	123	7	15.982	8.0	96.8	91.782	5.223
+SUB0186	NA	185478	185972	495	sugar phosphotransferase system (PTS), sorbose subfamily, IIB component	9	1	2.020	48.9	48.9	5.942	0.660
+SUB0187	NA	185991	186848	858	sugar phosphotransferase system (PTS), mannose/fructose family, IIC component	143	10	11.655	6.8	85.9	54.472	3.809
+SUB0188	manZ	186850	187683	834	sugar phosphotransferase system (PTS), mannose/fructose/sorbose family, IID component	2842	9	10.791	8.0	96.0	1113.744	3.527
+SUB0189	NA	187707	188024	318	putative membrane protein	8	1	3.145	76.1	76.1	8.222	1.028
+SUB0190	NA	188111	188713	603	putative exported protein	980	8	13.267	2.8	96.2	531.173	4.336
+SUB0191	NA	188815	190185	1371	sensor histidine kinase	3311	22	16.047	2.6	97.4	789.313	5.245
+SUB0192	NA	190182	190871	690	response regulator protein	357	7	10.145	2.6	63.6	169.101	3.316
+SUB0193	NA	190928	191098	171	hypothetical protein	0	0	0	NA	NA	0	0
+SUB0194	NA	191177	193030	1854	transcriptional regulator (antiterminator)	2709	25	13.484	1.3	93.0	477.558	4.407
+SUB0195	NA	193205	193525	321	sugar phosphotransferase system (PTS), lactose/cellobiose-specific family, IIB component	106	4	12.461	59.5	95.0	107.926	4.073
+SUB0196	NA	193537	193845	309	sugar phosphotransferase system (PTS), lactose/cellobiose-specific family, IIA component	24	2	6.472	80.3	93.9	25.385	2.115
+SUB0197	NA	193864	195174	1311	sugar phosphotransferase system (PTS), IIC component	1158	18	13.730	1.8	94.1	288.691	4.487
+SUB0198	NA	195183	196583	1401	putative beta-glucosidase	292	12	8.565	9.1	97.3	68.120	2.799
+SUB0199	NA	196704	197606	903	6-phosphogluconate dehydrogenase family protein	489	11	12.182	4.4	95.6	176.990	3.981
+SUB0200	NA	197618	199045	1428	6-phospho-beta-glucosidase 1	5751	8	5.602	7.3	89.7	1316.262	1.831
+SUB0201	NA	199056	200492	1437	putative gluconokinase	867	13	9.047	8.6	96.2	197.192	2.957
+SUB0202	NA	200543	201598	1056	sensor histidine kinase	58	10	9.470	39.7	89.5	17.951	3.095
+SUB0203	NA	201591	202274	684	response regulator protein	77	5	7.310	1.8	70.0	36.793	2.389
+SUB0204	NA	202309	202989	681	ABC transporter ATP-binding protein	40	2	2.937	60.4	67.4	19.197	0.960
+SUB0205	NA	202991	204070	1080	permease protein	461	10	9.259	15.6	82.9	139.510	3.026
+SUB0206	NA	204173	205630	1458	putative exported protein	104	6	4.115	13.8	73.2	23.313	1.345
+SUB0207	NA	205780	207279	1500	putative surface-anchored protein	2588	12	8.000	4.5	69.0	563.898	2.615
+SUB0208	NA	207481	207756	276	putative membrane protein	115	6	21.739	7.2	91.7	136.181	7.105
+SUB0209	NA	207749	208159	411	hypothetical protein	216	4	9.732	13.1	78.1	171.767	3.181
+SUB0210	NA	208306	208869	564	conserved hypothetical protein	42	5	8.865	39.9	97.3	24.339	2.897
+SUB0211	NA	209013	209132	120	putative membrane protein	0	0	0	NA	NA	0	0
+SUB0212	NA	209191	209535	345	putative exported protein	39	3	8.696	43.2	58.8	36.946	2.842
+SUB0213	NA	209554	209913	360	putative membrane protein	28	3	8.333	86.7	98.3	25.420	2.724
+SUB0214	NA	210334	211602	1269	putative ATPase	1208	7	5.516	20.1	71.6	311.123	1.803
+SUB0215	NA	211860	212147	288	conserved hypothetical protein	889	2	6.944	74.0	88.5	1008.873	2.270
+SUB0216	NA	212181	212336	156	hypothetical protein	6	1	6.410	55.8	55.8	12.571	2.095
+SUB0217	NA	213955	214725	771	hypothetical phage protein	1527	9	11.673	23.7	98.3	647.309	3.815
+SUB0218	NA	214817	214999	183	hypothetical phage protein	9	2	10.929	24.0	47.0	16.074	3.572
+SUB0219	NA	215002	215154	153	hypothetical phage protein	0	0	0	NA	NA	0	0
+SUB0220	NA	215499	216938	1440	putative phage replication protein	1904	14	9.722	10.2	52.3	432.147	3.178
+SUB0221	NA	216998	217867	870	hypothetical phage protein	19	2	2.299	0.9	5.7	7.138	0.751
+SUB0222	NA	217868	218137	270	putative DNA-binding phage protein	27	2	7.407	57.4	73.0	32.683	2.421
+SUB0223	NA	218149	218340	192	putative phage membrane protein	0	0	0	NA	NA	0	0
+SUB0224	NA	218328	218504	177	hypothetical phage protein	0	0	0	NA	NA	0	0
+SUB0225	NA	218497	218709	213	hypothetical phage protein	6	1	4.695	24.9	24.9	9.207	1.534
+SUB0227	NA	219002	219295	294	hypothetical phage protein	0	0	0	NA	NA	0	0
+SUB0228	NA	219342	219548	207	putative DNA-binding phage protein	0	0	0	NA	NA	0	0
+SUB0229	NA	219678	220292	615	putative DNA-binding phage protein	0	0	0	NA	NA	0	0
+SUB0230	NA	220344	220502	159	putative phage membrane protein	24	1	6.289	37.1	37.1	49.333	2.056
+SUB0231	NA	220565	221710	1146	putative phage integrase	1590	15	13.089	0.3	90.5	453.461	4.278
+SUB0232	NA	221805	222275	471	conserved hypothetical protein	182	4	8.493	17.6	95.3	126.293	2.776
+SUB0233	NA	222293	223246	954	ribosomal protein L11 methyltransferase	59	4	4.193	65.6	90.5	20.213	1.370
+SUB0234	NA	223246	223989	744	conserved hypothetical protein	762	8	10.753	10.2	85.9	334.741	3.514
+SUB0235	NA	224085	225089	1005	LacI family regulatory protein	1142	11	10.945	13.6	93.2	371.388	3.577
+SUB0236	NA	225227	227410	2184	putative glucose-specific phosphotransferase system (PTS), IIABC component	178	15	6.868	2.7	92.5	26.638	2.245
+SUB0237	NA	227492	228313	822	endonuclease/exonuclease/phosphatase family protein	136	6	7.299	7.2	77.3	54.075	2.386
+SUB0238	NA	228403	228900	498	putative membrane protein	9	1	2.008	24.3	24.3	5.907	0.656
+SUB0239	NA	228936	229997	1062	M42 gutamyl aminopeptidase	134630	20	18.832	5.3	98.4	41432.829	6.155
+SUB0240	NA	230044	230520	477	putative NrdI-like protein	0	0	0	NA	NA	0	0
+SUB0241	NA	230655	233111	2457	putative surface-anchored 2',3'-cyclic-nucleotide 2'-phosphodiesterase	2156	30	12.210	1.7	99.4	286.795	3.991
+SUB0242	relA	233359	235578	2220	GTP pyrophosphokinase	2644	23	10.360	2.8	95.7	389.256	3.386
+SUB0243	NA	235590	236033	444	D-tyrosyl-tRNA(Tyr) deacylase	87	2	4.505	27.5	34.9	64.042	1.472
+SUB0244	lrp	236123	236971	849	leucine-rich protein	97	8	9.423	67.6	95.2	37.341	3.080
+SUB0245	msmK	237073	238206	1134	multiple sugar-binding transport ATP-binding protein	528	12	10.582	0.9	94.9	152.177	3.459
+SUB0246	dexB	238299	239906	1608	glucan 1,6-alpha-glucosidase	3912	12	7.463	4.0	93.3	795.134	2.439
+SUB0247	NA	240022	240687	666	putative exported protein	626	15	22.523	1.7	97.4	307.204	7.361
+SUB0248	NA	240690	241763	1074	putative lipoprotein	667	13	12.104	20.9	92.5	202.978	3.956
+SUB0249	galE	242062	242112	51	UDP-glucose 4-epimerase (pseudogene)	7	1	19.608	47.1	47.1	44.860	6.409
+SUB0250	NA	243153	243509	357	conserved hypothetical protein	859	5	14.006	11.2	87.4	786.416	4.578
+SUB0251	NA	243585	243968	384	putative preprotein translocase subunit	65	4	10.417	1.0	90.4	55.323	3.405
+SUB0252	uppS	244132	244881	750	undecaprenyl pyrophosphate synthetase	0	0	0	NA	NA	0	0
+SUB0253	NA	244893	245687	795	putative phosphatidate cytidylyltransferase	0	0	0	NA	NA	0	0
+SUB0254	eep	245722	246981	1260	putative pheromone-processing membrane metalloprotease	21	3	2.381	1.0	53.7	5.447	0.778
+SUB0255	proS	247004	248860	1857	prolyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB0256	NA	248939	249496	558	conserved hypothetical protein	1837	8	14.337	6.8	95.2	1075.975	4.686
+SUB0257	polC	249625	254022	4398	DNA polymerase III PolC-type	0	0	0	NA	NA	0	0
+SUB0258	NA	254102	254527	426	MarR family regulatory protein	26	3	7.042	20.2	48.1	19.948	2.302
+SUB0259	NA	254717	255292	576	putative NADPH-dependent FMN reductase	261	10	17.361	22.4	78.0	148.097	5.674
+SUB0260	def	255341	255955	615	polypeptide deformylase	0	0	0	NA	NA	0	0
+SUB0261	NA	256046	256639	594	PAP2 superfamily	1979	8	13.468	6.9	77.1	1088.897	4.402
+SUB0262	ppk	256926	259049	2124	polyphosphate kinase	775	22	10.358	7.9	95.8	119.254	3.385
+SUB0263	NA	259076	259978	903	Ppx/GppA phosphatase family protein	183	5	5.537	14.5	97.5	66.235	1.810
+SUB0264	NA	260121	260789	669	Crp family regulatory protein	1450	8	11.958	3.7	67.3	708.385	3.908
+SUB0265	NA	260883	262079	1197	Major Facilitator Superfamily protein	28	3	2.506	52.5	90.6	7.645	0.819
+SUB0266	rpsO	262192	262461	270	30S ribosomal protein S15	0	0	0	NA	NA	0	0
+SUB0267	pnpA	263207	265405	2199	polyribonucleotide nucleotidyltransferase	0	0	0	NA	NA	0	0
+SUB0268	NA	265417	266157	741	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB0269	cysE	266170	266754	585	serine acetyltransferase	0	0	0	NA	NA	0	0
+SUB0270	cysS	266780	268120	1341	cysteinyl-tRNA synthetase	222	1	0.746	96.8	96.8	54.107	0.244
+SUB0271	NA	268113	268508	396	conserved hypothetical protein	48	2	5.051	1.8	87.9	39.616	1.651
+SUB0272	NA	268646	269044	399	putative membrane protein (fragment)	87	4	10.025	4.3	100.0	71.265	3.277
+SUB0273	NA	269139	269894	756	SpoU rRNA methylase family protein	136	4	5.291	0.1	94.7	58.796	1.729
+SUB0274	NA	269903	270418	516	conserved hypothetical protein	76	5	9.690	14.7	89.9	48.138	3.167
+SUB0275	NA	270574	271434	861	DegV family protein	111	2	2.323	2.1	59.0	42.135	0.759
+SUB0276	rplM	271630	272076	447	50S ribosomal protein L13	0	0	0	NA	NA	0	0
+SUB0277	rpsI	272098	272490	393	30S ribosomal protein S9	0	0	0	NA	NA	0	0
+SUB0278	NA	272932	273432	501	conserved hypothetical protein	1034	11	21.956	5.6	88.8	674.544	7.176
+SUB0279	NA	273753	275303	1551	type I restriction-modification system M protein	948	23	14.829	5.6	94.1	199.767	4.847
+SUB0280	NA	275314	276480	1167	type I restriction-modification system S protein (pseudogene)	3568	28	23.993	4.4	94.0	999.266	7.842
+SUB0282	NA	277059	280154	3096	type I restriction-modification system R protein	11770	70	22.610	1.0	99.3	1242.518	7.390
+SUB0283	NA	280220	280387	168	conserved hypothetical protein	14	2	11.905	15.5	72.6	27.236	3.891
+SUB0284	NA	280554	281306	753	DeoR family regulatory protein	1028	16	21.248	0.8	96.8	446.196	6.945
+SUB0285	RPE	281503	282192	690	putative ribulose-phosphate 3-epimerase	1808	35	50.725	0.9	97.4	856.400	16.579
+SUB0286	NA	282185	282751	567	putative 6-phospho-3-hexuloisomerase	270	11	19.400	16.2	92.9	155.635	6.341
+SUB0287	NA	282762	283940	1179	putative mannitol-1-phosphate 5-dehydrogenase	591	21	17.812	1.4	98.5	163.833	5.821
+SUB0288	NA	283930	284361	432	sugar phosphotransferase system (PTS), IIA component	13	2	4.630	8.1	68.1	9.835	1.513
+SUB0289	NA	284364	285776	1413	putative mannitol-specific phosphotransferase system (PTS), IIBC component	916	21	14.862	5.1	98.7	211.875	4.857
+SUB0290	tal2	285789	286433	645	probable transaldolase 2	3705	9	13.953	5.0	98.9	1877.395	4.560
+SUB0291	tkt2	286489	288474	1986	putative transketolase 2	3661	18	9.063	2.1	99.2	602.487	2.962
+SUB0292	NA	288519	288632	114	hypothetical protein	0	0	0	NA	NA	0	0
+SUB0292A	NA	288725	288805	81	putative dihydrolipoamide dehydrogenase (fragment)	768	2	24.691	54.3	74.1	3098.871	8.070
+SUB0293	NA	288832	288954	123	acetoin(diacetyl) reductase (pseudogene)	0	0	0	NA	NA	0	0
+SUB0295	NA	289561	289803	243	putative membrane protein	106	3	12.346	35.8	78.6	142.570	4.035
+SUB0296	NA	289860	290588	729	ABC transporter, ATP-binding protein	2014	21	28.807	1.4	92.9	902.941	9.415
+SUB0297	NA	290569	291885	1317	putative membrane protein	26117	25	18.983	0.8	96.4	6481.340	6.204
+SUB0298	NA	291882	292148	267	putative membrane protein	306	5	18.727	37.5	98.5	374.574	6.120
+SUB0299	NA	292151	292498	348	putative membrane protein	45	5	14.368	12.1	88.2	42.263	4.696
+SUB0300	NA	292507	292998	492	conserved hypothetical protein	159	8	16.260	19.9	76.6	105.623	5.314
+SUB0301	NA	293111	293641	531	putative membrane protein	840	2	3.766	7.5	41.4	517.026	1.231
+SUB0302	NA	293664	294365	702	conserved hypothetical protein	413	12	17.094	3.6	94.4	192.283	5.587
+SUB0303	NA	294530	295513	984	LacI family regulatory protein	3542	10	10.163	23.1	88.4	1176.470	3.321
+SUB0304	NA	295676	296593	918	binding-protein-dependent transport system membrane protein	375	13	14.161	3.4	78.3	133.511	4.628
+SUB0305	NA	296601	297488	888	binding-protein-dependent transport system membrane protein	175	8	9.009	0.8	85.4	64.410	2.944
+SUB0306	NA	297524	299143	1620	extracellular solute-binding protein	584	22	13.580	0.9	93.1	117.822	4.438
+SUB0307	NA	299147	300520	1374	beta-fructofuranosidase	875	20	14.556	7.6	97.2	208.137	4.757
+SUB0308	scrK2	300535	301410	876	fructokinase 2	174	9	10.274	8.3	85.5	64.919	3.358
+SUB0309	NA	301593	303050	1458	6-phospho-beta-glucosidase 2	616	17	11.660	16.9	86.9	138.086	3.811
+SUB0310	NA	303177	303878	702	putative peptidase	244	3	4.274	8.5	41.0	113.600	1.397
+SUB0311	NA	303918	304748	831	putative transport protein	403	6	7.220	9.4	97.0	158.501	2.360
+SUB0312	NA	304714	306417	1704	ABC transporter ATP-binding protein	749	11	6.455	1.3	92.1	143.661	2.110
+SUB0313	NA	306430	306975	546	putative membrane protein	47	4	7.326	7.0	50.7	28.134	2.394
+SUB0314	NA	306987	307832	846	conserved hypothetical protein	389	11	13.002	10.8	85.7	150.282	4.250
+SUB0315	NA	308008	308826	819	haloacid dehalogenase-like hydrolase	4071	15	18.315	0.9	96.9	1624.593	5.986
+SUB0316	NA	314502	315851	1350	putative aspartokinase	0	0	0	NA	NA	0	0
+SUB0317	truA	316002	316754	753	tRNA pseudouridine synthase A	62	5	6.640	1.2	59.2	26.911	2.170
+SUB0318	thiD	316741	317508	768	putative phosphomethylpyrimidine kinase	33	1	1.302	93.2	93.2	14.044	0.426
+SUB0319	NA	317495	317962	468	putative membrane protein	222	3	6.410	0.9	77.8	155.037	2.095
+SUB0320	NA	317981	318547	567	conserved hypothetical protein	457	5	8.818	22.4	86.8	263.427	2.882
+SUB0321	NA	318623	319465	843	mechanosensitive ion channel protein	802	11	13.049	8.4	96.0	310.938	4.265
+SUB0323	tig	319734	321017	1284	trigger factor (prolyl isomerase)	48	6	4.673	55.0	99.4	12.218	1.527
+SUB0324	NA	321091	321792	702	haloacid dehalogenase-like hydrolase	1400	11	15.670	0.3	70.1	651.806	5.121
+SUB0325	rpoE	321842	322408	567	putative DNA-directed RNA polymerase, delta subunit	0	0	0	NA	NA	0	0
+SUB0326	pyrG	322678	324282	1605	putative CTP synthase	597	20	12.461	0.7	98.9	121.570	4.073
+SUB0327	NA	324340	324975	636	sensor histidine kinase (fragment)	39	3	4.717	19.0	86.0	20.042	1.542
+SUB0327A	NA	325081	325182	102	antiholin-like protein (fragment)	105	3	29.412	14.7	71.6	336.447	9.613
+SUB0329	NA	325249	326172	924	putative exported protein	1384	10	10.823	30.4	98.6	489.544	3.537
+SUB0330	fba	326493	327374	882	fructose-bisphosphate aldolase	0	0	0	NA	NA	0	0
+SUB0331	rpmB	327598	327786	189	50S ribosomal protein L28	0	0	0	NA	NA	0	0
+SUB0332	NA	327925	328290	366	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB0333	NA	328290	329957	1668	conserved hypothetical protein	26	2	1.199	86.6	99.0	5.095	0.392
+SUB0334	NA	330126	331016	891	putative membrane protein	785	13	14.590	1.5	92.0	287.951	4.769
+SUB0335	NA	331083	331199	117	conserved hypothetical protein	74	4	34.188	24.8	91.5	206.716	11.174
+SUB0336	glnQ2	331361	332101	741	putative glutamine ABC transporter, ATP-binding protein 2	5411	13	17.544	1.3	99.3	2386.638	5.734
+SUB0337	NA	332115	333665	1551	glutamine ABC transporter, glutamine-binding protein/permease protein	1487	31	19.987	3.5	87.6	313.348	6.532
+SUB0338	NA	333867	335768	1902	putative membrane protein	590	15	7.886	0.6	66.5	101.384	2.578
+SUB0339	bacA	335838	336677	840	undecaprenol kinase (bacitracin resistance protein)	0	0	0	NA	NA	0	0
+SUB0340	mecA	336792	337550	759	adapter protein MecA	0	0	0	NA	NA	0	0
+SUB0341	rgpG	337557	338714	1158	putative glycosyl transferase	0	0	0	NA	NA	0	0
+SUB0342	NA	338997	339353	357	putative exported protein	525	9	25.210	19.6	97.2	480.638	8.240
+SUB0343	sufC	339551	340321	771	putative ABC transporter, ATP-binding protein	27	5	6.485	15.7	85.0	11.446	2.120
+SUB0344	sufD	340427	341698	1272	conserved hypothetical protein	2032	6	4.717	31.7	99.3	522.112	1.542
+SUB0345	csdB	341709	342935	1227	putative cysteine desulfurase	25296	11	8.965	0.9	97.2	6738.055	2.930
+SUB0346	iscU	342922	343371	450	NifU-like protein	221	5	11.111	4.0	90.2	160.512	3.631
+SUB0347	sufB	343392	344810	1419	conserved hypothetical protein	566	12	8.457	4.7	99.3	130.365	2.764
+SUB0348	NA	345124	345405	282	putative surface-anchored protein (pseudogene)	100	4	14.184	19.1	100.0	115.899	4.636
+SUB0349	NA	345516	346697	1182	putative D-alanyl-D-alanine carboxypeptidase	468	14	11.844	28.4	84.7	129.406	3.871
+SUB0350	NA	346790	347992	1203	putative D-alanyl-D-alanine carboxypeptidase	1663	15	12.469	3.2	92.5	451.808	4.075
+SUB0351	NA	348061	349311	1251	putative D-alanyl-D-alanine carboxypeptidase	44735	7	5.596	3.5	91.4	11687.386	1.829
+SUB0352	comX	355107	355595	489	putative competence-specific global transcription modulator	1334	13	26.585	3.9	76.5	891.609	8.689
+SUB0353	NA	355829	356356	528	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB0354	NA	356356	357474	1119	GTP-binding protein	73	1	0.894	97.1	97.1	21.322	0.292
+SUB0355	NA	357529	357837	309	conserved hypothetical protein	474	3	9.709	44.3	88.7	501.357	3.173
+SUB0356	NA	357901	358533	633	putative nicotinate-nucleotide adenylyltransferase	0	0	0	NA	NA	0	0
+SUB0357	NA	358530	359123	594	conserved hypothetical protein	22	3	5.051	7.7	59.9	12.105	1.651
+SUB0358	NA	359133	359486	354	conserved hypothetical protein	324	8	22.599	6.5	74.3	299.136	7.386
+SUB0359	NA	359537	360277	741	conserved hypothetical protein	744	13	17.544	0.5	98.0	328.157	5.734
+SUB0360	NA	360298	361398	1101	conserved hypothetical protein	3182	22	19.982	0.6	99.0	944.583	6.531
+SUB0361	NA	361487	361531	45	putative regulatory protein	3	1	22.222	40.0	40.0	21.789	7.263
+SUB0362	NA	362251	362613	363	conserved hypothetical protein	43	2	5.510	26.7	72.7	38.716	1.801
+SUB0363	NA	362674	363510	837	conserved hypothetical protein	836	13	15.532	28.8	97.8	326.444	5.076
+SUB0364	NA	363645	364361	717	conserved hypothetical protein	5	1	1.395	92.7	92.7	2.279	0.456
+SUB0365	NA	364497	365321	825	extracellular solute-binding protein	2610	23	27.879	15.0	98.8	1033.984	9.112
+SUB0366	NA	365488	366333	846	putative lipoprotein	1806	20	23.641	0.1	91.4	697.710	7.727
+SUB0367	NA	366438	367811	1374	putative peptidase	8160	16	11.645	0.4	98.2	1941.023	3.806
+SUB0368	NA	367804	368868	1065	putative D-methionine transport ATP-binding protein	2978	23	21.596	0.4	93.1	913.908	7.058
+SUB0369	NA	368869	369561	693	putative D-methionine transport system permease protein	2476	8	11.544	2.9	57.7	1167.736	3.773
+SUB0370	NA	369583	370953	1371	putative branched-chain amino acid transport system carrier protein	1277	36	26.258	1.3	98.1	304.425	8.582
+SUB0371	NA	371162	371833	672	TrkA family transport protein	0	0	0	NA	NA	0	0
+SUB0372	NA	371844	373220	1377	cation transport protein	34	3	2.179	4.1	99.4	8.070	0.712
+SUB0373	gidB	373307	374020	714	methyltransferase GidB	1213	4	5.602	58.0	78.9	555.252	1.831
+SUB0375	NA	374167	374724	558	LemA family protein	44	6	10.753	48.7	89.4	25.772	3.514
+SUB0376	htpX	374759	375652	894	probable protease HtpX homolog	558	9	10.067	7.8	99.2	203.997	3.290
+SUB0377	NA	375865	376398	534	conserved hypothetical protein	258	2	3.745	91.4	99.3	157.909	1.224
+SUB0378	NA	376508	376624	117	hypothetical protein	6	1	8.547	32.5	32.5	16.761	2.793
+SUB0379	csrR	376621	377307	687	response regulator protein	0	0	0	NA	NA	0	0
+SUB0380	csrS	377311	378813	1503	sensor histidine kinase	366	10	6.653	23.6	88.5	79.588	2.175
+SUB0381	NA	378976	379470	495	ATP-binding protein	0	0	0	NA	NA	0	0
+SUB0382	NA	379454	380650	1197	replication initiation and membrane attachment protein	0	0	0	NA	NA	0	0
+SUB0383	dnaI	380651	381553	903	putative primosomal protein	0	0	0	NA	NA	0	0
+SUB0384	engA	381602	382912	1311	GTP-binding protein EngA	0	0	0	NA	NA	0	0
+SUB0385	NA	383062	386151	3090	putative helicase	4517	50	16.181	0.7	99.2	477.770	5.289
+SUB0386	NA	386216	387019	804	putative membrane protein	5545	30	37.313	17.4	99.0	2254.098	12.195
+SUB0387	NA	387031	387741	711	putative membrane protein	1914	22	30.942	2.5	95.6	879.832	10.113
+SUB0388	NA	387944	388546	603	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB0389	murC	388583	389917	1335	UDP-N-acetylmuramate--alanine ligase	0	0	0	NA	NA	0	0
+SUB0390	NA	389962	390465	504	acetyltransferase (GNAT) family protein	13837	10	19.841	10.7	93.1	8973.021	6.485
+SUB0391	NA	390565	392334	1770	putative aminodeoxychorismate lyase	461	14	7.910	1.9	99.4	85.125	2.585
+SUB0392	greA	392403	392885	483	transcription elongation factor	393	1	2.070	46.4	46.4	265.933	0.677
+SUB0393	NA	392969	393892	924	membrane protein OxaA 2 precursor	0	0	0	NA	NA	0	0
+SUB0394	NA	393976	394254	279	putative acylphosphatase	1739	4	14.337	39.4	97.1	2037.148	4.686
+SUB0395	NA	394352	395089	738	SpoU rRNA Methylase family protein	394	7	9.485	0.9	95.7	174.489	3.100
+SUB0396	NA	395126	395626	501	conserved hypothetical protein	677	15	29.940	15.6	93.6	441.650	9.785
+SUB0397	NA	395642	396331	690	putative membrane protein	1456	9	13.043	8.1	87.5	689.667	4.263
+SUB0398	NA	396441	397679	1239	pyridoxal-dependent decarboxylase	1710	9	7.264	17.8	78.9	451.078	2.374
+SUB0399	NA	397778	398017	240	putative exported protein	14	1	4.167	87.1	87.1	19.065	1.362
+SUB0400	glr	398174	398968	795	glutamate racemase	0	0	0	NA	NA	0	0
+SUB0401	NA	398965	399966	1002	HAM1 protein homolog	195	8	7.984	18.0	95.5	63.605	2.609
+SUB0402	NA	399945	400469	525	putative phosphoesterase	365	4	7.619	37.0	68.8	227.227	2.490
+SUB0403	NA	400466	400933	468	conserved hypothetical protein	110	6	12.821	7.3	95.9	76.820	4.190
+SUB0404	xerD	400926	401669	744	tyrosine recombinase XerD	51	5	6.720	16.5	95.7	22.404	2.196
+SUB0405	scpA	401669	402376	708	segregation and condensation protein A	127	7	9.887	23.9	99.4	58.627	3.231
+SUB0406	scpB	402373	402927	555	segregation and condensation protein B	114	6	10.811	6.1	89.9	67.133	3.533
+SUB0407	rluB	402960	403682	723	ribosomal large subunit pseudouridine synthase B	1175	10	13.831	12.2	84.2	531.162	4.521
+SUB0408	NA	403682	403930	249	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB0409	NA	404123	404668	546	SpoU rRNA methylase family protein	864	14	25.641	3.7	100.0	517.188	8.380
+SUB0410	NA	405045	405608	564	putative membrane protein	82	4	7.092	4.3	34.0	47.518	2.318
+SUB0411	NA	405612	406262	651	PAP2 superfamily protein	184	7	10.753	3.4	71.0	92.377	3.514
+SUB0412	NA	406321	407241	921	radical SAM superfamily protein	345	22	23.887	0.9	100.0	122.430	7.807
+SUB0413	NA	407277	408113	837	ABC transporter, ATP-binding protein	815	11	13.142	0.8	90.4	318.243	4.295
+SUB0414	NA	408110	408892	783	putative membrane protein	1162	26	33.206	1.9	96.3	485.033	10.853
+SUB0415	NA	408902	409447	546	putative rRNA methylase	34700	9	16.484	9.3	97.4	20771.320	5.387
+SUB0416	NA	409566	410900	1335	putative transport protein	398	12	8.989	2.2	87.2	97.438	2.938
+SUB0417	pflC	410977	411768	792	pyruvate formate-lyase activating enzyme	271	6	7.576	18.1	96.3	111.833	2.476
+SUB0418	ppaC	411883	412818	936	manganese-dependent inorganic pyrophosphatase	0	0	0	NA	NA	0	0
+SUB0419	NA	412820	413284	465	conserved hypothetical protein	1658	8	17.204	34.4	90.5	1165.357	5.623
+SUB0420	NA	413349	414002	654	conserved hypothetical protein	698	17	25.994	0.6	90.7	348.823	8.496
+SUB0421	fhuG	414019	415026	1008	ferrichrome transport permease	2859	15	14.881	4.2	98.2	927.002	4.864
+SUB0422	fhuB	415023	416042	1020	ferrichrome transport permease	577	9	8.824	18.8	75.6	184.886	2.884
+SUB0423	fhuD	416053	416988	936	putative ferrichrome-binding protein precursor	39	7	7.479	0.2	66.8	13.618	2.444
+SUB0424	fhuC	417013	417795	783	ferrichrome transport ATP-binding protein	211	8	10.217	1.5	98.0	88.074	3.339
+SUB0425	murE	418000	419448	1449	UDP-N-acetylmuramoylalanyl-D-glutamate--2,6-dia minopimelate ligase	0	0	0	NA	NA	0	0
+SUB0426	NA	419536	421173	1638	putative polysaccharide biosynthesis protein	14	2	1.221	91.6	94.2	2.793	0.399
+SUB0427	NA	421271	422434	1164	putative aminotransferase	26	4	3.436	0.6	29.2	7.300	1.123
+SUB0428	upp	422526	423155	630	uracil phosphoribosyltransferase	278	4	6.349	21.3	96.3	144.222	2.075
+SUB0429	clpP	423579	424169	591	putative ATP-dependent Clp protease proteolytic subunit	0	0	0	NA	NA	0	0
+SUB0430	NA	424412	424858	447	conserved hypothetical protein	1369	11	24.609	12.5	99.6	1000.975	8.043
+SUB0431	NA	424858	425115	258	conserved hypothetical protein	59	3	11.628	23.6	76.4	74.741	3.800
+SUB0432	NA	425255	426427	1173	branched-chain amino acid ABC transporter, amino acid-binding protein	1341	22	18.755	9.8	95.8	373.644	6.130
+SUB0433	NA	426468	427337	870	branched-chain amino acid transport system permease protein	1886	13	14.943	26.3	99.9	708.516	4.884
+SUB0434	NA	427340	428293	954	branched-chain amino acid transport system permease protein	538	17	17.820	4.1	95.1	184.315	5.824
+SUB0435	NA	428293	429057	765	branched-chain amino acid transport ATP-binding protein	597	10	13.072	3.4	75.7	255.059	4.272
+SUB0436	NA	429057	429767	711	branched-chain amino acid transport ATP-binding protein	544	9	12.658	0.6	94.8	250.067	4.137
+SUB0437	NA	429837	430499	663	conserved hypothetical protein	93	5	7.541	27.0	98.5	45.845	2.465
+SUB0438	tmk	430583	431218	636	thymidylate kinase	0	0	0	NA	NA	0	0
+SUB0439	holB	431234	432109	876	putative DNA polymerase III, delta' subunit	3	1	1.142	96.0	96.0	1.119	0.373
+SUB0440	NA	432106	432906	801	conserved hypothetical protein	345	4	4.994	1.4	82.5	140.771	1.632
+SUB0441	NA	432896	433249	354	initiation-control protein YabA	29	1	2.825	84.5	84.5	26.775	0.923
+SUB0442	NA	433227	434090	864	tetrapyrrole (corrin/porphyrin) methylase family protein	794	23	26.620	1.2	99.7	300.354	8.700
+SUB0443	NA	434216	434611	396	putative membrane protein	220	10	25.253	3.3	70.5	181.574	8.253
+SUB0444	NA	434645	435277	633	CutC family protein	566	14	22.117	3.5	90.5	292.240	7.229
+SUB0445	serC	435401	436495	1095	putative phosphoserine aminotransferase	239	8	7.306	24.6	99.0	71.336	2.388
+SUB0446	NA	436511	437059	549	acetyltransferase (GNAT) family protein	371	12	21.858	10.0	91.6	220.866	7.144
+SUB0447	NA	437117	438292	1176	putative D-isomer specific 2-hydroxyacid dehydrogenase	221	9	7.653	11.8	91.2	61.420	2.501
+SUB0448	ogt	438341	438817	477	putative methylated-DNA--protein-cysteine methyltransferase	271	11	23.061	3.8	100.0	185.686	7.537
+SUB0449	NA	438820	439173	354	ArsC family protein	132	4	11.299	67.5	94.1	121.870	3.693
+SUB0450	NA	439206	440108	903	cation efflux family protein	1271	20	22.148	3.1	99.1	460.029	7.239
+SUB0451	NA	440506	440922	417	glyoxalase/bleomycin resistance protein/dioxygenase superfamily protein	1078	12	28.777	3.4	80.8	844.909	9.405
+SUB0452	NA	440944	441318	375	glyoxalase/bleomycin resistance protein/dioxygenase superfamily protein	367	2	5.333	31.2	92.8	319.862	1.743
+SUB0453	NA	441458	442120	663	conserved hypothetical protein	536	11	16.591	6.2	94.6	264.228	5.423
+SUB0454	exoA	442122	442949	828	exodeoxyribonuclease	437	3	3.623	2.5	100.0	172.496	1.184
+SUB0455	NA	443126	443407	282	ArsR family regulatory protein	202	8	28.369	2.1	93.3	234.115	9.272
+SUB0456	NA	443394	444023	630	putative membrane protein	243	9	14.286	4.4	86.5	126.065	4.669
+SUB0457	NA	444121	445788	1668	putative membrane protein	1124	24	14.388	1.5	99.2	220.241	4.703
+SUB0458	NA	446038	446757	720	putative membrane protein	2183	9	12.500	1.7	99.6	990.943	4.085
+SUB0459	metG	446856	448862	2007	methionyl-tRNA synthetase	48	4	1.993	78.9	98.8	7.817	0.651
+SUB0460	NA	448960	449286	327	putative membrane protein	233	6	18.349	11.3	68.2	232.882	5.997
+SUB0461	NA	449259	449678	420	putative membrane protein (fragment)	1612	8	19.048	0.2	96.2	1254.420	6.225
+SUB0462	brnQ	449931	451274	1344	putative branched-chain amino acid transport system carrier protein	11915	20	14.881	15.8	92.0	2897.491	4.864
+SUB0463	NA	451382	451714	333	putative exported protein	1215	7	21.021	16.8	100.0	1192.503	6.870
+SUB0464	NA	451911	452147	237	conserved hypothetical protein	75	3	12.658	41.4	74.7	103.428	4.137
+SUB0465	NA	452140	452838	699	putative short chain dehydrogenase	516	7	10.014	22.0	83.3	241.268	3.273
+SUB0466	NA	452935	453897	963	conserved hypothetical protein	2610	15	15.576	2.6	90.9	885.812	5.091
+SUB0468	gcaD	454028	455404	1377	bifunctional GlmU protein [includes: UDP-N-acetylglucosamine pyrophosphorylase glucosamine-1-phosphate N-acetyltransferase]	0	0	0	NA	NA	0	0
+SUB0469	NA	455425	455982	558	putative ADP-ribose pyrophosphatase	24	1	1.792	54.5	54.5	14.057	0.586
+SUB0470	NA	455979	456239	261	putative membrane protein	0	0	0	NA	NA	0	0
+SUB0471	mtnN	456255	456947	693	5'-methylthioadenosine/S-adenosylhomocysteine nucleosidase	0	0	0	NA	NA	0	0
+SUB0472	scaR	456981	457628	648	metal-dependent transcriptional regulator	1561	11	16.975	2.3	94.4	787.327	5.548
+SUB0473	mtuA	457774	458706	933	extracellular manganese-binding protein	5	1	1.072	97.6	97.6	1.752	0.350
+SUB0474	mtsB	458766	459488	723	metal cation ABC transporter ATP-binding protein	0	0	0	NA	NA	0	0
+SUB0475	mtsC	459492	460331	840	metal cation ABC transporter membrane protein	61	2	2.381	94.4	99.4	23.734	0.778
+SUB0476	NA	460425	460553	129	conserved hypothetical protein (pseudogene)	0	0	0	NA	NA	0	0
+SUB0477	NA	460838	461650	813	putative cyclophilin type peptidyl-prolyl cis-trans isomerase	1932	20	24.600	5.5	88.4	776.683	8.040
+SUB0478	NA	461855	462691	837	putative membrane protein	4776	13	15.532	9.0	82.8	1864.945	5.076
+SUB0479	NA	462818	465226	2409	DNA translocase FtsK	11	2	0.830	98.8	99.0	1.492	0.271
+SUB0480	NA	465255	465611	357	putative membrane protein	0	0	0	NA	NA	0	0
+SUB0481	rplK	465856	466281	426	50S ribosomal protein L11	0	0	0	NA	NA	0	0
+SUB0482	rplA	466387	467076	690	50S ribosomal protein L1	10	1	1.449	98.0	98.0	4.737	0.474
+SUB0483	pyrH	467216	467944	729	uridylate kinase	0	0	0	NA	NA	0	0
+SUB0484	rrf	467980	468537	558	ribosome recycling factor	0	0	0	NA	NA	0	0
+SUB0485	NA	468652	469506	855	conserved hypothetical protein	611	12	14.035	4.4	98.9	233.562	4.587
+SUB0486	msrA	469590	470099	510	peptide methionine sulfoxide reductase	279	6	11.765	10.4	72.7	178.797	3.845
+SUB0487	NA	470096	470311	216	conserved hypothetical protein	30	3	13.889	8.3	99.1	45.394	4.539
+SUB0488	NA	470492	471571	1080	PhoH-like protein	2100	22	20.370	3.3	96.6	635.511	6.658
+SUB0489	NA	471616	472191	576	uracil DNA glycosylase superfamily protein	341	10	17.361	4.0	72.6	193.490	5.674
+SUB0490	NA	472284	472784	501	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB0491	dgk	472762	473166	405	diacylglycerol kinase	0	0	0	NA	NA	0	0
+SUB0492	era	473188	474087	900	GTP-binding protein Era homolog	8	2	2.222	71.6	74.3	2.905	0.726
+SUB0494	NA	474461	474847	387	putative exported protein	153	7	18.088	40.6	91.7	129.213	5.912
+SUB0495	NA	474906	475697	792	putative membrane protein	7332	30	37.879	5.8	90.7	3025.691	12.380
+SUB0496	NA	475684	476337	654	putative membrane protein	8715	23	35.168	2.9	88.7	4355.288	11.494
+SUB0497	NA	476300	476929	630	ABC transporter, ATP-binding protein	1079	17	26.984	3.2	98.4	559.768	8.819
+SUB0498	NA	477357	478097	741	response regulator protein	40	1	1.350	92.6	92.6	17.643	0.441
+SUB0499	NA	478120	479439	1320	sensor histidine kinase	22	2	1.515	25.8	28.9	5.447	0.495
+SUB0500	NA	479432	479548	117	putative membrane protein	50	3	25.641	48.7	95.7	139.673	8.380
+SUB0501	NA	479631	481784	2154	bacteriocin transport/processing ATP-binding protein	5877	72	33.426	0.5	95.2	891.738	10.925
+SUB0502	NA	482015	482143	129	putative bacteriocin (pseudogene)	0	0	0	NA	NA	0	0
+SUB0504	NA	482262	482288	27	putative membrane protein (pseudogene)	0	0	0	NA	NA	0	0
+SUB0505	NA	482825	483091	267	putative bacteriocin	0	0	0	NA	NA	0	0
+SUB0506	NA	483102	483302	201	putative bacteriocin	0	0	0	NA	NA	0	0
+SUB0508	NA	483496	483807	312	putative membrane protein	2004	5	16.026	9.0	35.6	2099.280	5.238
+SUB0509	NA	483979	484224	246	putative bacteriocin	32	5	20.325	15.4	95.1	42.515	6.643
+SUB0510	NA	484227	484526	300	putative bacteriocin immunity protein	1480	9	30.000	9.3	80.0	1612.381	9.805
+SUB0510A	NA	484532	484669	138	conserved hypothetical protein (fragment)	13	2	14.493	26.1	56.5	30.789	4.737
+SUB0511	NA	484698	484703	6	putative membrane protein	0	0	0	NA	NA	0	0
+SUB0512	pedA	485369	485596	228	putative bacteriocin	0	0	0	NA	NA	0	0
+SUB0513	NA	485648	485992	345	putative bacteriocin immunity protein	39	4	11.594	17.4	95.9	36.946	3.789
+SUB0514	NA	486025	486255	231	hypothetical protein	41	4	17.316	22.9	69.7	58.010	5.659
+SUB0515	NA	486328	486696	369	putative membrane protein	302	8	21.680	23.8	98.4	267.490	7.086
+SUB0516	NA	486817	487116	300	putative bacteriocin immunity protein	1016	7	23.333	14.7	95.3	1106.878	7.626
+SUB0517	fpg	487296	488117	822	formamidopyrimidine-DNA glycosylase	60	5	6.083	9.1	75.3	23.856	1.988
+SUB0518	coaE	488114	488701	588	dephospho-CoA kinase	12	1	1.701	96.1	96.1	6.670	0.556
+SUB0519	NA	488711	489361	651	putative membrane protein	3203	12	18.433	14.7	97.1	1608.064	6.025
+SUB0520	NA	489473	490972	1500	conserved hypothetical protein	1298	23	15.333	0.7	98.6	282.820	5.011
+SUB0521	pmrA	491092	492267	1176	multi-drug resistance efflux pump	2305	22	18.707	3.0	97.4	640.606	6.114
+SUB0521A	rpmGB	492264	492410	147	50S ribosomal protein L33 2	0	0	0	NA	NA	0	0
+SUB0522	secG	492456	492692	237	putative protein-export membrane protein	0	0	0	NA	NA	0	0
+SUB0523	rnr	492773	495085	2313	putative exoribonuclease R	0	0	0	NA	NA	0	0
+SUB0524	smpB	495088	495555	468	SsrA-binding protein	24	2	4.274	86.8	95.1	16.761	1.397
+SUB0525	csbB	495584	496510	927	putative glucosyl transferase	3562	27	29.126	12.7	97.6	1255.861	9.519
+SUB0526	gloA	496611	496988	378	putative lactoylglutathione lyase	7227	18	47.619	1.1	98.4	6248.755	15.564
+SUB0527	NA	497001	497663	663	nitroreductase family protein	1733	14	21.116	13.9	76.8	854.304	6.901
+SUB0528	NA	497900	498280	381	putative exported protein	3308	14	36.745	1.6	95.5	2837.709	12.010
+SUB0529	NA	498444	498758	315	sugar phosphotransferase system (PTS), lactose/cellobiose-specific family IIB component	665	3	9.524	35.2	69.8	689.983	3.113
+SUB0530	NA	498819	500786	1968	transcriptional regulator (antiterminator)	5284	23	11.687	2.6	99.1	877.536	3.820
+SUB0531	NA	500796	501110	315	sugar phosphotransferase system (PTS), lactose/cellobiose-specific family, IIB component	1469	4	12.698	10.2	74.9	1524.188	4.150
+SUB0532	NA	501136	501654	519	putative membrane protein	804	7	13.487	14.1	92.1	506.309	4.408
+SUB0533	NA	501681	503009	1329	sugar phosphotransferase system (PTS), IIC component	138	3	2.257	14.8	88.0	33.938	0.738
+SUB0534	NA	503075	504163	1089	conserved hypothetical protein	8100	10	9.183	6.6	94.2	2430.997	3.001
+SUB0535	pepQ	504224	505309	1086	putative Xaa-Pro dipeptidase	481	10	9.208	12.1	62.2	144.758	3.010
+SUB0536	ccpA	505481	506482	1002	catabolite control protein A	0	0	0	NA	NA	0	0
+SUB0537	NA	506523	507986	1464	putative alpha-amylase	1847	29	19.809	3.4	88.9	412.338	6.474
+SUB0538	NA	508060	509058	999	putative glycosyltransferase	0	0	0	NA	NA	0	0
+SUB0539	NA	509060	510394	1335	putative glycosyltransferase	0	0	0	NA	NA	0	0
+SUB0540	thrS	510748	512694	1947	threonyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB0541	NA	512730	513719	990	dihydroxyacetone kinase family protein	53	5	5.051	51.7	66.5	17.497	1.651
+SUB0542	NA	513728	514267	540	conserved hypothetical protein	1465	19	35.185	0.9	99.8	886.689	11.500
+SUB0543	NA	514418	515407	990	dihydroxyacetone kinase family protein	2110	27	27.273	0.4	99.9	696.586	8.914
+SUB0544	NA	515417	515992	576	dihydroxyacetone kinase family protein	4696	15	26.042	5.6	99.1	2664.605	8.511
+SUB0545	NA	515992	516366	375	sugar phosphotransferase system (PTS), IIA component	36	4	10.667	55.7	98.9	31.376	3.486
+SUB0546	glpF2	516377	517090	714	glycerol uptake facilitator protein 2	2025	21	29.412	11.3	99.3	926.945	9.613
+SUB0547	NA	517199	518206	1008	conserved hypothetical protein	5167	19	18.849	1.8	96.0	1675.349	6.161
+SUB0548	NA	518237	518884	648	putative amino acid ABC transporter, permease protein	3035	6	9.259	5.2	48.9	1530.774	3.026
+SUB0549	NA	518900	519601	702	putative amino acid ABC transporter, permease protein	1890	12	17.094	2.0	60.3	879.938	5.587
+SUB0550	NA	519616	520431	816	putative glutamine-binding protein precursor	873	12	14.706	13.1	99.4	349.664	4.806
+SUB0551	glnQ4	520445	521224	780	putative glutamine transporter, ATP-binding protein 4	957	8	10.256	8.1	90.8	401.000	3.352
+SUB0552	vicR	521479	522189	711	response regulator protein	0	0	0	NA	NA	0	0
+SUB0553	vicK	522182	523540	1359	sensor histidine kinase	16	2	1.472	0.7	3.8	3.848	0.481
+SUB0554	vicX	523544	524353	810	metallo-beta-lactamase superfamily protein	30	1	1.235	69.8	69.8	12.105	0.403
+SUB0555	rnc	524512	525204	693	ribonuclease III	0	0	0	NA	NA	0	0
+SUB0556	smc	525205	528750	3546	putative chromosome partition protein	1487	44	12.408	2.2	99.5	137.056	4.055
+SUB0557	NA	528772	529569	798	putative haloacid dehalogenase-like hydrolase	391	9	11.278	29.1	97.6	160.140	3.686
+SUB0558	NA	529571	530398	828	haloacid dehalogenase-like hydrolase	51	3	3.623	26.3	69.7	20.131	1.184
+SUB0559	ftsY	530398	531855	1458	putative cell division protein FtsY	0	0	0	NA	NA	0	0
+SUB0560	NA	531885	532382	498	conserved hypothetical protein	242	11	22.088	6.0	99.2	158.823	7.219
+SUB0561	NA	532420	533364	945	putative N-acetylmuramoyl-L-alanine amidase	1704	32	33.862	8.8	99.2	589.339	11.067
+SUB0562	NA	533457	534092	636	conserved hypothetical protein	360	14	22.013	10.1	96.5	185.000	7.194
+SUB0563	NA	534151	534966	816	putative membrane protein	442	14	17.157	9.9	76.5	177.035	5.607
+SUB0564	NA	534963	535871	909	putative permease	826	18	19.802	4.5	97.2	296.991	6.472
+SUB0565	NA	535923	536069	147	conserved hypothetical protein	439	6	40.816	15.0	95.9	976.055	13.340
+SUB0566	NA	536261	536644	384	glyoxalase/bleomycin resistance protein/dioxygenase superfamily protein	2403	12	31.250	2.9	74.2	2045.266	10.214
+SUB0567	phoP	536795	537517	723	alkaline phosphatase synthesis transcriptional regulatory protein	1097	13	17.981	11.5	95.3	495.902	5.877
+SUB0568	phoR	537501	538826	1326	putative alkaline phosphatase synthesis sensor protein	6085	34	25.641	3.5	98.0	1499.838	8.380
+SUB0569	NA	538999	539880	882	putative lipoprotein	2331	15	17.007	2.9	99.5	863.776	5.558
+SUB0570	NA	539946	540809	864	ABC transporter permease protein	1398	13	15.046	11.3	97.8	528.836	4.918
+SUB0571	NA	540802	541617	816	ABC transporter permease protein	4866	17	20.833	15.6	100.0	1948.988	6.809
+SUB0572	pstB3	541619	542371	753	phosphate import ATP-binding protein 3	2557	13	17.264	13.4	96.5	1109.847	5.643
+SUB0573	NA	542386	543039	654	phosphate transport system protein	2212	23	35.168	12.4	99.1	1105.439	11.494
+SUB0574	NA	543165	545297	2133	putative transcription accessory protein	1112	30	14.065	1.2	92.5	170.389	4.597
+SUB0575	NA	545284	545727	444	SprT-like protein	614	9	20.270	16.9	100.0	451.973	6.625
+SUB0576	NA	545785	546060	276	putative membrane protein	757	7	25.362	9.4	86.6	896.425	8.289
+SUB0577	ptsK	546247	547179	933	HPr kinase/phosphorylase	0	0	0	NA	NA	0	0
+SUB0578	lgt	547176	547955	780	prolipoprotein diacylglyceryl transferase	834	24	30.769	14.0	100.0	349.461	10.056
+SUB0579	NA	547972	548373	402	putative exported protein	3665	12	29.851	15.2	95.5	2979.718	9.756
+SUB0580	NA	548373	548885	513	putative exported protein	1293	15	29.240	3.1	95.3	823.775	9.557
+SUB0581	NA	548922	549206	285	putative membrane protein	0	0	0	NA	NA	0	0
+SUB0582	NA	549363	550289	927	putative peptidase	14064	12	12.945	4.3	99.2	4958.569	4.231
+SUB0583	NA	550403	551695	1293	putative peptidase	2732	22	17.015	4.8	99.5	690.573	5.561
+SUB0584	NA	551791	552087	297	conserved hypothetical protein	527	7	23.569	1.7	86.5	579.938	7.703
+SUB0585	NA	552196	552408	213	conserved hypothetical protein	218	3	14.085	2.3	77.0	334.506	4.603
+SUB0586	NA	552580	554229	1650	putative extracellular oligopeptide-binding protein	5868	57	34.545	0.2	99.8	1162.341	11.291
+SUB0587	NA	554254	554394	141	putative membrane protein	153	5	35.461	6.4	88.7	354.650	11.590
+SUB0588	NA	554452	555579	1128	conserved hypothetical protein	2305	37	32.801	4.2	96.3	667.866	10.721
+SUB0589	NA	555680	555784	105	ammonium transporter family protein (pseudogene)	1345	5	47.619	3.8	86.7	4186.588	15.564
+SUB0591	NA	556728	557750	1023	conserved hypothetical protein	9350	13	12.708	1.5	77.7	2987.193	4.153
+SUB0592	lysS	557825	559315	1491	lysyl-tRNA synthetase	25	1	0.671	0.2	0.2	5.480	0.219
+SUB0593	NA	559494	560396	903	haloacid dehalogenase-like hydrolase	3211	12	13.289	3.4	97.1	1162.197	4.343
+SUB0594	NA	560428	561060	633	phosphoglycerate mutase family protein	1252	13	20.537	5.4	98.4	646.439	6.712
+SUB0595	NA	561078	561443	366	putative membrane protein	104	9	24.590	9.0	96.7	92.871	8.037
+SUB0596	NA	561447	561920	474	conserved hypothetical protein	92	10	21.097	32.3	93.9	63.436	6.895
+SUB0597	NA	562014	562562	549	putative membrane protein	117	2	3.643	91.6	99.3	69.653	1.191
+SUB0598	NA	562804	563646	843	glycosyl hydrolases family protein	2099	17	20.166	5.0	90.0	813.790	6.591
+SUB0599	NA	563974	564477	504	putative membrane protein	24	1	1.984	88.7	88.7	15.564	0.648
+SUB0600	NA	564461	564844	384	putative lipoprotein	67	6	15.625	0.5	58.3	57.026	5.107
+SUB0601	NA	564906	566708	1803	putative oligopeptidase	642	16	8.874	0.2	99.7	116.377	2.900
+SUB0602	ppc	566903	569611	2709	putative phosphoenolpyruvate carboxylase	8	1	0.369	35.7	35.7	0.965	0.121
+SUB0603	ftsW	569715	570989	1275	putative cell division protein	40	3	2.353	93.3	96.6	10.254	0.769
+SUB0604	tufA	571201	572397	1197	elongation factor Tu (EF-Tu)	0	0	0	NA	NA	0	0
+SUB0605	tpi	572658	573416	759	triosephosphate isomerase	0	0	0	NA	NA	0	0
+SUB0606	murN	573500	574732	1233	putative peptidoglycan branched peptide synthesis protein	0	0	0	NA	NA	0	0
+SUB0607	murM	574732	575955	1224	putative peptidoglycan pentaglycine interpeptide biosynthesis protein	0	0	0	NA	NA	0	0
+SUB0608	NA	575955	576764	810	haloacid dehalogenase-like hydrolase	0	0	0	NA	NA	0	0
+SUB0609	NA	576925	578226	1302	putative phosphohydrolase	2525	17	13.057	5.6	89.2	633.837	4.267
+SUB0610	NA	578307	578705	399	conserved hypothetical protein	571	6	15.038	1.0	77.9	467.725	4.915
+SUB0611	NA	578695	578727	33	putative membrane protein (fragment)	14	1	30.303	18.2	18.2	138.657	9.904
+SUB0612	NA	579093	579296	204	putative membrane protein (fragment)	650	5	24.510	9.8	89.2	1041.383	8.011
+SUB0613	NA	579339	579458	120	hypothetical protein	673	1	8.333	99.2	99.2	1832.994	2.724
+SUB0614	NA	579514	582198	2685	cation transporting ATPase	0	0	0	NA	NA	0	0
+SUB0615	NA	582238	582612	375	putative membrane protein	20	3	8.000	34.9	98.1	17.431	2.615
+SUB0616	NA	582726	583460	735	glycerophosphoryl diester phosphodiesterase	11265	14	19.048	1.0	95.6	5009.232	6.225
+SUB0617	NA	583509	584372	864	putative phosphoesterase	1121	22	25.463	4.1	99.3	424.052	8.322
+SUB0618	NA	584440	585075	636	haloacid dehalogenase-like hydrolase	198	12	18.868	0.6	98.0	101.750	6.167
+SUB0619	NA	585260	587176	1917	putative fructose-1,6-bisphosphatase	1993	46	23.996	4.2	99.6	339.791	7.843
+SUB0620	NA	587277	588395	1119	putative iron-sulphur protein	2919	21	18.767	2.3	88.5	852.572	6.134
+SUB0621	prfB	588444	588515	72	peptide chain release factor 2	0	0	0	NA	NA	0	0
+SUB0622	ftsE	589592	590284	693	putative cell division ATP-binding protein	0	0	0	NA	NA	0	0
+SUB0623	ftsX	590277	591206	930	putative cell division protein	0	0	0	NA	NA	0	0
+SUB0624	NA	591735	591932	198	hypothetical protein	0	0	0	NA	NA	0	0
+SUB0625	NA	592027	592662	636	metallo-beta-lactamase superfamily protein	909	7	11.006	20.9	70.0	467.126	3.597
+SUB0626	NA	592731	593540	810	putative esterase	2795	18	22.222	6.5	98.8	1127.779	7.263
+SUB0627	NA	593662	596157	2496	putative ATP-dependent DNA helicase	4921	37	14.824	4.2	93.2	644.371	4.845
+SUB0628	aspC	596327	597532	1206	aspartate aminotransferase	32	1	0.829	96.7	96.7	8.672	0.271
+SUB0629	asnS	597552	598898	1347	asparaginyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB0630	NA	599164	600054	891	P-loop ATPase protein family protein	466	13	14.590	4.6	81.1	170.937	4.769
+SUB0631	NA	600051	601028	978	conserved hypothetical protein	403	20	20.450	12.6	99.4	134.677	6.684
+SUB0632	NA	601025	601936	912	conserved hypothetical protein	244	3	3.289	48.5	98.5	87.442	1.075
+SUB0633	pepD	601999	603396	1398	putative dipeptidase	3172	29	20.744	6.1	97.7	741.572	6.780
+SUB0634	adcA	603532	605088	1557	zinc-binding protein AdcA precursor	3653	37	23.764	12.1	93.4	766.811	7.767
+SUB0635	rpmE	605181	605441	261	50S ribosomal protein L31	0	0	0	NA	NA	0	0
+SUB0636	NA	605549	606484	936	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB0637	NA	606492	606926	435	acetyltransferase (GNAT) family protein	112	8	18.391	6.4	70.3	84.150	6.011
+SUB0638	NA	607076	607882	807	putative extracellular amino acid-binding protein	850	9	11.152	3.8	96.7	344.249	3.645
+SUB0639	hisC	607888	608946	1059	putative histidinol-phosphate aminotransferase	2060	18	16.997	0.9	100.0	635.768	5.555
+SUB0640	NA	608963	609742	780	putative glutathione S-transferase	1062	16	20.513	1.2	93.8	444.997	6.704
+SUB0641	NA	609949	610398	450	putative flavodoxin	0	0	0	NA	NA	0	0
+SUB0642	NA	610473	610757	285	chorismate mutase type II protein	67	2	7.018	68.1	82.8	76.835	2.294
+SUB0643	NA	610741	611961	1221	voltage gated chloride channel protein	501	15	12.285	18.1	93.6	134.106	4.015
+SUB0644	rplS	612085	612432	348	50S ribosomal protein L19	0	0	0	NA	NA	0	0
+SUB0646	NA	612869	613549	681	conserved hypothetical protein	93	7	10.279	27.8	88.4	44.634	3.360
+SUB0647	NA	613771	614985	1215	putative peptidoglycan biosynthesis protein	36	3	2.469	7.1	34.0	9.684	0.807
+SUB0648	NA	615071	615631	561	putative haloacid dehalogenase-like hydrolase	0	0	0	NA	NA	0	0
+SUB0649	gyrB	615632	617584	1953	DNA gyrase subunit B	0	0	0	NA	NA	0	0
+SUB0650	ezrA	617736	619460	1725	septation ring formation regulator	112	2	1.159	98.7	100.0	21.221	0.379
+SUB0651	NA	619569	620228	660	haloacid dehalogenase-like hydrolase	1049	9	13.636	1.8	93.3	519.468	4.457
+SUB0652	NA	620230	620661	432	glyoxalase/bleomycin resistance protein/dioxygenase superfamily protein	314	5	11.574	36.8	97.2	237.560	3.783
+SUB0653	NA	620661	620696	36	conserved hypothetical protein (pseudogene)	7	1	27.778	97.2	97.2	63.551	9.079
+SUB0654	NA	621216	621665	450	conserved hypothetical protein	374	15	33.333	2.9	92.0	271.635	10.894
+SUB0655	eno	621893	623200	1308	enolase	0	0	0	NA	NA	0	0
+SUB0656	NA	623930	624133	204	cold shock protein	258	1	4.902	96.1	96.1	413.349	1.602
+SUB0657	NA	624299	624805	507	putative membrane protein	2164	24	47.337	4.7	99.4	1395.008	15.471
+SUB0658	lig	624923	626881	1959	DNA ligase	0	0	0	NA	NA	0	0
+SUB0659	NA	626898	627935	1038	conserved hypothetical protein	78	3	2.890	84.3	97.7	24.560	0.945
+SUB0660	NA	627928	630228	2301	putative pullulanase	7168	52	22.599	2.3	99.3	1018.143	7.386
+SUB0661	glgB	630300	632177	1878	1,4-alpha-glucan branching enzyme	12584	53	28.222	1.3	99.1	2190.032	9.224
+SUB0662	glgC	632241	633380	1140	glucose-1-phosphate adenylyltransferase	11165	43	37.719	0.2	95.8	3200.967	12.328
+SUB0663	NA	633370	634503	1134	putative glycogen biosynthesis protein	4307	43	37.919	0.4	98.2	1241.335	12.393
+SUB0664	glgA	634500	635936	1437	glycogen synthase	16026	40	27.836	1.2	97.9	3644.984	9.098
+SUB0665	glgP	635953	638358	2406	glycogen phosphorylase	3995	56	23.275	0.1	99.1	542.686	7.607
+SUB0666	atpE	638612	638809	198	ATP synthase C chain	0	0	0	NA	NA	0	0
+SUB0667	atpB	638914	639627	714	ATP synthase A chain	0	0	0	NA	NA	0	0
+SUB0668	atpF	639643	640137	495	ATP synthase B chain	0	0	0	NA	NA	0	0
+SUB0669	atpH	640137	640673	537	putative ATP synthase delta chain	0	0	0	NA	NA	0	0
+SUB0670	atpA	640689	642194	1506	ATP synthase alpha chain	0	0	0	NA	NA	0	0
+SUB0671	atpG	642213	643088	876	ATP synthase gamma chain	0	0	0	NA	NA	0	0
+SUB0672	atpD	643211	644617	1407	ATP synthase beta chain	0	0	0	NA	NA	0	0
+SUB0673	atpC	644631	645047	417	ATP synthase epsilon chain	108	1	2.398	98.8	98.8	84.648	0.784
+SUB0674	NA	645129	645353	225	putative membrane protein	2344	4	17.778	1.8	92.0	3404.884	5.810
+SUB0675	murA1	645428	646699	1272	UDP-N-acetylglucosamine 1-carboxyvinyltransferase 1	660	7	5.503	2.0	73.8	169.584	1.799
+SUB0676	epuA	646703	646891	189	putative competence associated protein	133	2	10.582	5.3	72.0	229.994	3.459
+SUB0677	endA	646923	647801	879	putative competence associated endonuclease	1095	12	13.652	16.3	98.3	407.148	4.462
+SUB0678	pheS	648104	649147	1044	phenylalanyl-tRNA synthetase alpha chain	0	0	0	NA	NA	0	0
+SUB0679	NA	649194	649718	525	acetyltransferase (GNAT) family protein	0	0	0	NA	NA	0	0
+SUB0680	pheT	649733	652138	2406	phenylalanyl-tRNA synthetase beta chain	0	0	0	NA	NA	0	0
+SUB0681	NA	652240	652614	375	conserved hypothetical protein	53	3	8.000	66.1	97.3	46.193	2.615
+SUB0682	NA	652644	653726	1083	putative permease	17646	26	24.007	0.3	99.6	5325.312	7.846
+SUB0683	NA	653736	654404	669	ABC transporter ATP-binding protein	2278	14	20.927	0.7	82.1	1112.897	6.840
+SUB0684	NA	654459	655373	915	putative neutral zinc metallopeptidase	1843	21	22.951	2.3	98.4	658.312	7.501
+SUB0685	addB	655546	658806	3261	putative ATP-dependent exonuclease subunit B	0	0	0	NA	NA	0	0
+SUB0686	addA	658796	662458	3663	putative ATP-dependent exonuclease subunit A	10	1	0.273	99.8	99.8	0.892	0.089
+SUB0687	NA	662576	663706	1131	putative aminotransferase	1742	27	23.873	2.0	95.3	503.400	7.802
+SUB0688	NA	663766	664578	813	extracellular solute-binding protein	746	22	27.060	9.3	99.6	299.899	8.844
+SUB0689	rpsU	664705	664881	177	30S ribosomal protein S21	0	0	0	NA	NA	0	0
+SUB0690	mscL	664979	665353	375	large-conductance mechanosensitive channel	0	0	0	NA	NA	0	0
+SUB0691	dnaG	665479	667290	1812	DNA primase	0	0	0	NA	NA	0	0
+SUB0692	rpoD	667299	668408	1110	RNA polymerase sigma factor RpoD	20	1	0.901	99.1	99.1	5.889	0.294
+SUB0693	NA	668595	668933	339	conserved hypothetical protein	20	1	2.950	21.8	21.8	19.282	0.964
+SUB0694	rmlD	669037	669891	855	dTDP-4-dehydrorhamnose reductase	0	0	0	NA	NA	0	0
+SUB0695	NA	670007	671161	1155	putative rhamnosyltransferase	0	0	0	NA	NA	0	0
+SUB0696	NA	671151	672104	954	putative glycosyltransferase	0	0	0	NA	NA	0	0
+SUB0697	NA	672088	672891	804	putative polysaccharide export ABC transporter permease protein	0	0	0	NA	NA	0	0
+SUB0698	NA	672891	674102	1212	putative polysaccharide export system ATP-binding protein	3	1	0.825	100.0	100.0	0.809	0.270
+SUB0699	NA	674116	675888	1773	putative glycosyl transferase	0	0	0	NA	NA	0	0
+SUB0700	NA	675885	677642	1758	rhamnan synthesis protein F family protein	0	0	0	NA	NA	0	0
+SUB0701	NA	677635	680112	2478	putative membrane protein	38960	71	28.652	2.2	96.1	5138.601	9.364
+SUB0702	NA	680124	681359	1236	putative membrane protein	5508	27	21.845	1.4	96.8	1456.474	7.140
+SUB0703	NA	681363	682307	945	glycosyl transferase	967	15	15.873	12.4	86.2	334.443	5.188
+SUB0704	NA	682294	682743	450	GtrA-like protein	0	0	0	NA	NA	0	0
+SUB0705	NA	682883	685159	2277	N-acetylmuramoyl-L-alanine amidase	3928	42	18.445	5.3	94.3	563.814	6.029
+SUB0706	pepT	685246	686469	1224	peptidase T	495	14	11.438	15.8	99.3	132.176	3.738
+SUB0707	NA	686492	686980	489	putative membrane protein	1387	7	14.315	2.2	59.9	927.032	4.679
+SUB0708	NA	686967	687164	198	putative ferredoxin	25	2	10.101	20.7	41.9	41.267	3.301
+SUB0709	NA	687211	687720	510	putative membrane protein	0	0	0	NA	NA	0	0
+SUB0710	cmk	687735	688415	681	cytidylate kinase	496	2	2.937	88.3	94.4	238.047	0.960
+SUB0711	infC	688578	689108	531	translation initiation factor IF-3	0	0	0	NA	NA	0	0
+SUB0712	rpmI	689146	689346	201	50S ribosomal protein L35	0	0	0	NA	NA	0	0
+SUB0713	rplT	689400	689759	360	50S ribosomal protein L20	24	1	2.778	95.6	95.6	21.789	0.908
+SUB0714	NA	689853	692051	2199	putative sulfatase	3	1	0.455	98.6	98.6	0.446	0.149
+SUB0715	NA	692165	693328	1164	conserved hypothetical protein	28063	31	26.632	0.3	97.2	7879.676	8.704
+SUB0716	aroD	693325	694005	681	3-dehydroquinate dehydratase	14647	22	32.305	1.9	79.4	7029.571	10.559
+SUB0717	aroF	694100	695266	1167	chorismate synthase	4890	24	20.566	2.6	97.9	1369.510	6.722
+SUB0718	NA	695330	695668	339	conserved hypothetical protein	25	2	5.900	47.5	61.4	24.103	1.928
+SUB0719	gor	695750	697099	1350	glutathione reductase	441	9	6.667	3.9	98.4	106.766	2.179
+SUB0720	NA	697129	697542	414	putative membrane protein	964	15	36.232	2.7	82.9	761.034	11.842
+SUB0721	NA	697763	698905	1143	putative cysteine desulfhydrase	480	14	12.248	8.9	96.2	137.253	4.003
+SUB0722	thiI	698907	700121	1215	putative thiamine biosynthesis protein	195	9	7.407	6.5	100.0	52.455	2.421
+SUB0723	NA	700211	701410	1200	putative membrane protein	1155	15	12.500	14.9	94.7	314.578	4.085
+SUB0724	NA	701464	702372	909	putative inosine-uridine preferring nucleoside hydrolase	2596	14	15.402	7.6	70.4	933.401	5.034
+SUB0725	rplU	702627	702941	315	50S ribosomal protein L21	0	0	0	NA	NA	0	0
+SUB0726	NA	702951	703274	324	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB0727	rpmA	703302	703595	294	50S ribosomal protein L27	0	0	0	NA	NA	0	0
+SUB0728	NA	703713	704627	915	LysR family regulatory protein	4	1	1.093	99.6	99.6	1.429	0.357
+SUB0729	lspA	704627	705073	447	lipoprotein signal peptidase	586	8	17.897	9.8	97.3	428.467	5.849
+SUB0730	NA	705075	705965	891	putative RNA pseudouridylate synthase	787	2	2.245	95.3	100.0	288.685	0.734
+SUB0731	pyrR	706208	706729	522	PyrR bifunctional protein [includes: pyrimidine operon regulatory protein uracil phosphoribosyltransferase]	107	1	1.916	96.4	96.4	66.995	0.626
+SUB0732	pyrP	706744	708006	1263	uracil permease	328	3	2.375	1.9	98.9	84.879	0.776
+SUB0733	pyrB	708046	708975	930	aspartate carbamoyltransferase	106	8	8.602	24.9	98.8	37.252	2.811
+SUB0734	carA	709010	710110	1101	carbamoyl-phosphate synthase small chain	914	17	15.441	2.3	84.2	271.323	5.046
+SUB0735	carB	710165	713341	3177	carbamoyl-phosphate synthase large chain	6636	28	8.813	0.7	99.8	682.679	2.881
+SUB0736	NA	713534	714787	1254	putative exported protein	114	2	1.595	5.5	91.0	29.712	0.521
+SUB0737	NA	714787	715497	711	ABC transporter ATP-binding protein	0	0	0	NA	NA	0	0
+SUB0738	NA	715509	716732	1224	putative permease	0	0	0	NA	NA	0	0
+SUB0739	NA	716725	717333	609	putative membrane protein	451	17	27.915	4.6	98.9	242.040	9.123
+SUB0740	NA	717406	719136	1731	putative glycerophosphodiester phosphodiesterase	4834	43	24.841	0.4	96.2	912.718	8.119
+SUB0741	rpsP	719295	719567	273	30S ribosomal protein S16	33	2	7.326	90.8	92.7	39.507	2.394
+SUB0742	NA	719577	719816	240	conserved hypothetical protein	403	3	12.500	3.3	73.3	548.809	4.085
+SUB0743	rimM	720064	720582	519	16S rRNA processing protein	0	0	0	NA	NA	0	0
+SUB0744	trmD	720572	721288	717	tRNA (Guanine-N(1)-)-methyltransferase	0	0	0	NA	NA	0	0
+SUB0745	NA	721300	722295	996	pyridine nucleotide-disulphide oxidoreductase family protein	0	0	0	NA	NA	0	0
+SUB0746	NA	722468	723526	1059	putative membrane protein	1530	20	18.886	8.0	99.2	472.196	6.173
+SUB0747	NA	723542	724465	924	putative ketopantoate reductase	97	8	8.658	0.2	94.0	34.310	2.830
+SUB0748	NA	724618	725331	714	DeoR family regulatory protein	12	1	1.401	36.0	36.0	5.493	0.458
+SUB0749	fruK	725328	726239	912	putative 1-phosphofructokinase	51	2	2.193	73.1	79.2	18.277	0.717
+SUB0750	fruA	726236	728179	1944	putative fructose-specific phosphotransferase system (PTS), IIABC component	102	10	5.144	2.0	99.4	17.149	1.681
+SUB0751	mur1.1	728270	728881	612	mannosyl-glycoprotein endo-beta-N-acetylglucosaminidase family protein	1035	3	4.902	1.8	99.0	552.734	1.602
+SUB0752	NA	729007	729747	741	mannosyl-glycoprotein endo-beta-N-acetylglucosaminidase family protein	340	5	6.748	0.5	90.4	149.964	2.205
+SUB0753	NA	729804	730325	522	conserved hypothetical protein	84	5	9.579	32.4	96.2	52.594	3.131
+SUB0754	NA	730399	730779	381	conserved hypothetical protein	24	2	5.249	33.9	44.9	20.588	1.716
+SUB0755	NA	730779	731630	852	DegV family protein	34	2	2.347	14.3	19.2	13.043	0.767
+SUB0756	dapB	731648	732415	768	putative dihydrodipicolinate reductase	0	0	0	NA	NA	0	0
+SUB0757	cca	732412	733623	1212	CCA-adding enzyme	6	1	0.825	95.5	95.5	1.618	0.270
+SUB0758	NA	733616	735487	1872	ABC transporter ATP-binding protein	1791	21	11.218	3.6	99.2	312.692	3.666
+SUB0759	NA	735493	735978	486	acetyltransferase (GNAT) family protein	1196	10	20.576	0.2	75.9	804.308	6.725
+SUB0760	NA	736060	737811	1752	ABC transporter, ATP-binding/permease protein	1614	24	13.699	0.4	96.5	301.090	4.477
+SUB0761	NA	737808	739577	1770	ABC transporter, ATP-binding/permease protein	555	14	7.910	6.4	96.0	102.482	2.585
+SUB0762	gdh	739700	741052	1353	NADP-specific glutamate dehydrogenase	2073	18	13.304	3.5	99.8	500.759	4.348
+SUB0763	fms	741132	741542	411	peptide deformylase	96	4	9.732	30.9	63.3	76.341	3.181
+SUB0764	NA	741638	743632	1995	putative surface-anchored 5'-nucleotidase (pseudogene)	3869	35	17.544	1.3	99.4	633.845	5.734
+SUB0765	mvaK1	744158	745036	879	mevalonate kinase	0	0	0	NA	NA	0	0
+SUB0766	mvaD	745018	745962	945	mevalonate diphosphate decarboxylase	0	0	0	NA	NA	0	0
+SUB0767	mvaK2	745955	746959	1005	phosphomevalonate kinase	6	1	0.995	92.4	92.4	1.951	0.325
+SUB0768	fni	746956	747948	993	isopentenyl-diphosphate delta-isomerase	0	0	0	NA	NA	0	0
+SUB0769	mvaA	747978	749258	1281	3-hydroxy-3-methylglutaryl-coenzyme A reductase	0	0	0	NA	NA	0	0
+SUB0770	mvaS	749251	750426	1176	3-hydroxy-3-methylglutaryl coenzyme A synthase	0	0	0	NA	NA	0	0
+SUB0771	thyA	750621	751460	840	thymidylate synthase	0	0	0	NA	NA	0	0
+SUB0772	dyr	751540	752037	498	dihydrofolate reductase	0	0	0	NA	NA	0	0
+SUB0772A	NA	752062	752232	171	putative exported protein	0	0	0	NA	NA	0	0
+SUB0773	clpX	752256	753485	1230	ATP-dependent Clp protease ATP-binding subunit ClpX	0	0	0	NA	NA	0	0
+SUB0774	engB	753496	754095	600	putative GTP-binding protein	0	0	0	NA	NA	0	0
+SUB0775	NA	754248	754970	723	putative membrane protein	170	5	6.916	8.3	72.1	76.849	2.260
+SUB0776	clpL	755040	757142	2103	putative ATP-dependent protease ATP-binding subunit ClpL	2786	41	19.496	0.4	99.9	432.981	6.372
+SUB0777	rplJ	757544	758044	501	50S ribosomal protein L10	0	0	0	NA	NA	0	0
+SUB0778	rplL	758110	758475	366	50S ribosomal protein L7/L12	0	0	0	NA	NA	0	0
+SUB0779	NA	758716	762324	3609	conserved hypothetical protein	5314	83	22.998	0.5	100.0	481.240	7.517
+SUB0780	NA	762338	762829	492	conserved hypothetical protein	197	10	20.325	3.0	99.4	130.866	6.643
+SUB0781	NA	762948	764156	1209	conserved hypothetical protein	600	20	16.543	6.0	93.4	162.201	5.407
+SUB0782	NA	764400	764714	315	conserved hypothetical protein	16	3	9.524	48.6	79.7	16.601	3.113
+SUB0783	NA	764714	765790	1077	putative FtsK/SpoIIIE family protein	355	17	15.785	23.1	96.8	107.731	5.159
+SUB0784	NA	765792	766406	615	putative membrane protein	202	8	13.008	0.7	71.1	107.350	4.251
+SUB0785	NA	766540	767106	567	putative plasmid replication protein	412	7	12.346	0.4	78.7	237.488	4.035
+SUB0786	NA	767140	767370	231	conserved hypothetical protein	101	2	8.658	13.0	31.2	142.901	2.830
+SUB0787	NA	767360	768592	1233	integrase	495	8	6.488	0.2	92.5	131.211	2.121
+SUB0788	NA	768870	769043	174	conserved hypothetical protein	103	3	17.241	28.2	81.6	193.471	5.635
+SUB0789	NA	769040	769864	825	putative replication initiator protein	122	7	8.485	1.7	96.5	48.332	2.773
+SUB0790	NA	770022	770240	219	C-5 cytosine-specific DNA methylase (pseudogene)	46	3	13.699	8.2	37.4	68.650	4.477
+SUB0790A	NA	771371	771643	273	conserved hypothetical protein (fragment)	110	6	21.978	5.1	82.1	131.691	7.183
+SUB0792	lacR	771825	772580	756	lactose phosphotransferase system repressor	243	8	10.582	6.0	78.2	105.054	3.459
+SUB0793	lacA2	772795	773220	426	galactose-6-phosphate isomerase LacA subunit 2	369	8	18.779	2.6	87.8	283.103	6.138
+SUB0794	lacB2	773253	773768	516	galactose-6-phosphate isomerase LacB subunit 2	72	5	9.690	7.0	64.9	45.605	3.167
+SUB0795	lacC2	773779	774711	933	tagatose-6-phosphate kinase 2	412	18	19.293	15.9	81.0	144.325	6.305
+SUB0796	lacD2	774714	775694	981	tagatose 1,6-diphosphate aldolase 2	128	8	8.155	0.7	70.2	42.645	2.665
+SUB0797	lacT2	775930	776763	834	transcription antiterminator LacT 2	351	17	20.384	25.4	98.3	137.552	6.662
+SUB0798	lacF2	776800	777117	318	putative lactose-specific phosphotransferase system (PTS), IIA component 2	52	2	6.289	64.8	94.3	53.445	2.056
+SUB0799	lacE2	777117	778802	1686	putative lactose-specific phosphotransferase system (PTS), IIBC component 2	1149	24	14.235	38.6	98.0	222.736	4.652
+SUB0800	lacG2	778900	780306	1407	6-phospho-beta-galactosidase 2	685	12	8.529	8.6	99.7	159.120	2.787
+SUB0801	NA	780331	780609	279	conserved hypothetical protein	72	4	14.337	9.3	94.3	84.344	4.686
+SUB0802	lacX2	780617	781519	903	aldose 1-epimerase 2	2403	14	15.504	10.5	95.7	869.748	5.067
+SUB0803	NA	781708	781932	225	putative DNA_binding protein	14	1	4.444	26.7	26.7	20.336	1.453
+SUB0804	NA	782136	782399	264	conserved hypothetical protein (pseudogene)	1219	13	49.242	6.1	96.2	1509.131	16.094
+SUB0805	NA	782453	782470	18	putative integrase (pseudogene)	0	0	0	NA	NA	0	0
+SUB0806	NA	783808	785199	1392	putative 6-phospho-beta-glucosidase	2201	30	21.552	1.8	92.1	516.783	7.044
+SUB0807	NA	785370	786242	873	putative transcriptional regulator	1304	19	21.764	2.1	95.3	488.192	7.113
+SUB0808	NA	786308	788779	2472	pyridine nucleotide-disulphide oxidoreductase family protein	2242	27	10.922	4.7	99.4	296.425	3.570
+SUB0809	NA	788816	789739	924	putative polysaccharide deacetylase	171	6	6.494	3.6	83.9	60.486	2.122
+SUB0810	hom	789928	791214	1287	homoserine dehydrogenase	0	0	0	NA	NA	0	0
+SUB0811	thrB	791216	792079	864	homoserine kinase	0	0	0	NA	NA	0	0
+SUB0812	folC1	792163	793425	1263	putative folypolyglutamate synthase 1	54	2	1.584	96.5	99.8	13.974	0.518
+SUB0813	folE	793450	794010	561	GTP cyclohydrolase I	246	2	3.565	15.0	22.5	143.318	1.165
+SUB0814	folP	794022	794822	801	dihydropteroate synthase	0	0	0	NA	NA	0	0
+SUB0815	folQ	794825	795184	360	dihydroneopterin aldolase	0	0	0	NA	NA	0	0
+SUB0816	folK	795181	795687	507	2-amino-4-hydroxy-6-hydroxymethyldihydropteridi ne pyrophosphokinase	153	2	3.945	8.9	83.8	98.630	1.289
+SUB0817	murB	795779	796690	912	UDP-N-acetylenolpyruvoylglucosamine reductase	191	3	3.289	92.8	97.4	68.449	1.075
+SUB0818	potA	796707	797861	1155	putative spermidine/putrescine ABC transporter ATP-binding protein	3	1	0.866	77.8	77.8	0.849	0.283
+SUB0819	potB	797845	798639	795	putative spermidine/putrescine ABC transporter permease protein	5	1	1.258	85.4	85.4	2.056	0.411
+SUB0820	potC	798636	799412	777	spermidine/putrescine ABC transporter permease protein	6	1	1.287	44.1	44.1	2.524	0.421
+SUB0821	potD	799405	800478	1074	spermidine/putrescine extracellular binding protein	8574	6	5.587	48.4	98.7	2609.195	1.826
+SUB0822	NA	800508	801191	684	response regulator protein	5937	17	24.854	2.2	89.8	2836.862	8.123
+SUB0823	NA	801193	802716	1524	putative sensor kinase	10886	43	28.215	2.0	99.3	2334.590	9.222
+SUB0824	malP	802878	804212	1335	sodium-dependent malate transporter	1785	25	18.727	7.2	88.2	437.003	6.120
+SUB0825	NA	804231	805388	1158	NAD-dependent malic enzyme	3672	31	26.770	9.2	99.2	1036.386	8.749
+SUB0826	NA	805584	810035	4452	putative surface-anchored subtilase family protein	8901	114	25.606	2.0	99.9	653.448	8.369
+SUB0827	NA	810166	811704	1539	voltage gated chloride channel family protein	1037	34	22.092	7.5	98.3	220.225	7.221
+SUB0828	NA	811788	811886	99	transcription antiterminator (pseudogene)	4	1	10.101	34.3	34.3	13.205	3.301
+SUB0830	NA	812857	814767	1911	beta-glucoside-specific phosphotransferase system (PTS), IIABC component	2113	42	21.978	4.5	99.8	361.382	7.183
+SUB0831	NA	814803	815726	924	AraC family regulatory protein	18226	26	28.139	5.8	99.8	6446.836	9.197
+SUB0834	NA	816373	817860	1488	6-phospho-beta-glucosidase 3	824	23	15.457	11.4	97.9	180.989	5.052
+SUB0835	NA	817956	818570	615	GDSL-like Lipase/acylhydrolase family protein	293	4	6.504	2.8	80.3	155.711	2.126
+SUB0836	NA	818598	819437	840	haloacid dehalogenase-like hydrolase	729	17	20.238	7.3	97.5	283.645	6.614
+SUB0837	NA	819567	821033	1467	6-phospho-beta-glucosidase 4	929	23	15.678	3.8	94.3	206.973	5.124
+SUB0838	NA	821065	821658	594	phosphoglycerate mutase family protein	924	5	8.418	41.4	91.9	508.408	2.751
+SUB0839	NA	821672	822283	612	phosphoglycerate mutase family protein	314	11	17.974	22.1	100.0	167.689	5.874
+SUB0840	NA	822308	823237	930	putative transporter protein	4572	26	27.957	0.4	98.2	1606.758	9.137
+SUB0841	NA	823269	824699	1431	6-phospho-beta-glucosidase 5	770	37	25.856	4.8	95.8	175.865	8.451
+SUB0842	NA	824801	825925	1125	putative membrane protein	2477	30	26.667	1.0	96.4	719.616	8.716
+SUB0843	radC	825969	826649	681	DNA repair protein RadC	1262	28	41.116	1.5	78.6	605.675	13.438
+SUB0844	NA	826646	827347	702	putative peptidase	331	8	11.396	1.6	61.0	154.105	3.725
+SUB0845	rex	827365	828006	642	putative redox-sensing transcriptional repressor	169	3	4.673	0.6	99.1	86.036	1.527
+SUB0847	NA	828170	828388	219	conserved hypothetical protein	13	3	13.699	92.7	99.1	19.401	4.477
+SUB0848	NA	828418	828768	351	conserved hypothetical protein	10	1	2.849	91.5	91.5	9.312	0.931
+SUB0849	NA	828771	829901	1131	putative cysteine desulfurase	0	0	0	NA	NA	0	0
+SUB0850	prsA2	829891	830862	972	putative ribose-phosphate pyrophosphokinase 2	0	0	0	NA	NA	0	0
+SUB0851	NA	830981	831553	573	adenylate cyclase family protein	10	2	3.490	39.3	97.9	5.704	1.141
+SUB0852	NA	831646	832317	672	conserved hypothetical protein	14	1	1.488	42.1	42.1	6.809	0.486
+SUB0853	ppnK	832292	833128	837	putative inorganic polyphosphate/ATP-NAD kinase	0	0	0	NA	NA	0	0
+SUB0854	NA	833125	834030	906	putative RNA pseudouridylate synthase	1910	5	5.519	20.5	57.4	689.021	1.804
+SUB0855	pta	834034	835026	993	putative phosphate acetyltransferase	1463	1	1.007	87.1	87.1	481.529	0.329
+SUB0856	NA	835095	835850	756	putative NADP-dependent L-serine/L-allo-threonine dehydrogenase	1666	9	11.905	1.7	87.3	720.245	3.891
+SUB0858	NA	835884	836573	690	conserved hypothetical protein	146	4	5.797	21.2	56.5	69.156	1.895
+SUB0859	NA	836717	837559	843	haloacid dehalogenase-like hydrolase	303	18	21.352	7.0	92.4	117.474	6.979
+SUB0860	NA	837736	838695	960	zinc-binding dehydrogenase	621	14	14.583	5.9	93.6	211.421	4.766
+SUB0861	NA	838697	839137	441	MarR family regulatory protein	28	2	4.535	16.6	87.3	20.751	1.482
+SUB0862	NA	839134	839862	729	ABC-type glycine betaine transport system ATP-binding protein	853	17	23.320	22.5	94.9	382.427	7.622
+SUB0863	NA	839855	841381	1527	ABC-type glycine betaine transport system protein	677	13	8.513	0.2	82.1	144.903	2.782
+SUB0864	NA	841508	842929	1422	putative 6-phospho-beta-glucosidase	2247	11	7.736	19.1	62.2	516.453	2.528
+SUB0865	NA	843157	844140	984	GMP reductase	2120	22	22.358	0.4	83.1	704.155	7.307
+SUB0866	xpt	844362	844943	582	putative xanthine phosphoribosyltransferase	139	7	12.027	27.5	87.1	78.058	3.931
+SUB0867	pbuX	844943	846217	1275	putative xanthine permease	413	15	11.765	6.9	63.9	105.869	3.845
+SUB0868	NA	846240	847178	939	ApbE family protein	0	0	0	NA	NA	0	0
+SUB0869	NA	847247	847432	186	putative 4-oxalocrotonate tautomerase	17	1	5.376	70.4	70.4	29.872	1.757
+SUB0870	tdk	847697	848275	579	putative thymidine kinase	0	0	0	NA	NA	0	0
+SUB0871	prfA	848293	849372	1080	peptide chain release factor 1	0	0	0	NA	NA	0	0
+SUB0872	NA	849372	850196	825	putative methyltransferase	0	0	0	NA	NA	0	0
+SUB0873	NA	850189	850788	600	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB0874	glyA	850814	852073	1260	serine hydroxymethyltransferase	83	5	3.968	9.9	41.6	21.530	1.297
+SUB0875	NA	852077	853054	978	conserved hypothetical protein	721	8	8.180	31.8	94.7	240.948	2.673
+SUB0876	NA	853055	853657	603	putative membrane protein	1378	10	16.584	8.0	95.5	746.894	5.420
+SUB0877	nox	853956	855323	1368	NADH oxidase	33	1	0.731	98.1	98.1	7.884	0.239
+SUB0878	NA	855381	855911	531	conserved hypothetical protein	301	8	15.066	2.8	83.1	185.267	4.924
+SUB0879	ldh	855946	856929	984	L-lactate dehydrogenase	0	0	0	NA	NA	0	0
+SUB0880	gyrA	857121	859634	2514	DNA gyrase subunit A	0	0	0	NA	NA	0	0
+SUB0881	srtA	859641	860399	759	sortase A	18	1	1.318	84.3	84.3	7.751	0.431
+SUB0882	NA	860448	860861	414	glyoxalase/bleomycin resistance protein/dioxygenase superfamily protein	1635	11	26.570	3.4	91.5	1290.758	8.684
+SUB0883	NA	861042	861995	954	putative exported protein	6303	25	26.205	0.1	99.5	2159.366	8.565
+SUB0884	lmb	862178	863107	930	laminin binding protein	1176	17	18.280	1.7	96.7	413.287	5.974
+SUB0885	NA	863120	865561	2442	Streptococcal histidine triad protein	33601	75	30.713	1.3	99.0	4497.113	10.038
+SUB0886	NA	865599	866321	723	putative membrane protein	1590	14	19.364	0.4	79.5	718.764	6.329
+SUB0887	NA	866789	867187	399	conserved hypothetical protein (fragment)	209	8	20.050	18.5	95.2	171.199	6.553
+SUB0888	NA	867311	868147	837	putative surface-anchored protein	2024	16	19.116	14.7	90.9	790.337	6.248
+SUB0889	NA	868195	869673	1479	putative di-/tripeptide transporter	11416	29	19.608	8.0	94.7	2522.743	6.409
+SUB0890	NA	869887	871032	1146	putative Na(+)/H(+) antiporter	813	29	25.305	2.0	99.0	231.864	8.271
+SUB0891	guaA	871438	873000	1563	GMP synthase [glutamine-hydrolyzing]	597	7	4.479	9.9	95.5	124.837	1.464
+SUB0892	NA	873223	874383	1161	putative exported protein	1245	17	14.643	2.1	93.3	350.481	4.786
+SUB0893	NA	874447	875145	699	GntR family regulatory protein	125	6	8.584	0.7	99.9	58.447	2.805
+SUB0894	NA	875261	875593	333	putative DNA-binding protein	0	0	0	NA	NA	0	0
+SUB0895	ffh	875606	877171	1566	signal recognition particle protein	51	3	1.916	84.9	99.0	10.644	0.626
+SUB0896	NA	877490	877822	333	hypothetical protein	492	12	36.036	3.0	92.5	482.890	11.778
+SUB0897	NA	877815	878177	363	hypothetical protein	325	13	35.813	8.8	89.0	292.620	11.705
+SUB0898	NA	878170	879597	1428	impB/mucB/samB family	1903	33	23.109	4.9	98.7	435.550	7.553
+SUB0899	NA	879606	880298	693	putative phage repressor-like protein	5668	20	28.860	23.2	99.0	2673.153	9.432
+SUB0900	NA	880499	881515	1017	putative oxidoreductase	920	24	23.599	12.0	97.5	295.661	7.713
+SUB0901	NA	881626	882081	456	conserved hypothetical protein	2322	17	37.281	4.2	97.4	1664.273	12.185
+SUB0903	NA	882187	883041	855	putative 2,5-diketo-D-gluconic acid reductase	1390	26	30.409	3.0	99.9	531.344	9.939
+SUB0904	NA	883107	883976	870	rpiR-family regulatory protein	803	13	14.943	3.1	93.3	301.664	4.884
+SUB0905	NA	884090	885532	1443	6-phospho-beta-glucosidase 6	888	25	17.325	10.6	99.9	201.129	5.662
+SUB0906	NA	885645	886067	423	conserved hypothetical protein	142	6	14.184	4.0	53.7	109.717	4.636
+SUB0907	NA	886247	886849	603	NADPH-dependent FMN reductase	397	5	8.292	3.8	45.4	215.179	2.710
+SUB0908	NA	886861	889272	2412	NADPH-dependent FMN reductase	5558	44	18.242	5.2	99.4	753.127	5.962
+SUB0909	NA	889408	890622	1215	putative carboxypeptidase	2134	32	26.337	5.3	95.5	574.044	8.608
+SUB0910	NA	890628	891410	783	putative membrane protein	572	20	25.543	17.2	95.1	238.760	8.348
+SUB0911	NA	891401	891841	441	putative membrane protein	375	11	24.943	14.5	98.6	277.920	8.152
+SUB0913	NA	892267	893337	1071	tyrosine recombinase XerC	3	1	0.934	94.6	94.6	0.916	0.305
+SUB0914	NA	893453	893980	528	putative NUDIX hydrolase	698	18	34.091	2.8	97.0	432.065	11.142
+SUB0915	NA	893992	894327	336	hypothetical protein	190	9	26.786	3.9	95.2	184.817	8.754
+SUB0916	NA	894331	895275	945	sensor histidine kinase	1532	38	40.212	1.5	98.7	529.852	13.143
+SUB0917	NA	895272	895937	666	response regulator protein	2704	25	37.538	3.5	96.5	1326.966	12.269
+SUB0918	NA	895981	897936	1956	putative transporter permease protein	30170	95	48.569	0.6	96.9	5041.198	15.874
+SUB0919	NA	897938	898690	753	ABC transporter ATP-binding protein	785	18	23.904	1.5	96.3	340.723	7.813
+SUB0920	NA	898890	899375	486	conserved hypothetical protein	1551	12	24.691	2.1	96.9	1043.044	8.070
+SUB0921	NA	899406	900740	1335	protein Gid homolog	10800	15	11.236	0.5	95.2	2644.051	3.672
+SUB0922	NA	900879	901592	714	putative membrane protein	2244	23	32.213	1.8	90.9	1027.193	10.528
+SUB0923	NA	901585	902259	675	putative DNA-binding protein	31	3	4.444	13.8	98.7	15.010	1.453
+SUB0924	NA	902444	903328	885	LysR family regulatory protein	5185	25	28.249	0.5	97.3	1914.841	9.233
+SUB0925	topA	903362	905494	2133	DNA topoisomerase I	247	7	3.282	92.5	98.8	37.847	1.073
+SUB0926	NA	905599	906444	846	SMF family protein	659	15	17.730	10.8	84.8	254.591	5.795
+SUB0927	maa	906502	907047	546	maltose O-acetyltransferase	946	9	16.484	13.6	96.0	566.273	5.387
+SUB0928	rnh	907078	907851	774	ribonuclease HII	70	2	2.584	7.4	74.3	29.559	0.845
+SUB0929	NA	907835	908689	855	putative GTPase protein	0	0	0	NA	NA	0	0
+SUB0930	NA	908862	909299	438	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB0931	NA	909302	909952	651	haemolysin-III related membrane protein	14	1	1.536	99.4	99.4	7.029	0.502
+SUB0932	NA	910036	910938	903	conserved hypothetical protein	2288	17	18.826	7.8	82.2	828.124	6.153
+SUB0933	NA	910985	911332	348	putative exported protein	732	5	14.368	11.2	54.3	687.478	4.696
+SUB0934	NA	911342	911491	150	hypothetical protein	59	2	13.333	48.7	52.7	128.555	4.358
+SUB0935	NA	911762	913306	1545	ABC transporter ATP-binding protein	2430	26	16.828	0.1	93.8	514.050	5.500
+SUB0936	NA	913468	914724	1257	GntR family regulatory protein	2920	31	24.662	8.9	98.8	759.233	8.060
+SUB0937	NA	914760	915098	339	ATP-binding protein	11526	7	20.649	1.5	90.3	11112.357	6.749
+SUB0938	dapA	915194	916123	930	dihydrodipicolinate synthase	1123	19	20.430	20.8	98.7	394.661	6.677
+SUB0939	asd	916173	917249	1077	aspartate-semialdehyde dehydrogenase	0	0	0	NA	NA	0	0
+SUB0940	NA	917526	919043	1518	putative cardiolipin synthetase	41	2	1.318	83.7	86.5	8.828	0.431
+SUB0941	NA	919155	919442	288	conserved hypothetical protein	63	3	10.417	43.4	83.7	71.495	3.405
+SUB0942	fhs1	919568	921238	1671	formate--tetrahydrofolate ligase 1	90	3	1.795	0.3	49.0	17.603	0.587
+SUB0943	dpfB	921474	922160	687	putative pantothenate metabolism flavoprotein	0	0	0	NA	NA	0	0
+SUB0944	coaC	922153	922698	546	putative phosphopantothenoylcysteine decarboxylase	0	0	0	NA	NA	0	0
+SUB0945	NA	922762	923331	570	putative membrane protein	0	0	0	NA	NA	0	0
+SUB0946	pgmA	923477	925192	1716	putative phosphomannomutase	15	2	1.166	96.8	99.8	2.857	0.381
+SUB0947	NA	925261	926217	957	ABC transporter permease protein	3847	17	17.764	20.1	99.7	1313.825	5.806
+SUB0948	NA	926219	927286	1068	ABC transporter permease protein	235	14	13.109	17.5	80.6	71.916	4.284
+SUB0949	NA	927279	928811	1533	ABC transporter ATP-binding protein	2247	24	15.656	1.0	96.1	479.058	5.117
+SUB0950	NA	928942	929997	1056	putative lipoprotein	761	10	9.470	11.2	89.5	235.531	3.095
+SUB0951	cdd	930088	930474	387	cytidine deaminase	0	0	0	NA	NA	0	0
+SUB0952	deoC	930464	931126	663	deoxyribose-phosphate aldolase	67	4	6.033	5.1	50.1	33.028	1.972
+SUB0953	deoA	931137	932414	1278	thymidine phosphorylase	1575	19	14.867	3.9	89.2	402.788	4.859
+SUB0954	NA	932411	933001	591	putative methyltransferase	6100	7	11.844	12.7	73.8	3373.414	3.871
+SUB0955	coaA	933265	934185	921	pantothenate kinase	0	0	0	NA	NA	0	0
+SUB0956	rpsT	934254	934487	234	30S ribosomal protein S20	11	1	4.274	94.4	94.4	15.364	1.397
+SUB0957	ciaH	934564	935874	1311	sensor histidine kinase	9599	44	33.562	0.7	98.2	2393.043	10.969
+SUB0958	ciaR	935867	936541	675	response regulator protein	1824	29	42.963	5.8	95.4	883.178	14.042
+SUB0959	pepN	936663	939200	2538	putative lysyl-aminopeptidase	3028	48	18.913	1.9	99.8	389.934	6.181
+SUB0960	phoU	939270	939923	654	putative phosphate transport system protein	0	0	0	NA	NA	0	0
+SUB0961	pstB1	939943	940701	759	phosphate import ATP-binding protein 1	1339	10	13.175	13.3	100.0	576.589	4.306
+SUB0962	pstB2	940714	941517	804	phosphate import ATP-binding protein 2	373	8	9.950	2.1	98.3	151.628	3.252
+SUB0963	NA	941532	942419	888	putative phosphate ABC transporter permease protein	216	7	7.883	5.3	83.8	79.500	2.576
+SUB0964	pstC	942409	943344	936	putative phosphate ABC transporter permease protein	152	8	8.547	5.4	93.2	53.076	2.793
+SUB0965	pstS	943355	944218	864	putative phosphate ABC transporter, extracellular phosphate-binding lipoprotein	646	8	9.259	20.4	88.8	244.369	3.026
+SUB0966	NA	944383	945144	762	putative myo-inositol-1(or 4)-monophosphatase	710	13	17.060	4.2	90.9	304.530	5.576
+SUB0967	NA	945134	945412	279	conserved hypothetical protein	111	2	7.168	78.5	93.5	130.031	2.343
+SUB0968	spxA	945402	945818	417	regulatory protein Spx	0	0	0	NA	NA	0	0
+SUB0969	ribC	945884	946825	942	putative riboflavin biosynthesis protein	11	1	1.062	96.7	96.7	3.817	0.347
+SUB0970	truB	946829	947731	903	tRNA pseudouridine synthase B	0	0	0	NA	NA	0	0
+SUB0971	NA	947824	949164	1341	conserved hypothetical protein	289	7	5.220	4.3	81.3	70.436	1.706
+SUB0972	NA	949243	950196	954	putative membrane protein	769	16	16.771	3.4	76.5	263.454	5.481
+SUB0973	NA	950214	950810	597	conserved hypothetical protein	30	3	5.025	26.6	33.7	16.424	1.642
+SUB0974	NA	950917	953547	2631	ABC transporter permease protein	6823	45	17.104	0.8	96.0	847.582	5.590
+SUB0975	NA	953559	954260	702	ABC transporter ATP-binding protein	1292	12	17.094	9.0	74.5	601.524	5.587
+SUB0976	NA	954377	954925	549	TetR family regulatory protein	723	15	27.322	0.7	96.9	430.421	8.930
+SUB0977	tpx	955017	955508	492	putative thiol peroxidase	128	6	12.195	6.1	94.3	85.030	3.986
+SUB0978	NA	955639	956283	645	GntR family regulatory protein	94	1	1.550	74.0	74.0	47.632	0.507
+SUB0979	NA	956433	956921	489	conserved hypothetical protein	189	3	6.135	31.3	91.0	126.322	2.005
+SUB0980	NA	956932	957129	198	CsbD-like protein	56	3	15.152	1.0	22.2	92.438	4.952
+SUB0981	NA	957173	957694	522	conserved hypothetical protein	110	7	13.410	1.1	96.0	68.873	4.383
+SUB0982	NA	957762	957956	195	putative membrane protein	52	4	20.513	17.4	89.7	87.156	6.704
+SUB0983	NA	957967	958548	582	putative membrane protein	262	8	13.746	1.4	44.7	147.131	4.493
+SUB0984	NA	958607	958852	246	putative membrane protein	41	4	16.260	54.9	98.4	54.472	5.314
+SUB0985	NA	958916	959161	246	putative membrane protein	660	6	24.390	14.2	98.4	876.872	7.972
+SUB0986	pcrA	959462	961729	2268	putative ATP-dependent DNA helicase	387	2	0.882	9.9	99.4	55.769	0.288
+SUB0987	NA	962002	962115	114	hypothetical protein	0	0	0	NA	NA	0	0
+SUB0988	NA	962232	963557	1326	sodium:alanine symporter family protein	671	14	10.558	12.8	97.9	165.389	3.451
+SUB0989	NA	963627	964865	1239	cation efflux family protein	1181	12	9.685	3.5	99.6	311.534	3.165
+SUB0990	NA	964897	965730	834	putative amino acid ABC transporter, extracellular amino acid-binding protein	173	11	13.189	0.6	99.4	67.797	4.311
+SUB0991	NA	965751	966380	630	putative amino acid ABC transporter ATP-binding protein	1392	5	7.937	47.5	96.3	722.148	2.594
+SUB0992	NA	966390	967031	642	putative amino acid ABC transporter permease protein	34	4	6.231	7.8	95.3	17.309	2.036
+SUB0993	NA	967127	967462	336	PhnA protein	2983	6	17.857	1.8	82.1	2901.625	5.836
+SUB0994	mtlD	967600	968748	1149	mannitol-1-phosphate 5-dehydrogenase	4622	19	16.536	0.4	99.8	1314.732	5.405
+SUB0995	mtlF	968776	969213	438	putative mannitol-specific phosphotransferase system (PTS), IIA component	316	11	25.114	4.3	97.7	235.798	8.208
+SUB0996	mtlR	969215	971167	1953	putative transcriptional regulator	1949	33	16.897	1.9	99.9	326.165	5.523
+SUB0997	mtlA	971193	972959	1767	putative mannitol-specific phosphotransferase system (PTS), IIBC component	3865	34	19.242	1.5	94.4	714.892	6.289
+SUB0998	glmS	973082	974896	1815	glucosamine--fructose-6-phosphate aminotransferase [isomerizing]	0	0	0	NA	NA	0	0
+SUB0999	sipC	975063	975620	558	putative signal peptidase I	103	10	17.921	1.3	68.6	60.330	5.857
+SUB1000	pyk	975750	977252	1503	putative pyruvate kinase	0	0	0	NA	NA	0	0
+SUB1001	pfk	977321	978334	1014	6-phosphofructokinase	0	0	0	NA	NA	0	0
+SUB1002	dnaE	978414	981518	3105	DNA polymerase III alpha subunit	56	1	0.322	0.6	0.6	5.895	0.105
+SUB1003	NA	981700	982068	369	GntR family regulatory protein	0	0	0	NA	NA	0	0
+SUB1004	NA	982070	982768	699	ABC transporter ATP-binding protein	0	0	0	NA	NA	0	0
+SUB1005	NA	982778	983569	792	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1006	NA	983620	984231	612	putative membrane protein	3067	17	27.778	1.5	99.0	1637.908	9.079
+SUB1007	NA	984820	985443	624	putative lipoprotein	328	11	17.628	28.5	92.0	171.797	5.761
+SUB1008	NA	985707	986924	1218	putative 30S ribosomal protein S1	0	0	0	NA	NA	0	0
+SUB1009	NA	987268	987498	231	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1010	NA	987562	988584	1023	putative branched-chain-amino-acid aminotransferase	426	9	8.798	3.4	78.1	136.101	2.875
+SUB1011	parC	988703	991162	2460	topoisomerase IV subunit A	0	0	0	NA	NA	0	0
+SUB1013	NA	991542	991940	399	putative membrane protein	97	4	10.025	2.3	70.9	79.456	3.277
+SUB1014	parE	992379	994331	1953	topoisomerase IV subunit B	0	0	0	NA	NA	0	0
+SUB1015	NA	994467	995102	636	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1016	pyrC	995135	996406	1272	putative dihydroorotase	209	5	3.931	14.9	86.9	53.702	1.285
+SUB1017	ung	996422	997075	654	uracil-DNA glycosylase	867	8	12.232	22.5	95.6	433.280	3.998
+SUB1018	NA	997191	997850	660	transport system membrane protein	119	7	10.606	18.9	94.4	58.929	3.466
+SUB1019	NA	997871	998719	849	extracellular solute-binding protein	3012	13	15.312	4.5	97.5	1159.510	5.005
+SUB1020	NA	998838	1000295	1458	putative amidase	459	12	8.230	9.5	96.4	102.892	2.690
+SUB1021	NA	1000297	1000797	501	Phosphatidylethanolamine-binding protein	49	3	5.988	17.2	74.9	31.966	1.957
+SUB1022	NA	1000832	1001212	381	conserved hypothetical protein	2587	10	26.247	3.7	89.0	2219.212	8.578
+SUB1023	NA	1001303	1002049	747	acetyltransferase (GNAT) family protein	63	8	10.710	14.1	84.6	27.564	3.500
+SUB1024	pyrE	1002131	1002760	630	orotate phosphoribosyltransferase	6	1	1.587	99.5	99.5	3.113	0.519
+SUB1025	pyrF	1002785	1003477	693	orotidine 5'-phosphate decarboxylase	21	2	2.886	69.8	80.2	9.904	0.943
+SUB1026	NA	1003704	1004264	561	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1027	hasB2	1004378	1005613	1236	UDP-glucose 6-dehydrogenase 2	568	14	11.327	0.9	94.2	150.196	3.702
+SUB1028	NA	1005615	1006685	1071	putative nucleotide sugar epimerase	723	12	11.204	11.5	99.7	220.636	3.662
+SUB1029	mnaA	1006687	1007784	1098	UDP-N-acetylglucosamine 2-epimerase	40	3	2.732	1.5	19.5	11.907	0.893
+SUB1030	NA	1007781	1008335	555	putative acetyltransferase	198	4	7.207	37.1	94.8	116.600	2.356
+SUB1031	NA	1008348	1009736	1389	putative exopolysaccharide biosynthesis protein	0	0	0	NA	NA	0	0
+SUB1032	NA	1009729	1010949	1221	hypothetical protein	41	3	2.457	2.9	72.7	10.975	0.803
+SUB1033	NA	1010942	1012207	1266	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1034	NA	1012251	1013294	1044	putative glycosyl transferase	1685	20	19.157	15.5	96.5	527.505	6.261
+SUB1035	NA	1013291	1013521	231	putative galacturonic acid acetylase (fragment)	1481	5	21.645	0.9	79.2	2095.416	7.074
+SUB1036	NA	1013529	1014623	1095	putative glycosyl transferase	724	20	18.265	0.5	97.9	216.098	5.970
+SUB1037	NA	1014636	1015484	849	putative UDP-glucose 4-epimerase	70	2	2.356	63.0	82.2	26.947	0.770
+SUB1038	NA	1015487	1016089	603	putative glycosyl-1-phosphate-transferase	148	5	8.292	7.5	88.1	80.218	2.710
+SUB1039	NA	1016092	1017903	1812	polysaccharide biosynthesis protein	11909	26	14.349	0.4	99.4	2148.050	4.690
+SUB1040	wze	1017954	1018691	738	tyrosine-protein kinase Wze	4	1	1.355	3.5	3.5	1.771	0.443
+SUB1041	NA	1018702	1019391	690	putative chain length determinant protein	120	2	2.899	24.3	57.1	56.841	0.947
+SUB1042	wzh	1019400	1020131	732	protein-tyrosine phosphatase Wzh	75	2	2.732	23.1	30.2	33.487	0.893
+SUB1043	wzg	1020128	1021594	1467	integral membrane regulatory protein Wzg	129	8	5.453	2.7	81.0	28.740	1.782
+SUB1044	NA	1021844	1022758	915	LysR family regulatory protein	256	7	7.650	15.7	81.4	91.442	2.500
+SUB1045	NA	1022775	1023554	780	conserved hypothetical protein	37	6	7.692	25.6	98.7	15.504	2.514
+SUB1046	deoD	1023547	1024260	714	putative purine nucleoside phosphorylase	1580	8	11.204	7.1	95.4	723.246	3.662
+SUB1047	punA	1024501	1025310	810	putative purine nucleoside phosphorylase	979	9	11.111	1.9	100.0	395.025	3.631
+SUB1048	NA	1025331	1025741	411	ArsC family protein	57	3	7.299	9.7	98.3	45.327	2.386
+SUB1049	deoB	1025753	1026964	1212	phosphopentomutase	929	8	6.601	31.2	94.5	250.519	2.157
+SUB1050	rpiA	1027031	1027711	681	ribose 5-phosphate isomerase A	0	0	0	NA	NA	0	0
+SUB1051	trmE	1027866	1029242	1377	tRNA modification GTPase TrmE	0	0	0	NA	NA	0	0
+SUB1052	NA	1029540	1029953	414	CAAX amino terminal protease family protein (pseudogene)	188	9	21.739	31.6	82.4	148.417	7.105
+SUB1054	pepV	1030398	1031801	1404	putative Xaa-His dipeptidase	24	2	1.425	1.0	32.1	5.587	0.466
+SUB1055	NA	1031923	1032525	603	nitroreductase family protein	6636	10	16.584	31.7	99.5	3596.800	5.420
+SUB1056	uvrC	1032619	1034394	1776	UvrABC system protein C	424	11	6.194	3.4	77.5	78.028	2.024
+SUB1057	NA	1034466	1035263	798	conserved hypothetical protein	50	3	3.759	10.9	78.4	20.478	1.229
+SUB1058	NA	1035324	1036697	1374	putative succinate-semialdehyde dehydrogenase	10650	20	14.556	1.3	89.7	2533.320	4.757
+SUB1059	NA	1036907	1037107	201	hypothetical phage protein	77	4	19.900	53.7	80.1	125.205	6.504
+SUB1060	NA	1037120	1037500	381	hypothetical phage protein	94	4	10.499	26.5	66.4	80.636	3.431
+SUB1061	NA	1037533	1037715	183	hypothetical protein	0	0	0	NA	NA	0	0
+SUB1062	NA	1037748	1038431	684	haloacid dehalogenase-like hydrolase	361	12	17.544	5.3	82.9	172.496	5.734
+SUB1063	NA	1038670	1039524	855	haloacid dehalogenase-like hydrolase	515	4	4.678	21.9	76.0	196.865	1.529
+SUB1064	NA	1039775	1039945	171	putative membrane protein (pseudogene)	9	1	5.848	31.6	31.6	17.202	1.911
+SUB1066	NA	1040378	1041220	843	aldo/keto reductase family protein	524	16	18.980	0.2	97.7	203.157	6.203
+SUB1067	NA	1041479	1042117	639	putative chromate transport protein (pseudogene)	1336	11	17.214	1.4	93.3	683.334	5.626
+SUB1069	NA	1042796	1043413	618	putative membrane protein	555	7	11.327	2.4	98.4	293.516	3.702
+SUB1070	NA	1043485	1044657	1173	putative lipase	535	19	16.198	10.1	91.8	149.068	5.294
+SUB1071	NA	1044814	1045833	1020	putative membrane protein	204	11	10.784	5.0	100.0	65.367	3.525
+SUB1072	NA	1045928	1046914	987	aldo/keto reductase family protein	787	5	5.066	14.2	60.7	260.606	1.656
+SUB1073	NA	1046937	1047260	324	carboxymuconolactone decarboxylase family protein	433	4	12.346	1.5	90.7	436.787	4.035
+SUB1074	NA	1047278	1047682	405	conserved hypothetical protein	65	3	7.407	11.6	95.1	52.455	2.421
+SUB1075	NA	1047685	1048080	396	MerR family regulatory protein	181	4	10.101	71.7	83.1	149.386	3.301
+SUB1076	NA	1048090	1049130	1041	putative zinc-binding alcohol dehydrogenase	14101	15	14.409	11.9	92.4	4427.172	4.709
+SUB1077	NA	1049299	1050156	858	putative short chain dehydrogenase	1161	7	8.159	14.2	65.7	442.254	2.666
+SUB1078	NA	1050238	1051092	855	Aldo/keto reductase family	3923	21	24.561	2.3	89.0	1499.614	8.028
+SUB1079	NA	1051177	1052352	1176	conserved hypothetical protein	877	13	11.054	7.3	94.8	243.736	3.613
+SUB1080	NA	1052475	1053128	654	putative metal-dependent phosphohydrolase	497	10	15.291	4.9	95.9	248.374	4.997
+SUB1081	msrB	1053121	1053579	459	peptide methionine sulfoxide reductase	113	2	4.357	54.2	63.4	80.462	1.424
+SUB1082	lepA	1053682	1055514	1833	GTP-binding protein LepA	32	3	1.637	3.8	59.4	5.706	0.535
+SUB1083	NA	1055731	1056168	438	conserved hypothetical protein	127	4	9.132	2.5	100.0	94.767	2.985
+SUB1084	ndk	1056208	1056642	435	nucleoside diphosphate kinase	19	2	4.598	15.9	94.5	14.276	1.503
+SUB1085	NA	1056936	1057559	624	putative membrane protein	36	3	4.808	0.6	50.6	18.856	1.571
+SUB1086	NA	1057559	1058323	765	haloacid dehalogenase-like hydrolase	59	1	1.307	91.2	91.2	25.207	0.427
+SUB1087	NA	1058336	1059070	735	putative acyl-ACP thioesterase	113	4	5.442	23.5	69.8	50.248	1.779
+SUB1088	hemN	1059080	1060210	1131	putative oxygen-independent coproporphyrinogen III oxidase	353	5	4.421	0.8	85.3	102.009	1.445
+SUB1089	NA	1060268	1060891	624	conserved hypothetical protein (pseudogene)	40	1	1.603	56.1	56.1	20.951	0.524
+SUB1090	NA	1060950	1062302	1353	putative phosphoglucosamine mutase	0	0	0	NA	NA	0	0
+SUB1091	NA	1062355	1063311	957	putative exported protein	0	0	0	NA	NA	0	0
+SUB1092	NA	1063315	1064160	846	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1093	NA	1064262	1065605	1344	Mur ligase family protein	0	0	0	NA	NA	0	0
+SUB1094	NA	1065605	1066393	789	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1095	sclB	1066469	1067923	1455	collagen-like surface-anchored protein	2149	9	6.186	3.5	81.0	482.726	2.022
+SUB1097	NA	1068444	1069607	1164	AraC family regulatory protein	4217	21	18.041	1.4	98.3	1184.071	5.896
+SUB1098	NA	1069668	1070657	990	putative lipoate-protein ligase A	0	0	0	NA	NA	0	0
+SUB1099	NA	1070867	1071379	513	cation transporting ATPase (fragment)	76	4	7.797	25.0	87.5	48.420	2.548
+SUB1100	acoL	1071511	1073268	1758	dihydrolipoamide dehydrogenase	0	0	0	NA	NA	0	0
+SUB1101	pdhC	1073372	1074787	1416	dihydrolipoamide acetyltransferase component of pyruvate dehydrogenase complex	0	0	0	NA	NA	0	0
+SUB1102	pdhB	1074898	1075899	1002	putative pyruvate dehydrogenase E1 component, beta subunit	0	0	0	NA	NA	0	0
+SUB1103	pdhA	1075963	1076931	969	putative pyruvate dehydrogenase E1 component, alpha subunit	0	0	0	NA	NA	0	0
+SUB1104	NA	1077155	1079062	1908	ABC transporter ATP-binding protein	339	10	5.241	5.6	82.3	58.070	1.713
+SUB1105	NA	1079111	1079842	732	putative protease	34	5	6.831	11.7	100.0	15.181	2.232
+SUB1106	NA	1079864	1080649	786	putative esterase	112	6	7.634	13.7	39.7	46.572	2.495
+SUB1107	NA	1080742	1082406	1665	metallo-beta-lactamase superfamily protein	0	0	0	NA	NA	0	0
+SUB1108	NA	1082597	1083355	759	ABC transporter ATP-binding protein	805	10	13.175	65.0	98.6	346.642	4.306
+SUB1109	NA	1083352	1084221	870	ABC transporter permease protein	57	5	5.747	0.6	84.6	21.413	1.878
+SUB1110	NA	1084237	1085232	996	putative exported protein	840	5	5.020	36.6	60.8	275.643	1.641
+SUB1111	fbpS	1085563	1087215	1653	fibronectin/fibrinogen-binding protein	8105	12	7.260	25.2	100.0	1602.535	2.373
+SUB1112	aldB	1087379	1088098	720	alpha-acetolactate decarboxylase	45	6	8.333	12.4	93.8	20.427	2.724
+SUB1113	alsS	1088110	1089786	1677	acetolactate synthase	761	16	9.541	0.1	96.0	148.313	3.118
+SUB1114	NA	1089894	1091135	1242	conserved hypothetical protein	3781	16	12.882	4.1	99.0	994.975	4.210
+SUB1115	NA	1091125	1092306	1182	putative membrane protein	12352	30	25.381	0.9	99.2	3415.443	8.295
+SUB1116	mutX	1092344	1092826	483	mutator MutX protein (7,8-dihydro-8-oxoguanine-triphosphatase)	229	7	14.493	3.3	70.2	154.959	4.737
+SUB1117	NA	1092909	1093916	1008	conserved hypothetical protein	105	1	0.992	46.3	46.3	34.045	0.324
+SUB1118	NA	1093977	1094168	192	conserved hypothetical protein	19	2	10.417	60.4	82.3	32.343	3.405
+SUB1119	rmlB	1094389	1095435	1047	putative dTDP-glucose-4,6-dehydratase	0	0	0	NA	NA	0	0
+SUB1120	rmlC	1095482	1096075	594	putative dTDP-4-keto-6-deoxyglucose-3,5-epimerase	0	0	0	NA	NA	0	0
+SUB1121	rmlA	1096075	1096944	870	glucose-1-phosphate thymidyl transferase	0	0	0	NA	NA	0	0
+SUB1122	NA	1097001	1098101	1101	FAD dependent oxidoreductase	260	9	8.174	6.5	99.1	77.182	2.672
+SUB1123	NA	1098112	1098933	822	ZIP zinc transporter family protein	173	5	6.083	15.0	53.6	68.786	1.988
+SUB1124	NA	1098946	1099734	789	NIF3 (NGG1p interacting factor 3) family protein	572	12	15.209	4.9	84.4	236.944	4.971
+SUB1125	NA	1099724	1100410	687	conserved hypothetical protein	130	1	1.456	98.3	98.3	61.846	0.476
+SUB1126	nth	1100477	1101133	657	putative endonuclease III	35	4	6.088	60.6	96.3	17.411	1.990
+SUB1127	NA	1101133	1101813	681	putative DNA replication protein DnaD	0	0	0	NA	NA	0	0
+SUB1128	apt	1101870	1102388	519	adenine phosphoribosyltransferase	0	0	0	NA	NA	0	0
+SUB1129	NA	1102493	1104724	2232	putative single-stranded-DNA-specific exonuclease	2765	13	5.824	7.9	96.5	404.882	1.904
+SUB1130	NA	1104721	1105485	765	short chain dehydrogenase	24	3	3.922	11.9	67.3	10.254	1.282
+SUB1131	rnz	1105485	1106414	930	ribonuclease Z	0	0	0	NA	NA	0	0
+SUB1132	NA	1106433	1107065	633	conserved hypothetical protein	52	4	6.319	31.9	96.7	26.849	2.065
+SUB1133	NA	1107058	1108296	1239	putative GTPase	762	5	4.036	17.0	76.0	201.007	1.319
+SUB1134	miaA	1108369	1109274	906	tRNA delta(2)-isopentenylpyrophosphate transferase	9	2	2.208	69.9	74.5	3.247	0.721
+SUB1135	NA	1109407	1109583	177	putative exported protein	0	0	0	NA	NA	0	0
+SUB1136	NA	1109609	1110520	912	C4-dicarboxylate transporter/malic acid transport protein	421	9	9.868	1.6	69.2	150.874	3.225
+SUB1137	NA	1110531	1111334	804	putative membrane protein	1017	10	12.438	2.6	94.4	413.421	4.065
+SUB1138	NA	1111420	1112406	987	conserved hypothetical protein	83	2	2.026	64.0	99.8	27.485	0.662
+SUB1139	NA	1112607	1112912	306	conserved hypothetical protein	278	7	22.876	20.6	90.8	296.928	7.477
+SUB1140	glgP	1112959	1115223	2265	putative glycogen phosphorylase	1833	34	15.011	4.1	96.2	264.497	4.906
+SUB1141	malM	1115246	1116754	1509	putative 4-alpha-glucanotransferase	593	9	5.964	35.4	99.5	128.438	1.949
+SUB1142	NA	1116844	1117863	1020	LacI family transcriptional repressor	91	6	5.882	3.9	52.8	29.159	1.923
+SUB1143	malX	1118060	1119310	1251	putative maltose/maltodextrin-binding protein precursor	381	10	7.994	0.3	72.3	99.539	2.613
+SUB1144	malC	1119579	1120940	1362	putative maltose/maltodextrin ABC transport system permease protein	958	26	19.090	2.3	97.0	229.888	6.239
+SUB1145	malD	1120940	1121776	837	putative maltose/maltodextrin ABC transport system permease protein	855	20	23.895	0.2	94.9	333.863	7.810
+SUB1146	dltD	1121892	1123157	1266	putative D-alanyl-lipoteichoic acid biosynthesis protein	142	4	3.160	49.8	61.1	36.659	1.033
+SUB1147	dltC	1123150	1123389	240	D-alanyl carrier protein	71	2	8.333	42.5	60.0	96.688	2.724
+SUB1148	dltB	1123405	1124667	1263	putative activated D-alanine transport protein	38	2	1.584	43.7	53.7	9.833	0.518
+SUB1149	dltA	1124664	1126202	1539	D-alanine--poly(phosphoribitol) ligase subunit 1	44	4	2.599	8.4	77.8	9.344	0.849
+SUB1150	NA	1126215	1126349	135	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1151	uvrB	1126580	1128571	1992	UvrABC system protein B (UvrB protein)	2206	17	8.534	4.8	92.9	361.946	2.789
+SUB1152	NA	1128740	1130914	2175	putative glutamine ABC transporter, glutamine-binding protein/permease protein	3144	22	10.115	5.1	93.1	472.444	3.306
+SUB1153	glnQ1	1130914	1131654	741	putative glutamine ABC transporter, ATP-binding protein 1	756	20	26.991	1.2	99.3	333.450	8.821
+SUB1154	scpA	1131743	1135177	3435	C5A peptidase precursor	10705	71	20.670	1.7	100.0	1018.561	6.756
+SUB1155	NA	1135475	1136173	699	nicotinamide mononucleotide transporter	387	15	21.459	1.1	97.9	180.951	7.014
+SUB1156	NA	1136249	1136407	159	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1157	NA	1136899	1138215	1317	putative GTP-binding protein	0	0	0	NA	NA	0	0
+SUB1158	NA	1138267	1138395	129	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1159	pepS	1138569	1139810	1242	aminopeptidase PepS	84	8	6.441	12.7	100.0	22.105	2.105
+SUB1160	NA	1139857	1140774	918	CorA-like3 Mg2+ transporter protein	2631	17	18.519	22.4	96.8	936.711	6.052
+SUB1161	NA	1140813	1141532	720	putative ribosomal small subunit pseudouridine synthase B	7055	12	16.667	6.1	95.7	3202.519	5.447
+SUB1162	NA	1141542	1141895	354	conserved hypothetical protein	308	3	8.475	57.3	98.6	284.364	2.770
+SUB1163	NA	1141996	1142358	363	thioesterase superfamily protein	1994	3	8.264	1.4	68.9	1795.336	2.701
+SUB1164	NA	1142436	1143659	1224	major facilitator superfamily protein	417	14	11.438	1.6	98.4	111.348	3.738
+SUB1165	NA	1144047	1145531	1485	conserved hypothetical protein	3806	40	26.936	1.2	99.3	837.663	8.804
+SUB1166	NA	1145565	1146344	780	putative membrane protein	109	5	6.410	6.2	93.3	45.673	2.095
+SUB1167	NA	1146341	1146997	657	ABC transporter ATP-binding protein	3933	11	16.743	6.4	87.7	1956.527	5.472
+SUB1168	NA	1147127	1147525	399	thioesterase superfamily protein	249	9	22.556	12.8	98.7	203.964	7.372
+SUB1169	NA	1147748	1148191	444	acetyltransferase (GNAT) family protein	1346	18	40.541	4.3	95.5	990.808	13.250
+SUB1170	NA	1148212	1148685	474	conserved hypothetical protein	715	9	18.987	4.9	97.7	493.009	6.206
+SUB1170A	NA	1148782	1148862	81	conserved hypothetical protein (pseudogene)	15	2	24.691	38.3	77.8	60.525	8.070
+SUB1171	NA	1148889	1150445	1557	putative ABC transport/processing ATP-binding protein (pseudogene)	2010	39	25.048	0.9	99.0	421.924	8.187
+SUB1173	NA	1151106	1152266	1161	putative membrane protein	5494	40	34.453	1.1	95.5	1546.620	11.260
+SUB1174	NA	1152269	1153132	864	ABC transporter, ATP-binding protein	2872	33	38.194	0.6	84.6	1086.420	12.483
+SUB1176	NA	1153644	1154099	456	MutT/NUDIX family protein	1538	12	26.316	5.9	95.4	1102.348	8.601
+SUB1177	NA	1154263	1154592	330	putative membrane protein	715	5	15.152	61.5	92.1	708.140	4.952
+SUB1178	NA	1154730	1154882	153	relaxase (fragment)	157	6	39.216	48.4	92.2	335.379	12.817
+SUB1178A	NA	1154873	1155187	315	putative transposase (fragment)	346	6	19.048	26.0	63.5	358.999	6.225
+SUB1180	copZ	1155606	1155839	234	putive copper chaperone CopZ	1596	7	29.915	7.3	71.4	2229.176	9.777
+SUB1181	NA	1155935	1157788	1854	putative copper importing ATPase	4097	38	20.496	0.9	98.0	722.243	6.699
+SUB1182	NA	1157834	1158136	303	hypothetical protein	69	5	16.502	10.9	82.2	74.428	5.393
+SUB1183	NA	1158303	1159052	750	Crp family regulatory protein	642	8	10.667	1.9	96.4	279.770	3.486
+SUB1184	NA	1159053	1159292	240	hypothetical protein	113	2	8.333	88.3	96.7	153.884	2.724
+SUB1185	NA	1159308	1159532	225	puative DNA-binding protein	2209	5	22.222	7.6	63.1	3208.784	7.263
+SUB1186	NA	1159675	1160823	1149	putative DNA recombinase (fragment)	1214	17	14.795	21.8	95.3	345.323	4.836
+SUB1187	NA	1160948	1163179	2232	putative modification methylase	3038	58	25.986	0.6	100.0	444.857	8.493
+SUB1188	NA	1163180	1165687	2508	putative type III site-specific deoxyribonuclease	2632	38	15.152	1.6	98.1	342.993	4.952
+SUB1189	NA	1166047	1167408	1362	putative RNA methyltransferase	1758	20	14.684	12.1	93.4	421.861	4.799
+SUB1190	NA	1167478	1168941	1464	cell envelope-related transcriptional attenuator domain protein	1822	10	6.831	15.8	97.2	406.757	2.232
+SUB1191	aroK	1169104	1169595	492	putative shikimate kinase	172	11	22.358	4.5	78.9	114.259	7.307
+SUB1192	aroA	1169588	1170871	1284	3-phosphoshikimate 1-carboxyvinyltransferase	488	19	14.798	2.3	99.3	124.217	4.836
+SUB1193	NA	1170954	1171901	948	ribonuclease BN-like family protein	96	5	5.274	15.4	86.0	33.097	1.724
+SUB1194	NA	1171903	1172763	861	putative metallopeptidase	0	0	0	NA	NA	0	0
+SUB1195	NA	1172786	1174069	1284	putative DNA-binding protein	69	6	4.673	5.5	91.7	17.564	1.527
+SUB1196	NA	1174062	1174613	552	acetyltransferase (GNAT) family protein	118	2	3.623	24.1	46.0	69.867	1.184
+SUB1197	NA	1174752	1176476	1725	glycosyl hydrolase family protein	3078	25	14.493	0.5	98.4	583.186	4.737
+SUB1198	NA	1176501	1178291	1791	glycosyl hydrolase family protein	1853	14	7.817	1.3	99.5	338.148	2.555
+SUB1199	NA	1178308	1179108	801	haloacid dehalogenase-like hydrolase	144	7	8.739	15.5	93.6	58.757	2.856
+SUB1200	NA	1179238	1180767	1530	putative beta-glucuronidase	493	13	8.497	9.6	98.3	105.313	2.777
+SUB1201	kduD	1180846	1181685	840	putative 2-deoxy-D-gluconate 3-dehydrogenase	385	6	7.143	32.5	92.3	149.799	2.335
+SUB1202	uxuA	1181815	1182861	1047	putative mannonate dehydratase	1806	11	10.506	0.5	96.6	563.765	3.434
+SUB1203	uxaC	1182881	1184284	1404	uronate isomerase	2233	16	11.396	0.9	98.7	519.815	3.725
+SUB1204	dgoA	1184295	1184915	621	putative 2-dehydro-3-deoxy-6-phosphogalactonate aldolase	492	7	11.272	48.3	94.4	258.941	3.684
+SUB1205	NA	1185037	1185762	726	GntR family regulatory protein	13	2	2.755	3.7	56.2	5.852	0.900
+SUB1206	uidA	1185806	1187596	1791	putative beta-glucuronidase	827	29	16.192	0.8	97.3	150.917	5.292
+SUB1207	NA	1187608	1188633	1026	PfkB family carbohydrate kinase	508	11	10.721	3.6	87.7	161.824	3.504
+SUB1208	NA	1188707	1189537	831	putative sugar transporter (pseudogene)	674	12	14.440	19.4	56.3	265.086	4.720
+SUB1210	murZ	1190486	1191745	1260	UDP-N-acetylglucosamine 1-carboxyvinyltransferase 2	710	13	10.317	0.9	98.7	184.168	3.372
+SUB1211	metK	1191931	1193118	1188	S-adenosylmethionine synthetase	10	1	0.842	99.9	99.9	2.751	0.275
+SUB1212	NA	1193440	1195623	2184	putative lipoprotein	2446	31	14.194	3.4	94.5	366.042	4.639
+SUB1213	birA	1195779	1196714	936	BirA bifunctional protein [includes: biotin operon repressor biotin--[acetyl-CoA-carboxylase] synthetase]	12	1	1.068	7.3	7.3	4.190	0.349
+SUB1214	dnaH	1196951	1198618	1668	DNA polymerase III subunit gamma/tau	0	0	0	NA	NA	0	0
+SUB1215	NA	1198618	1199115	498	conserved hypothetical protein	3	1	2.008	5.8	5.8	1.969	0.656
+SUB1216	NA	1199147	1199485	339	putative membrane protein	18	3	8.850	2.9	68.1	17.354	2.892
+SUB1217	udk	1199491	1200123	633	uridine kinase	1403	12	18.957	1.6	86.3	724.405	6.196
+SUB1218	NA	1200276	1201358	1083	putative RNA helicase	12	1	0.923	94.4	94.4	3.621	0.302
+SUB1219	NA	1201430	1202719	1290	polysaccharide deacetylase family protein	798	26	20.155	3.4	98.4	202.181	6.587
+SUB1220	gapN	1202865	1204292	1428	putative NADP-dependent glyceraldehyde-3-phosphate dehydrogenase	0	0	0	NA	NA	0	0
+SUB1222	pstI	1204447	1206180	1734	phosphoenolpyruvate-protein phosphotransferase	0	0	0	NA	NA	0	0
+SUB1223	ptsH	1206185	1206448	264	histidine-containing phosphocarrier protein (HPr)	0	0	0	NA	NA	0	0
+SUB1224	nrdH	1206921	1207139	219	glutaredoxin-like protein	0	0	0	NA	NA	0	0
+SUB1225	NA	1207159	1209318	2160	putative ribonucleoside-diphosphate reductase alpha chain	0	0	0	NA	NA	0	0
+SUB1227	NA	1209887	1210846	960	putative ribonucleoside-diphosphate reductase beta chain	3	1	1.042	94.0	94.0	1.021	0.340
+SUB1228	NA	1210970	1211929	960	putative membrane protein	8153	27	28.125	2.1	95.8	2775.706	9.192
+SUB1229	NA	1211991	1213244	1254	voltage gated chloride channel	1270	26	20.734	2.6	99.2	331.004	6.776
+SUB1230	alaS	1213282	1215903	2622	alanyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB1231	prsA1	1216195	1217139	945	foldase protein PrsA 1 precursor	285	7	7.407	16.7	78.4	98.569	2.421
+SUB1232	NA	1217202	1217909	708	putative O-methyltransferase	0	0	0	NA	NA	0	0
+SUB1233	NA	1218049	1219278	1230	major facilitator superfamily protein	317	11	8.943	23.4	84.6	84.233	2.923
+SUB1234	NA	1219403	1220044	642	haloacid dehalogenase-like hydrolase	85	9	14.019	38.3	91.9	43.272	4.582
+SUB1235	pepB	1220096	1221916	1821	putative oligopeptidase	5082	27	14.827	2.0	99.8	912.120	4.846
+SUB1236	NA	1221921	1222865	945	competence protein CoiA-like family protein	213	9	9.524	38.0	89.2	73.667	3.113
+SUB1237	NA	1222941	1224086	1146	major facilitator superfamily protein	440	23	20.070	16.9	99.7	125.486	6.559
+SUB1238	NA	1224172	1224882	711	putative ribosomal small subunit pseudouridine synthase A	303	13	18.284	1.4	96.3	139.284	5.976
+SUB1239	nagB	1224954	1225658	705	glucosamine-6-phosphate isomerase	426	8	11.348	7.7	83.7	197.491	3.709
+SUB1240	queA	1225839	1226867	1029	S-adenosylmethionine:tRNA ribosyltransferase-isomerase	539	15	14.577	1.7	82.4	171.199	4.764
+SUB1241	NA	1226907	1227959	1053	putative lipoprotein	18	3	2.849	2.5	69.2	5.587	0.931
+SUB1242	sodA	1228113	1228721	609	superoxide dismutase [Mn]	0	0	0	NA	NA	0	0
+SUB1243	NA	1228818	1229858	1041	putative DNA polymerase III delta subunit	14	2	1.921	1.6	54.1	4.395	0.628
+SUB1244	comEC	1229901	1232159	2259	putative competence protein	24873	46	20.363	1.0	97.0	3598.647	6.655
+SUB1245	comEA	1232140	1232820	681	putative competence protein	207	8	11.747	15.0	69.0	99.346	3.839
+SUB1246	NA	1232883	1233623	741	putative acyltransferase	0	0	0	NA	NA	0	0
+SUB1247	NA	1233662	1234531	870	conserved hypothetical protein	413	9	10.345	35.7	99.7	155.152	3.381
+SUB1248	NA	1234572	1234841	270	conserved hypothetical protein	160	6	22.222	5.9	45.6	193.679	7.263
+SUB1249	NA	1234863	1236896	2034	probable potassium transport system protein	13670	69	33.923	1.8	99.4	2196.569	11.087
+SUB1250	NA	1236993	1238678	1686	DEAD box helicase family protein	57	2	1.186	49.6	95.1	11.050	0.388
+SUB1251	NA	1238824	1239600	777	conserved hypothetical protein	132	8	10.296	40.0	96.4	55.524	3.365
+SUB1252	NA	1239634	1240326	693	hypothetical protein	2946	8	11.544	14.6	58.3	1389.398	3.773
+SUB1253	prfC	1240543	1242087	1545	peptide chain release factor 3	406	4	2.589	26.1	80.8	85.886	0.846
+SUB1254	NA	1242201	1242896	696	putative membrane protein	1340	13	18.678	16.5	76.9	629.249	6.105
+SUB1255	murF	1242989	1244359	1371	putative UDP-N-acetylmuramoyl-tripeptide--D-alanyl-D-alanine ligase	0	0	0	NA	NA	0	0
+SUB1256	NA	1244627	1245184	558	putative membrane protein	150	4	7.168	9.7	80.3	87.859	2.343
+SUB1257	ddlA	1245224	1246270	1047	D-alanine--D-alanine ligase	0	0	0	NA	NA	0	0
+SUB1258	recR	1246408	1247004	597	recombination protein RecR	8	1	1.675	1.0	1.0	4.380	0.547
+SUB1259	penA	1247016	1249118	2103	penicillin-binding protein 2b (pseudogene)	130	6	2.853	74.6	97.6	20.204	0.932
+SUB1260	NA	1249177	1249953	777	putative formate/nitrite transporter family protein	87	3	3.861	40.2	67.8	36.595	1.262
+SUB1261	NA	1250048	1250593	546	putative membrane protein	90	3	5.495	30.2	86.3	53.874	1.796
+SUB1262	NA	1250659	1251177	519	conserved hypothetical protein	486	11	21.195	2.5	97.7	306.053	6.927
+SUB1263	gpmA	1251279	1251971	693	2,3-bisphosphoglycerate-dependent phosphoglycerate mutase	0	0	0	NA	NA	0	0
+SUB1264	pyrD	1252209	1253144	936	putative dihydroorotate dehydrogenase	316	4	4.274	5.8	92.4	110.341	1.397
+SUB1265	NA	1253222	1253428	207	putative membrane protein	26	1	4.831	44.4	44.4	41.052	1.579
+SUB1266	NA	1253496	1255349	1854	putative cation-transporting ATPase	904	21	11.327	0.9	84.6	159.362	3.702
+SUB1267	hlpA	1255554	1255829	276	DNA-binding protein HU	0	0	0	NA	NA	0	0
+SUB1268	NA	1255928	1256515	588	putative membrane protein	1224	8	13.605	50.7	90.0	680.348	4.447
+SUB1269	NA	1256493	1257335	843	GDSL-like lipase/acylhydrolase protein	61	6	7.117	8.5	86.0	23.650	2.326
+SUB1270	NA	1257328	1258179	852	conserved hypothetical protein	323	8	9.390	27.9	79.3	123.905	3.069
+SUB1271	recN	1258266	1259927	1662	putative DNA repair protein	2757	26	15.644	9.0	99.8	542.167	5.113
+SUB1272	NA	1259944	1260414	471	putative repressor protein	107	8	16.985	8.5	80.9	74.249	5.551
+SUB1273	NA	1260401	1261228	828	hemolysin-like protein	0	0	0	NA	NA	0	0
+SUB1274	fps	1261221	1262090	870	putative geranyltranstransferase	6	1	1.149	33.8	33.8	2.254	0.376
+SUB1275	xseB	1262090	1262305	216	putative exodeoxyribonuclease VII small subunit	0	0	0	NA	NA	0	0
+SUB1276	xseA	1262295	1263623	1329	putative exodeoxyribonuclease VII large subunit	0	0	0	NA	NA	0	0
+SUB1277	folD	1263764	1264618	855	FolD bifunctional protein [includes: methylenetetrahydrofolate dehydrogenase/methenyltetrahydrofolate cyclohydrolase]	0	0	0	NA	NA	0	0
+SUB1278	glnQ3	1264722	1265456	735	putative glutamine transporter, ATP-binding protein 3	414	9	12.245	8.4	95.5	184.094	4.002
+SUB1279	NA	1265453	1266142	690	putative amino acid ABC transporter permease protein	274	6	8.696	9.6	77.8	129.786	2.842
+SUB1280	NA	1266269	1266499	231	conserved hypothetical protein	14	1	4.329	81.4	81.4	19.808	1.415
+SUB1281	clpE	1266754	1269024	2271	putative ATP-dependent Clp protease ATP-binding subunit	2826	29	12.770	3.0	97.3	406.708	4.174
+SUB1282	NA	1269158	1269613	456	Mut/NUDIX family protein	1035	17	37.281	5.7	94.7	741.827	12.185
+SUB1283	NA	1269665	1269976	312	conserved hypothetical protein	13787	11	35.256	4.2	95.5	14442.502	11.523
+SUB1284	ileS	1270079	1272874	2796	isoleucyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB1285	NA	1273127	1273891	765	putative cell-division protein DivIVA	0	0	0	NA	NA	0	0
+SUB1286	NA	1273901	1274692	792	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1287	NA	1274689	1274946	258	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1288	NA	1274950	1275585	636	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1289	NA	1275598	1276269	672	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1290	ftsZ	1276285	1277610	1326	cell division protein FtsZ	0	0	0	NA	NA	0	0
+SUB1291	ftsA	1277650	1279014	1365	putative cell division protein	0	0	0	NA	NA	0	0
+SUB1292	NA	1279200	1280381	1182	putative cell division protein	8	1	0.846	80.9	80.9	2.212	0.277
+SUB1293	murG	1280382	1281458	1077	putative UDP-N-acetylglucosamine-N-acetylmuramyl-(pentapeptide)pyr ophosphoryl-undecaprenol N-acetylglucosamine transferase	0	0	0	NA	NA	0	0
+SUB1294	murD	1281455	1282816	1362	UDP-N-acetylmuramoylalanine--D-glutamate ligase	0	0	0	NA	NA	0	0
+SUB1295	NA	1282954	1283193	240	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1296	NA	1283299	1285140	1842	BipA family GTPase	0	0	0	NA	NA	0	0
+SUB1297	NA	1285311	1285691	381	putative membrane protein	116	3	7.874	75.1	99.5	99.509	2.573
+SUB1298	glkA	1285700	1286671	972	glucokinase	0	0	0	NA	NA	0	0
+SUB1299	NA	1286661	1286879	219	conserved hypothetical protein	25	1	4.566	87.2	87.2	37.310	1.492
+SUB1300	NA	1286981	1287631	651	type IV leader peptidase family protein	91	6	9.217	22.9	58.2	45.686	3.012
+SUB1301	NA	1287656	1289401	1746	ABC transporter, ATP-binding/permease protein	3136	25	14.318	9.1	98.0	587.028	4.680
+SUB1302	NA	1289388	1291136	1749	ABC transporter, ATP-binding/permease protein	3489	15	8.576	9.5	93.0	651.986	2.803
+SUB1303	NA	1291217	1291672	456	VanZ like family protein	89	5	10.965	77.4	91.4	63.790	3.584
+SUB1304	NA	1291726	1292811	1086	radical SAM superfamily protein	573	10	9.208	25.3	99.4	172.446	3.010
+SUB1305	NA	1292808	1293425	618	conserved hypothetical protein	84	2	3.236	8.6	15.4	44.424	1.058
+SUB1306	NA	1293394	1294776	1383	putative phosphoesterase	286	16	11.569	2.1	55.7	67.588	3.781
+SUB1307	rbsB	1294939	1295907	969	D-ribose-binding protein precursor	117	5	5.160	3.3	45.0	39.463	1.686
+SUB1308	rbsC	1295946	1296893	948	ribose transport system permease protein RbsC	481	7	7.384	19.5	98.1	165.830	2.413
+SUB1309	rbsA	1296895	1298373	1479	ribose transport ATP-binding protein RbsA	248	9	6.085	12.4	77.8	54.804	1.989
+SUB1310	rbsD	1298388	1298786	399	high affinity ribose transport protein RbsD	36	2	5.013	64.4	85.0	29.489	1.638
+SUB1311	rbsK	1298761	1299672	912	ribokinase	106	8	8.772	3.5	70.1	37.987	2.867
+SUB1312	NA	1299669	1300673	1005	putative ribose transport operon repressor	3480	12	11.940	0.6	87.2	1131.724	3.902
+SUB1313	NA	1300874	1301917	1044	putative exported protein	284	12	11.494	42.4	88.7	88.909	3.757
+SUB1314	coaD	1301895	1302395	501	phosphopantetheine adenylyltransferase	8	1	1.996	97.8	97.8	5.219	0.652
+SUB1315	NA	1302385	1302924	540	putative methylase	0	0	0	NA	NA	0	0
+SUB1316	NA	1303013	1303888	876	carbon-nitrogen hydrolase family protein	178	10	11.416	4.1	80.7	66.411	3.731
+SUB1317	NA	1303885	1304985	1101	Porphyromonas-type peptidyl-arginine deiminase	54	4	3.633	50.5	97.2	16.030	1.187
+SUB1318	NA	1305001	1306128	1128	putative carboxynorspermidine decarboxylase	130	7	6.206	28.2	61.3	37.667	2.028
+SUB1319	NA	1306128	1307387	1260	saccharopine dehydrogenase family protein	323	16	12.698	6.8	82.1	83.784	4.150
+SUB1320	speE	1307387	1308244	858	putative spermidine synthase	155	8	9.324	5.0	67.8	59.043	3.047
+SUB1321	speA	1308248	1309702	1455	putative arginine decarboxylase	205	14	9.622	1.4	79.5	46.049	3.145
+SUB1323	asnA	1310192	1311184	993	aspartate--ammonia ligase	846	11	11.078	4.0	98.8	278.451	3.621
+SUB1324	arcC	1311369	1312319	951	carbamate kinase	97	6	6.309	12.1	91.7	33.336	2.062
+SUB1325	NA	1312336	1313667	1332	petidase family M20/M25/M40 protein	247	8	6.006	10.5	83.7	60.607	1.963
+SUB1326	NA	1313700	1315196	1497	C4-dicarboxylate anaerobic carrier protein	64	4	2.672	46.1	62.0	13.973	0.873
+SUB1327	arcB	1315387	1316400	1014	ornithine carbamoyltransferase	5196	6	5.917	2.3	67.3	1674.783	1.934
+SUB1328	arcA	1316839	1318071	1233	arginine deiminase	661	11	8.921	0.2	73.2	175.213	2.916
+SUB1329	NA	1318336	1319016	681	Crp family regulatory protein	151775	15	22.026	3.2	98.2	72841.753	7.199
+SUB1330	argR	1319162	1319635	474	arginine repressor	12	1	2.110	6.3	6.3	8.274	0.690
+SUB1331	NA	1319658	1320368	711	conserved hypothetical protein	234	14	19.691	8.7	88.6	107.566	6.436
+SUB1332	NA	1320397	1321476	1080	conserved hypothetical protein	257	14	12.963	8.5	80.9	77.774	4.237
+SUB1333	NA	1321497	1322417	921	CorA-like Mg2+ transporter protein	672	11	11.944	30.5	64.1	238.472	3.904
+SUB1334	NA	1322634	1323593	960	putative oxidoreductase	164	13	13.542	13.3	99.9	55.834	4.426
+SUB1335	nudG	1323830	1324222	393	putative CTP pyrophosphohydrolase	270	4	10.178	81.4	97.5	224.542	3.327
+SUB1336	NA	1324245	1327112	2868	Putative helicase	1393	37	12.901	10.3	98.7	158.745	4.216
+SUB1337	NA	1327251	1327778	528	putative membrane protein	1767	14	26.515	1.5	85.8	1093.780	8.666
+SUB1339	NA	1328019	1328375	357	putative membrane protein	242	11	30.812	3.1	75.9	221.551	10.071
+SUB1340	NA	1328696	1328887	192	conserved hypothetical protein (fragment)	120	6	31.250	3.6	99.5	204.271	10.214
+SUB1342	valS	1329542	1332193	2652	valyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB1343	NA	1332240	1333139	900	conserved hypothetical protein	356	10	11.111	19.0	93.2	129.281	3.631
+SUB1344	NA	1333148	1333780	633	conserved hypothetical protein	14	2	3.160	6.5	23.2	7.229	1.033
+SUB1345	NA	1333792	1334322	531	putative acetyltransferase	944	2	3.766	23.5	31.5	581.038	1.231
+SUB1346	NA	1334790	1335125	336	conserved hypothetical protein (fragment)	150	3	8.929	21.4	48.2	145.908	2.918
+SUB1347	NA	1335158	1335412	255	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1349	NA	1335667	1336092	426	MarR family regulatory protein	31	4	9.390	11.5	96.0	23.784	3.069
+SUB1350	NA	1336108	1337478	1371	MATE family efflux protein	240	13	9.482	1.6	76.0	57.214	3.099
+SUB1351	NA	1337568	1338383	816	conserved hypothetical protein	448	8	9.804	27.8	79.0	179.438	3.204
+SUB1352	NA	1338396	1339607	1212	major facilitator superfamily protein	469	11	9.076	12.8	93.9	126.473	2.966
+SUB1353	NA	1340066	1341586	1521	putative amidase	412	14	9.204	21.0	99.6	88.531	3.008
+SUB1354	NA	1341827	1342570	744	conserved hypothetical protein	758	19	25.538	0.8	99.3	332.984	8.347
+SUB1355	NA	1342572	1343060	489	conserved hypothetical protein	141	6	12.270	6.7	94.5	94.240	4.010
+SUB1356	NA	1343221	1344114	894	ABC transporter, ATP-binding protein	60	6	6.711	42.8	96.2	21.935	2.194
+SUB1357	NA	1344111	1345328	1218	putative membrane protein	570	18	14.778	2.8	89.8	152.952	4.830
+SUB1358	NA	1345352	1345957	606	DedA family protein	933	7	11.551	7.9	62.7	503.195	3.775
+SUB1359	NA	1346115	1347023	909	putative transporter protein	242	11	12.101	2.8	85.3	87.012	3.955
+SUB1360	NA	1347133	1350039	2907	NADH:flavin oxidoreductase / NADH oxidase family protein	1365	33	11.352	0.7	98.3	153.467	3.710
+SUB1361	aroD	1350054	1350809	756	3-dehydroquinate dehydratase	31	4	5.291	25.0	50.1	13.402	1.729
+SUB1362	aroE	1351042	1351929	888	shikimate 5-dehydrogenase	2398	10	11.261	26.7	74.4	882.599	3.681
+SUB1363	NA	1351946	1353178	1233	major facilitator superfamily protein	38225	25	20.276	3.2	82.7	10132.385	6.627
+SUB1364	NA	1353258	1354541	1284	major facilitator superfamily protein	10064	23	17.913	2.3	95.5	2561.727	5.855
+SUB1365	NA	1354587	1355444	858	short chain dehydrogenase	944	13	15.152	3.5	72.8	359.594	4.952
+SUB1366	NA	1355517	1356356	840	conserved hypothetical protein	176	10	11.905	2.5	41.3	68.480	3.891
+SUB1367	NA	1356517	1357422	906	LysR family regulatory protein	12815	22	24.283	4.4	87.9	4622.934	7.936
+SUB1368	NA	1357492	1358067	576	putative esterase	74	5	8.681	29.7	62.8	41.989	2.837
+SUB1369	NA	1358045	1358653	609	acetyltransferase (GNAT) family protein	2574	12	19.704	1.8	74.2	1381.397	6.440
+SUB1370	NA	1358789	1362013	3225	putative zinc carboxypeptidase	7710	64	19.845	0.3	98.0	781.361	6.486
+SUB1371	NA	1362487	1363842	1356	putative RNA methyltransferase	2372	29	21.386	6.3	99.8	571.719	6.990
+SUB1372	NA	1363920	1364696	777	RecX family protein	1400	18	23.166	1.5	98.3	588.890	7.571
+SUB1373	NA	1364777	1365310	534	conserved hypothetical protein	31	3	5.618	41.2	84.1	18.974	1.836
+SUB1374	NA	1365369	1365683	315	conserved hypothetical protein	263	4	12.698	9.5	83.8	272.880	4.150
+SUB1375	NA	1371924	1372472	549	sigma 54 modulation protein / S30EA ribosomal protein	32	3	5.464	23.0	78.9	19.050	1.786
+SUB1376	comFC	1372548	1373222	675	putative late competence protein	702	10	14.815	7.6	97.5	339.907	4.842
+SUB1377	comFA	1373212	1374513	1302	putative late competence protein	1313	16	12.289	15.6	99.8	329.595	4.016
+SUB1378	NA	1374570	1375199	630	conserved hypothetical protein	643	8	12.698	1.7	98.7	333.578	4.150
+SUB1379	cysM	1375308	1376240	933	putative cysteine synthase	786	14	15.005	13.9	99.0	275.339	4.904
+SUB1380	NA	1376255	1376611	357	putative S1 RNA binding domain protein	135638	4	11.204	8.1	95.0	124176.787	3.662
+SUB1381	NA	1376611	1378023	1413	cyclophilin type peptidyl-prolyl cis-trans isomerase protein	481	23	16.277	2.5	91.7	111.258	5.320
+SUB1382	NA	1378045	1378686	642	response regulator protein	57	1	1.558	3.4	3.4	29.018	0.509
+SUB1383	NA	1378679	1379683	1005	sensor histidine kinase	2098	10	9.950	4.1	96.8	682.286	3.252
+SUB1384	NA	1379680	1380375	696	putative membrane protein	1273	19	27.299	11.1	86.9	597.787	8.922
+SUB1385	stk1	1380493	1382379	1887	serine/threonine-protein kinase	14	1	0.530	71.1	71.1	2.425	0.173
+SUB1386	NA	1382376	1383116	741	putative protein phosphatase	0	0	0	NA	NA	0	0
+SUB1387	NA	1383154	1384476	1323	putative ribosomal RNA small subunit methyltransferase	6133	21	15.873	10.9	93.0	1515.097	5.188
+SUB1388	fmt	1384466	1385401	936	methionyl-tRNA formyltransferase	0	0	0	NA	NA	0	0
+SUB1389	priA	1385470	1387857	2388	putative primosomal protein N'	0	0	0	NA	NA	0	0
+SUB1390	rpoZ	1387927	1388244	318	DNA-directed RNA polymerase omega chain	0	0	0	NA	NA	0	0
+SUB1391	gmk	1388267	1388893	627	guanylate kinase	0	0	0	NA	NA	0	0
+SUB1392	NA	1389009	1390616	1608	putative phosphohydrolase	0	0	0	NA	NA	0	0
+SUB1393	NA	1390739	1391635	897	LysR family regulatory protein	869	8	8.919	13.7	88.7	316.632	2.915
+SUB1394	atoB2	1391827	1393014	1188	acetyl-CoA acetyltransferase 2	615	28	23.569	0.6	94.6	169.194	7.703
+SUB1395	atoD2	1393036	1393692	657	acetate CoA-transferase alpha subunit 2	110	6	9.132	1.5	88.7	54.721	2.985
+SUB1396	atoA2	1393689	1394363	675	acetate CoA-transferase beta subunit 2	382	4	5.926	9.6	56.1	184.964	1.937
+SUB1397	NA	1394379	1395158	780	putative D-beta-hydroxybutyrate dehydrogenase	714	18	23.077	1.4	97.9	299.179	7.542
+SUB1398	NA	1395225	1396562	1338	putative permease	580	18	13.453	24.4	82.4	141.677	4.397
+SUB1399	luxS	1396669	1397151	483	S-ribosylhomocysteinase	47	2	4.141	49.9	66.7	31.804	1.353
+SUB1400	NA	1397194	1397532	339	hypothetical protein	32	2	5.900	7.1	14.5	30.852	1.928
+SUB1401	NA	1397561	1397794	234	hypothetical protein	0	0	0	NA	NA	0	0
+SUB1402	NA	1397970	1399484	1515	putative membrane protein	54	6	3.960	3.8	92.7	11.650	1.294
+SUB1403	NA	1399489	1400649	1161	putative RNA methylase family protein	391	14	12.059	13.2	74.4	110.071	3.941
+SUB1404	NA	1401094	1401417	324	DivIVA protein	0	0	0	NA	NA	0	0
+SUB1405	NA	1401524	1402051	528	conserved hypothetical protein	44	3	5.682	20.8	49.8	27.236	1.857
+SUB1406	recU	1402132	1402740	609	putative recombination protein U homologue	0	0	0	NA	NA	0	0
+SUB1407	pbp1A	1402727	1404946	2220	putative penicillin-binding protein 1A	5632	7	3.153	88.1	97.7	829.157	1.031
+SUB1408	pepC	1404974	1406305	1332	aminopeptidase C	1569	22	16.517	1.8	99.4	384.987	5.398
+SUB1409	nadE	1406397	1407221	825	NH(3)-dependent NAD(+) synthetase	0	0	0	NA	NA	0	0
+SUB1410	NA	1407205	1408683	1479	nicotinate phosphoribosyltransferase (NAPRTase) family protein	0	0	0	NA	NA	0	0
+SUB1411	NA	1408794	1410188	1395	amino acid permease	3899	33	23.656	8.1	99.9	913.495	7.732
+SUB1412	NA	1410307	1411221	915	putative thioredoxin reductase	0	0	0	NA	NA	0	0
+SUB1413	NA	1411283	1411507	225	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1414	NA	1411607	1412350	744	ABC transporter ATP-binding protein	0	0	0	NA	NA	0	0
+SUB1415	NA	1412350	1413174	825	ABC transporter permease protein	0	0	0	NA	NA	0	0
+SUB1416	NA	1413275	1414093	819	extracellular solute-binding protein	246	1	1.221	53.5	53.5	98.170	0.399
+SUB1417	NA	1414228	1415571	1344	putative helicase	0	0	0	NA	NA	0	0
+SUB1418	mraY	1415652	1416659	1008	phospho-N-acetylmuramoyl-pentapeptide-transfera se	0	0	0	NA	NA	0	0
+SUB1419	pbpX	1416661	1418913	2253	putative penicillin binding protein 2x	0	0	0	NA	NA	0	0
+SUB1420	ftsL	1418917	1419240	324	putative cell division protein	0	0	0	NA	NA	0	0
+SUB1421	mraW	1419245	1420195	951	S-adenosyl-methyltransferase MraW	0	0	0	NA	NA	0	0
+SUB1422	proA	1420278	1421528	1251	gamma-glutamyl phosphate reductase	122	5	3.997	2.7	81.9	31.874	1.306
+SUB1423	proB	1421531	1422343	813	glutamate 5-kinase	245	8	9.840	10.7	99.3	98.492	3.216
+SUB1424	NA	1422405	1424039	1635	putative membrane protein	2464	28	17.125	3.1	94.6	492.550	5.597
+SUB1425	NA	1424036	1424776	741	ABC transporter ATP-binding protein	102	4	5.398	53.0	94.9	44.989	1.764
+SUB1426	NA	1424791	1425042	252	conserved hypothetical protein	1078	2	7.937	59.5	76.2	1398.123	2.594
+SUB1427	tkt1	1425203	1427188	1986	putative transketolase 1	3553	20	10.070	2.5	99.2	584.714	3.291
+SUB1428	tal1	1427368	1428012	645	probable transaldolase 1	12266	6	9.302	39.4	88.2	6215.420	3.040
+SUB1429	NA	1428148	1429602	1455	putative DNA-binding protein	3239	32	21.993	7.7	90.3	727.571	7.188
+SUB1430	NA	1429599	1430936	1338	pyridine nucleotide-disulphide oxidoreductase	916	14	10.463	7.8	78.0	223.752	3.420
+SUB1431	glpF1	1431014	1431715	702	glycerol uptake facilitator protein 1	128	10	14.245	1.4	67.0	59.594	4.656
+SUB1432	glpO	1431728	1433557	1830	alpha-glycerophosphate oxidase	307	13	7.104	2.5	96.7	54.830	2.322
+SUB1433	glpK	1433581	1435083	1503	glycerol kinase	356	16	10.645	18.8	99.1	77.414	3.479
+SUB1434	NA	1435225	1435506	282	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1435	glyS	1435544	1437583	2040	glycyl-tRNA synthetase beta chain	0	0	0	NA	NA	0	0
+SUB1436	glyQ	1437583	1438500	918	glycyl-tRNA synthetase alpha chain	0	0	0	NA	NA	0	0
+SUB1438	NA	1439003	1439542	540	isoprenylcysteine carboxyl methyltransferase (ICMT) family protein	342	9	16.667	9.3	93.7	206.995	5.447
+SUB1438A	NA	1439888	1440001	114	transposase (pseudogene)	25	2	17.544	54.4	91.2	71.674	5.734
+SUB1440	NA	1440176	1440547	372	sugar phosphotransferase system (PTS), IIC component (fragment)	2067	4	10.753	11.3	95.4	1816.037	3.514
+SUB1443	NA	1441452	1442600	1149	putative N-acetylglucosamine-6-phosphate deacetylase	1227	11	9.574	3.7	99.6	349.021	3.129
+SUB1444	NA	1442781	1443506	726	putative lipoprotein	532	11	15.152	6.1	86.9	239.498	4.952
+SUB1445	NA	1443541	1444383	843	conserved hypothetical protein	238	4	4.745	30.1	92.6	92.273	1.551
+SUB1446	NA	1444522	1445079	558	TetR family regulatory protein	24473	7	12.545	22.2	97.3	14334.425	4.100
+SUB1447	NA	1445105	1445926	822	haloacid dehalogenase-like hydrolase	1093	14	17.032	0.5	86.0	434.586	5.567
+SUB1448	lacG1	1446027	1447430	1404	6-phospho-beta-galactosidase 1	7158	25	17.806	9.0	98.6	1666.295	5.820
+SUB1450	lacE1	1447439	1448284	846	putative lactose-specific phosphotransferase system (PTS), IIBC component 1 (pseudogene)	1694	20	23.641	0.8	95.2	654.441	7.727
+SUB1451	lacF1	1449144	1449458	315	putative lactose-specific phosphotransferase system (PTS), IIA component 1	62	7	22.222	2.9	87.3	64.329	7.263
+SUB1452	lacT1	1449469	1450302	834	transcription antiterminator LacT 1	312	11	13.189	4.9	98.7	122.269	4.311
+SUB1453	lacX1	1450471	1451367	897	aldose 1-epimerase 1	1110	19	21.182	2.2	99.0	404.443	6.923
+SUB1454	lacD1	1451377	1452360	984	tagatose 1,6-diphosphate aldolase 1	341	9	9.146	6.7	99.5	113.263	2.989
+SUB1455	lacC1	1452366	1453301	936	tagatose-6-phosphate kinase 1	815	17	18.162	4.5	80.2	284.583	5.936
+SUB1456	lacB1	1453310	1453825	516	galactose-6-phosphate isomerase LacB subunit 1	190	6	11.628	3.7	96.3	120.346	3.800
+SUB1457	lacA1	1453843	1454268	426	galactose-6-phosphate isomerase LacA subunit 1	113	6	14.085	23.9	84.3	86.695	4.603
+SUB1458	NA	1454381	1455829	1449	sugar phosphotransferase system (PTS), galactitol-specific family, IIC component	862	17	11.732	1.9	91.6	194.431	3.834
+SUB1459	NA	1455845	1456150	306	sugar phosphotransferase system (PTS), IIB component	28	3	9.804	25.5	100.0	29.906	3.204
+SUB1460	NA	1456143	1456616	474	sugar phosphotransferase system (PTS), IIA component	101	8	16.878	17.7	98.9	69.642	5.516
+SUB1461	lacR1	1456832	1457599	768	lactose phosphotransferase system repressor 1	546	8	10.417	36.1	97.5	232.359	3.405
+SUB1462	copZ	1457627	1457827	201	putative copper chaperone	129	4	19.900	5.5	86.1	209.759	6.504
+SUB1463	copA	1457840	1460071	2232	copper-transporting ATPase	3090	25	11.201	3.4	91.5	452.472	3.661
+SUB1464	copY	1460064	1460501	438	putative negative regulator of copper transport operon	12	2	4.566	24.2	84.9	8.954	1.492
+SUB1465	rbfA	1460607	1460957	351	ribosome-binding factor A	0	0	0	NA	NA	0	0
+SUB1466	infB	1461056	1463905	2850	translation initiation factor IF-2	0	0	0	NA	NA	0	0
+SUB1467	NA	1463925	1464227	303	ribosomal protein L7Ae/L30e/S12e/Gadd45 family protein	0	0	0	NA	NA	0	0
+SUB1468	NA	1464220	1464516	297	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1469	nusA	1464532	1465680	1149	putative N utilization substance protein A	0	0	0	NA	NA	0	0
+SUB1470	NA	1465736	1466212	477	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1471	NA	1466496	1467131	636	tRNA (guanine-N(7)-)-methyltransferase	34	4	6.289	75.5	90.6	17.472	2.056
+SUB1472	NA	1467131	1467922	792	phosphotransferase enzyme family protein	0	0	0	NA	NA	0	0
+SUB1473	NA	1467983	1469017	1035	ABC transporter protein EcsB	207	15	14.493	5.6	99.6	65.367	4.737
+SUB1474	NA	1469019	1469744	726	ABC transporter ATP-binding protein	171	10	13.774	9.4	53.0	76.982	4.502
+SUB1475	NA	1470020	1470439	420	HIT-family protein	0	0	0	NA	NA	0	0
+SUB1476	NA	1470436	1470741	306	conserved hypothetical protein	18	2	6.536	68.3	82.0	19.226	2.136
+SUB1477	NA	1470769	1472085	1317	LytR family regulatory protein	0	0	0	NA	NA	0	0
+SUB1478	NA	1472094	1472615	522	acetyltransferase (GNAT) family protein	59	3	5.747	9.0	36.6	36.941	1.878
+SUB1479	NA	1472608	1473051	444	putative P-loop hydrolase	0	0	0	NA	NA	0	0
+SUB1480	NA	1473144	1474604	1461	putative permease	83	7	4.791	20.2	75.1	18.568	1.566
+SUB1481	NA	1474849	1475661	813	putative haloacid dehalogenase-like hydrolase	581	7	8.610	18.3	98.9	233.568	2.814
+SUB1482	manL	1476034	1477023	990	putative mannose-specific phosphotransferase system (PTS), IIAB component	3640	13	13.131	1.0	84.7	1201.693	4.292
+SUB1483	manM	1477137	1477321	185	putative mannose-specific phosphotransferase system (PTS), IIC component (pseudogene)	20	1	5.405	38.4	38.4	35.333	1.767
+SUB1485	manN	1477965	1478876	912	putative mannose-specific phosphotransferase system (PTS), IID component	1981	14	15.351	7.2	93.5	709.932	5.017
+SUB1486	NA	1478988	1479350	363	conserved hypothetical protein	960	2	5.510	74.7	86.2	864.354	1.801
+SUB1487	NA	1479378	1480376	999	putative membrane protein	7252	27	27.027	2.1	79.1	2372.573	8.833
+SUB1489	serS	1480748	1482025	1278	seryl-tRNA synthetase	2216	1	0.782	98.0	98.0	566.717	0.256
+SUB1490	accA	1482093	1482863	771	acetyl-coenzyme A carboxylase carboxyl transferase subunit alpha	0	0	0	NA	NA	0	0
+SUB1491	accD	1482860	1483726	867	acetyl-coenzyme A carboxylase carboxyl transferase subunit beta	0	0	0	NA	NA	0	0
+SUB1492	accC	1483735	1485099	1365	biotin carboxylase subunit of acetyl-CoA carboxylase	0	0	0	NA	NA	0	0
+SUB1493	fabZ	1485127	1485549	423	(3R)-hydroxymyristoyl-[acyl carrier protein] dehydratase	0	0	0	NA	NA	0	0
+SUB1494	fabE	1485546	1486013	468	biotin carboxyl carrier protein of acetyl-CoA carboxylase	0	0	0	NA	NA	0	0
+SUB1495	fabF	1486017	1487249	1233	3-oxoacyl-[acyl-carrier-protein] synthase II	0	0	0	NA	NA	0	0
+SUB1496	fabG	1487265	1487999	735	3-oxoacyl-[acyl-carrier protein] reductase	0	0	0	NA	NA	0	0
+SUB1497	fabD	1487999	1488931	933	putative malonyl CoA-acyl carrier protein transacylase	0	0	0	NA	NA	0	0
+SUB1498	fabK	1488955	1489926	972	enoyl-ACP reductase	0	0	0	NA	NA	0	0
+SUB1499	acpP	1490081	1490305	225	acyl carrier protein (ACP)	0	0	0	NA	NA	0	0
+SUB1500	fabH	1490368	1491342	975	3-oxoacyl-[acyl-carrier-protein] synthase III	0	0	0	NA	NA	0	0
+SUB1501	NA	1491342	1491776	435	MarR family regulatory protein	0	0	0	NA	NA	0	0
+SUB1502	NA	1491852	1492643	792	enoyl-CoA hydratase/isomerase family protein	0	0	0	NA	NA	0	0
+SUB1503	dnaJ	1492836	1493969	1134	chaperone protein DnaJ	0	0	0	NA	NA	0	0
+SUB1504	dnaK	1494409	1496235	1827	chaperone protein DnaK (heat shock protein 70)	0	0	0	NA	NA	0	0
+SUB1505	grpE	1496351	1496929	579	GrpE protein (HSP-70 cofactor)	0	0	0	NA	NA	0	0
+SUB1506	hrcA	1496974	1498008	1035	heat-inducible transcription repressor HrcA	0	0	0	NA	NA	0	0
+SUB1507	NA	1498138	1498725	588	putative N-acetyl-muramidase	498	7	11.905	4.9	93.7	276.808	3.891
+SUB1508	NA	1498722	1499468	747	putative D-alanyl-D-alanine carboxypeptidase	328	8	10.710	23.8	75.0	143.509	3.500
+SUB1509	NA	1499452	1500162	711	phosphoglycerate mutase family protein	235	9	12.658	8.4	99.0	108.025	4.137
+SUB1510	NA	1500301	1500462	162	CsbD-like protein	28	4	24.691	9.3	82.1	56.490	8.070
+SUB1511	NA	1500566	1501903	1338	conserved hypothetical protein	25	3	2.242	76.4	99.8	6.107	0.733
+SUB1512	NA	1501913	1502179	267	conserved hypothetical protein	14	1	3.745	52.4	52.4	17.137	1.224
+SUB1513	cspC	1502700	1502903	204	cold shock protein CspC	0	0	0	NA	NA	0	0
+SUB1514	NA	1503005	1503241	237	transglycosylase associated protein	29	3	12.658	14.8	92.0	39.992	4.137
+SUB1515	NA	1503299	1504225	927	putative membrane protein	713	16	17.260	3.1	90.2	251.384	5.641
+SUB1516	gatB	1504294	1505733	1440	glutamyl-tRNA amidotransferase subunit B	0	0	0	NA	NA	0	0
+SUB1517	gatA	1505733	1507199	1467	glutamyl-tRNA amidotransferase subunit A	0	0	0	NA	NA	0	0
+SUB1518	gatC	1507199	1507501	303	glutamyl-tRNA amidotransferase subunit C	0	0	0	NA	NA	0	0
+SUB1519	ppdK	1507658	1510303	2646	pyruvate, phosphate dikinase	5023	16	6.047	0.3	84.8	620.441	1.976
+SUB1520	NA	1510315	1511130	816	conserved hypothetical protein	447	4	4.902	4.0	99.4	179.038	1.602
+SUB1521	NA	1511143	1511772	630	putative DNA-binding protein	590	5	7.937	62.9	95.1	306.083	2.594
+SUB1522	NA	1511908	1512249	342	3-hydroxybutyryl-CoA dehydrogenase (fragment)	613	8	23.392	6.4	94.4	585.817	7.645
+SUB1523	NA	1512357	1512653	297	conserved hypothetical protein	79	3	10.101	11.1	48.1	86.936	3.301
+SUB1524	NA	1512646	1514301	1656	putative pyridine nucleotide-disulphide oxidoreductase	1884	20	12.077	0.1	93.4	371.833	3.947
+SUB1525	NA	1514312	1514650	339	conserved hypothetical protein	100	3	8.850	13.3	77.3	96.411	2.892
+SUB1526	NA	1514789	1515049	261	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1527	NA	1515116	1515664	549	isochorismatase family protein	824	8	14.572	5.3	94.4	490.549	4.763
+SUB1528	codY	1515808	1516590	783	GTP-sensing transcriptional pleiotropic repressor	0	0	0	NA	NA	0	0
+SUB1529	NA	1516786	1518000	1215	putative aminotransferase	0	0	0	NA	NA	0	0
+SUB1530	NA	1518195	1518647	453	putative universal stress protein	134	4	8.830	61.8	84.3	96.679	2.886
+SUB1531	NA	1518680	1520068	1389	haloacid dehalogenase-like hydrolase	166	7	5.040	19.7	68.4	39.060	1.647
+SUB1532	asnB	1520140	1521102	963	putative L-asparaginase	21	3	3.115	72.7	95.7	7.127	1.018
+SUB1533	NA	1521141	1522058	918	aldo/keto reductase family protein	278	15	16.340	2.3	96.5	98.976	5.340
+SUB1534	recG	1522164	1524179	2016	ATP-dependent DNA helicase	0	0	0	NA	NA	0	0
+SUB1535	alr	1524242	1525348	1107	alanine racemase	0	0	0	NA	NA	0	0
+SUB1536	acpS	1525345	1525701	357	holo-[acyl-carrier protein] synthase	0	0	0	NA	NA	0	0
+SUB1537	secA	1525815	1528343	2529	putative preprotein SecA subunit	0	0	0	NA	NA	0	0
+SUB1538	pmi	1528486	1529436	951	mannose-6-phosphate isomerase	202	5	5.258	19.7	95.2	69.422	1.718
+SUB1539	NA	1529461	1530879	1419	putative beta-glucosidase	576	12	8.457	1.1	98.7	132.668	2.764
+SUB1540	NA	1530942	1532234	1293	sugar phosphotransferase system (PTS), IIC component	340	9	6.961	5.8	87.4	85.942	2.275
+SUB1541	NA	1532325	1533101	777	RpiR family regulatory protein	182	7	9.009	8.5	90.2	76.556	2.944
+SUB1542	scrK1	1533208	1534089	882	fructokinase 1	564	5	5.669	4.3	48.0	208.996	1.853
+SUB1543	scrA	1534226	1536094	1869	putative sucrose-specific phosphotransferase system (PTS), IIABC component	605	18	9.631	2.0	98.4	105.797	3.148
+SUB1544	scrB	1536279	1537718	1440	putative sucrose-6-phosphate hydrolase	186	7	4.861	1.2	99.3	42.216	1.589
+SUB1545	scrR	1537724	1538689	966	putative sucrose operon repressor	2974	21	21.739	8.7	96.7	1006.216	7.105
+SUB1546	nusB	1538728	1539156	429	N utilization substance protein B homolog (NusB protein)	0	0	0	NA	NA	0	0
+SUB1547	NA	1539149	1539538	390	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1548	efp	1539581	1540138	558	elongation factor P (EF-P)	0	0	0	NA	NA	0	0
+SUB1549	NA	1540254	1540709	456	putative cytidine and deoxycytidylate deaminase	164	4	8.772	74.8	84.9	117.546	2.867
+SUB1550	NA	1540747	1541820	1074	putative metallopeptidase	60	3	2.793	3.1	16.9	18.259	0.913
+SUB1551	uvrA	1542058	1544880	2823	UvrABC system protein A (UvrA protein)	129337	8	2.834	7.6	93.5	14974.046	0.926
+SUB1552	NA	1545103	1546047	945	CorA-like Mg2+ transporter protein	0	0	0	NA	NA	0	0
+SUB1553	NA	1546332	1546997	666	putative membrane protein	114	9	13.514	0.2	100.0	55.945	4.417
+SUB1555	rpsR	1547332	1547571	240	30S ribosomal protein S18	0	0	0	NA	NA	0	0
+SUB1556	ssb	1547625	1548116	492	single strand binding protein (SSB)	0	0	0	NA	NA	0	0
+SUB1557	rpsF	1548137	1548427	291	30S ribosomal protein S6	0	0	0	NA	NA	0	0
+SUB1558	NA	1548680	1549807	1128	putative A/G-specific adenine glycosylase	160	6	5.319	32.0	96.7	46.359	1.738
+SUB1559	NA	1549819	1550133	315	putative thioredoxin	0	0	0	NA	NA	0	0
+SUB1560	mutS2	1550245	1552578	2334	putative DNA mismatch repair protein	742	7	2.999	1.2	67.5	103.904	0.980
+SUB1561	NA	1552647	1553192	546	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1562	NA	1553195	1553503	309	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1563	NA	1553623	1554528	906	ribonuclease HIII	0	0	0	NA	NA	0	0
+SUB1564	spi	1554543	1555136	594	putative signal peptidase I	27	2	3.367	86.9	93.9	14.856	1.100
+SUB1565	NA	1555192	1557615	2424	conserved hypothetical protein	513	7	2.888	47.6	99.6	69.169	0.944
+SUB1566	NA	1557696	1558163	468	putative membrane protein	6	1	2.137	12.8	12.8	4.190	0.698
+SUB1567	dinB	1558187	1559281	1095	DNA polymerase IV	856	7	6.393	0.1	15.9	255.498	2.089
+SUB1568	pfl	1559489	1561816	2328	formate acetyltransferase	3228	27	11.598	2.8	94.5	453.187	3.791
+SUB1569	NA	1561873	1562319	447	acetyltransferase (GNAT) family protein	841	5	11.186	4.3	64.7	614.916	3.656
+SUB1570	NA	1562361	1563305	945	putative beta-lactamase	66	6	6.349	5.3	90.3	22.827	2.075
+SUB1571	NA	1563290	1564042	753	conserved hypothetical protein	10	1	1.328	8.0	8.0	4.340	0.434
+SUB1572	NA	1564156	1565064	909	putative membrane protein	146	5	5.501	1.4	95.0	52.495	1.798
+SUB1573	gla	1565079	1565927	849	glycerol facilitator-aquaporin	0	0	0	NA	NA	0	0
+SUB1574	pepXP	1566050	1568326	2277	Xaa-Pro dipeptidyl-peptidase	431	13	5.709	22.5	99.8	61.864	1.866
+SUB1575	NA	1568359	1568703	345	conserved hypothetical protein	475	3	8.696	1.2	73.6	449.989	2.842
+SUB1576	NA	1568736	1568966	231	putative DNA-binding protein	39	2	8.658	62.8	81.0	55.180	2.830
+SUB1577	NA	1569142	1569492	351	putative DNA-binding protein	41	2	5.698	10.8	53.6	38.177	1.862
+SUB1578	NA	1569753	1569851	99	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1579	NA	1569895	1571331	1437	6-phospho-beta-glucosidase 7	1021	11	7.655	0.1	84.6	232.218	2.502
+SUB1580	NA	1571354	1571695	342	putative membrane protein	17	2	5.848	30.7	93.6	16.246	1.911
+SUB1581	NA	1571692	1572036	345	putative membrane protein	127	4	11.594	0.9	27.5	120.313	3.789
+SUB1582	NA	1572204	1573091	888	RpiR family regulatory protein	183	6	6.757	30.7	82.5	67.354	2.208
+SUB1583	NA	1573176	1574819	1644	conserved hypothetical protein	681	18	10.949	7.1	99.5	135.386	3.578
+SUB1584	NA	1574853	1576244	1392	putative carboxylase subunit	90	9	6.466	17.3	99.8	21.132	2.113
+SUB1585	citX	1576246	1576803	558	puatative apo-citrate lyase phosphoribosyl-dephospho-CoA transferase	86	5	8.961	30.3	77.2	50.372	2.929
+SUB1586	citF	1576796	1578328	1533	putative citrate lyase alpha subunit	284	8	5.219	1.1	93.0	60.549	1.706
+SUB1587	citE	1578331	1578537	207	putative citrate lyase beta subunit (pseudogene)	56	2	9.662	68.1	88.4	88.419	3.158
+SUB1589	citD	1579203	1579508	306	putative citrate lyase acyl carrier protein	41	5	16.340	12.7	95.4	43.791	5.340
+SUB1590	NA	1579562	1579693	132	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1591	gcdB	1579724	1580845	1122	putative Na+-transporting glutaconyl-CoA decarboxylase beta subunit	55373	7	6.239	31.6	98.0	16129.929	2.039
+SUB1592	NA	1580893	1581300	408	putative decarboxylase gamma chain	50	1	2.451	63.0	63.0	40.053	0.801
+SUB1593	NA	1581323	1581643	321	conserved hypothetical protein	330	9	28.037	6.9	96.3	335.998	9.164
+SUB1594	NA	1581989	1582177	189	putative Mg2+/citrate transporter (fragment)	396	4	21.164	14.3	88.9	684.795	6.917
+SUB1596	NA	1582405	1582683	279	putative membrane protein	671	8	28.674	20.1	99.6	786.042	9.372
+SUB1597	NA	1582862	1582966	105	hypothetical protein	0	0	0	NA	NA	0	0
+SUB1598	NA	1583048	1583215	168	hypothetical protein	18	1	5.952	4.8	4.8	35.018	1.945
+SUB1599	NA	1583468	1583950	483	sensor histidine kinase (fragment)	408	7	14.493	16.1	85.9	276.083	4.737
+SUB1600	NA	1584064	1584285	222	putative transposase (fragment)	724	1	4.505	69.8	69.8	1065.891	1.472
+SUB1601	kgdA	1584419	1585066	648	putative KHG/KDPG aldolase [includes: 4-hydroxy-2-oxoglutarate aldolase 2-dehydro-3-deoxy-phosphogluconate aldolase]	316	13	20.062	4.0	93.4	159.382	6.557
+SUB1602	NA	1585053	1586027	975	putative sugar kinase	1559	19	19.487	1.1	86.2	522.599	6.369
+SUB1603	NA	1586024	1586779	756	conserved hypothetical protein	1730	19	25.132	0.3	95.6	747.914	8.214
+SUB1604	idnO	1586844	1587650	807	putative gluconate 5-dehydrogenase	604	11	13.631	15.9	86.1	244.619	4.455
+SUB1605	kdgT	1587664	1588707	1044	2-keto-3-deoxygluconate permease	230	10	9.579	2.8	67.1	72.004	3.131
+SUB1606	kduI	1588758	1589603	846	4-deoxy-l-threo-5-hexosulose-uronate ketol-isomerase	3140	22	26.005	1.5	87.6	1213.072	8.499
+SUB1607	NA	1589798	1590805	1008	LacI family regulatory protein	336	17	16.865	2.3	92.8	108.945	5.512
+SUB1607A	NA	1590970	1591080	111	hypothetical protein	40	4	36.036	13.5	95.5	117.778	11.778
+SUB1608	NA	1591279	1591596	318	putative plasmid replication protein (pseudogene)	671	8	25.157	1.6	93.7	689.640	8.222
+SUB1609	NA	1591849	1592031	183	putative DNA-binding protein (pseudogene)	152	5	27.322	24.6	62.8	271.469	8.930
+SUB1610	NA	1592097	1593248	1152	putative integrase	95	7	6.076	16.6	88.7	26.952	1.986
+SUB1611	NA	1593326	1593625	300	conserved hypothetical protein	33	3	10.000	4.7	22.7	35.952	3.268
+SUB1612	NA	1593668	1594258	591	putative exonuclease	567	7	11.844	24.4	77.7	313.562	3.871
+SUB1613	NA	1594307	1594834	528	putative DNA-binding protein	0	0	0	NA	NA	0	0
+SUB1614	NA	1595189	1596361	1173	putative membrane protein	526	11	9.378	1.7	87.3	146.560	3.065
+SUB1615	rpsN	1596531	1596800	270	30S ribosomal protein S14	0	0	0	NA	NA	0	0
+SUB1616	NA	1596914	1597927	1014	putative glycoprotease	0	0	0	NA	NA	0	0
+SUB1617	NA	1597917	1598342	426	acetyltransferase (GNAT) family protein	67	6	14.085	19.2	90.1	51.403	4.603
+SUB1618	NA	1598350	1599042	693	glycoprotease family protein	0	0	0	NA	NA	0	0
+SUB1619	NA	1599323	1599553	231	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1620	NA	1599555	1601237	1683	metallo-beta-lactamase superfamily protein	0	0	0	NA	NA	0	0
+SUB1621	dppF	1601335	1602270	936	di-tripeptide transporter ATP-binding protein	50676	6	6.410	4.1	70.5	17695.129	2.095
+SUB1622	dppD	1602270	1603316	1047	di-tripeptide transporter ATP-binding protein	780	14	13.372	22.6	99.5	243.487	4.370
+SUB1623	dppC	1603328	1604359	1032	di-tripeptide transporter permease protein	358	9	8.721	18.0	84.0	113.378	2.850
+SUB1624	dppB	1604369	1605283	915	di-tripeptide transport system permease protein	746	17	18.579	8.3	81.5	266.468	6.072
+SUB1625	dppA	1605358	1607016	1659	putative peptide binding protein	1113	12	7.233	2.0	51.2	219.268	2.364
+SUB1626	glnA	1607239	1608585	1347	putative glutamine synthetase	86	7	5.197	10.6	84.6	20.867	1.698
+SUB1627	glnR	1608628	1608999	372	MerR family regulatory protein	3	1	2.688	25.5	25.5	2.636	0.879
+SUB1628	NA	1609087	1609596	510	putative membrane protein	656	6	11.765	38.6	97.3	420.398	3.845
+SUB1629	pgk	1610189	1611385	1197	phosphoglycerate kinase	0	0	0	NA	NA	0	0
+SUB1630	plr	1611535	1612545	1011	glyceraldehyde-3-phosphate dehydrogenase	0	0	0	NA	NA	0	0
+SUB1631	fus	1612856	1614934	2079	elongation factor G (EF-G)	0	0	0	NA	NA	0	0
+SUB1632	rpsG	1615088	1615558	471	30S ribosomal protein S7	0	0	0	NA	NA	0	0
+SUB1633	rpsL	1615579	1615992	414	30S ribosomal protein S12	0	0	0	NA	NA	0	0
+SUB1635	NA	1616180	1618816	2637	putative membrane anchored protein	18	1	0.379	74.4	74.4	2.231	0.124
+SUB1636	purR	1618842	1619660	819	putative pur operon repressor	7	1	1.221	84.9	84.9	2.793	0.399
+SUB1637	NA	1619795	1620733	939	putative 3'-5' exoribonuclease	253	4	4.260	28.3	54.5	88.061	1.392
+SUB1638	NA	1620723	1621994	1272	RmuC family protein	6	1	0.786	5.3	5.3	1.542	0.257
+SUB1639	thiN	1621996	1622628	633	putative thiamin pyrophosphokinase	0	0	0	NA	NA	0	0
+SUB1640	rpe	1622621	1623283	663	putative ribulose-phosphate 3-epimerase	0	0	0	NA	NA	0	0
+SUB1641	engC	1623292	1624164	873	probable GTPase EngC	0	0	0	NA	NA	0	0
+SUB1642	NA	1624411	1625913	1503	major facilitator superfamily protein	2375	10	6.653	15.0	98.7	516.454	2.175
+SUB1643	NA	1625915	1626631	717	putative membrane protein	292	2	2.789	42.0	47.8	133.104	0.912
+SUB1644	ksgA	1626663	1627535	873	dimethyladenosine transferase	16	2	2.291	79.4	84.2	5.990	0.749
+SUB1645	NA	1627732	1628256	525	putative exported protein	356	2	3.810	30.3	89.7	221.625	1.245
+SUB1646	NA	1628241	1628423	183	putative membrane protein	429	4	21.858	1.6	33.9	766.185	7.144
+SUB1647	NA	1628479	1629066	588	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1648	NA	1629035	1629829	795	TatD related DNase	34	3	3.774	27.9	80.3	13.978	1.233
+SUB1649	NA	1629902	1630057	156	hypothetical protein	67	3	19.231	35.9	96.8	140.371	6.285
+SUB1650	NA	1630186	1630998	813	putative transcription regulator	991	10	12.300	8.7	91.4	398.392	4.020
+SUB1651	NA	1631017	1631997	981	acetyl xylan esterase (AXE1) family protein	402	11	11.213	30.5	99.2	133.932	3.665
+SUB1652	NA	1631994	1632893	900	ROK family protein	471	14	15.556	14.0	91.0	171.043	5.084
+SUB1653	nanH	1632911	1633828	918	putative N-acetylneuraminate lyase	835	17	18.519	5.9	98.5	297.284	6.052
+SUB1654	NA	1633831	1634316	486	conserved hypothetical protein	18	1	2.058	42.0	42.0	12.105	0.672
+SUB1655	NA	1634338	1635693	1356	extracellular solute-binding lipoprotein	344	11	8.112	39.5	98.5	82.914	2.651
+SUB1656	NA	1635740	1636576	837	putative transport system permease	331	13	15.532	0.2	89.8	129.250	5.076
+SUB1657	NA	1636585	1637478	894	putative transport system permease	2604	8	8.949	15.7	99.2	951.986	2.925
+SUB1658	NA	1637494	1638198	705	putative N-acetylmannosamine-6-phosphate 2-epimerase	114	6	8.511	53.9	99.0	52.850	2.782
+SUB1659A	rpmH	1638404	1638538	135	50S ribosomal protein L34	0	0	0	NA	NA	0	0
+SUB1660	NA	1639424	1640062	639	putative exported protein	3609	14	21.909	4.1	87.0	1845.922	7.161
+SUB1661	NA	1640463	1640867	405	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1662	NA	1640878	1641327	450	putative DNA-binding protein	69	4	8.889	19.8	59.8	50.115	2.905
+SUB1663	NA	1641433	1642278	846	ABC-2 type transporter membrane protein	1487	11	13.002	13.0	97.4	574.471	4.250
+SUB1664	sagG	1642275	1643129	855	ABC transporter ATP-binding protein	22	3	3.509	50.1	75.7	8.410	1.147
+SUB1665	NA	1643722	1644669	948	putative ssDNA-binding protein	147	5	5.274	51.3	95.5	50.680	1.724
+SUB1666	NA	1644682	1645494	813	membrane protein OxaA 1 precursor	84	5	6.150	35.1	81.4	33.769	2.010
+SUB1667	rnpA	1645478	1645837	360	ribonuclease P protein component	0	0	0	NA	NA	0	0
+SUB1668	argH	1645925	1647307	1383	argininosuccinate lyase	1155	19	13.738	6.5	88.6	272.952	4.490
+SUB1669	argG	1647304	1648503	1200	argininosuccinate synthase	2873	25	20.833	6.8	96.5	782.495	6.809
+SUB1670	fasA	1648972	1649709	738	response regulator protein	1610	13	17.615	7.6	93.5	713.012	5.757
+SUB1671	NA	1649711	1651021	1311	putative sensor kinase	1318	28	21.358	20.3	99.2	328.579	6.980
+SUB1672	NA	1651018	1651899	882	putative sensor kinase (pseudogene)	2950	15	17.007	3.6	73.4	1093.152	5.558
+SUB1674	NA	1652443	1653759	1317	sensor histidine kinase	838	9	6.834	26.0	75.0	207.963	2.233
+SUB1675	NA	1653743	1655065	1323	putative sensor kinase	1069	19	14.361	2.5	98.7	264.086	4.694
+SUB1676	NA	1655179	1656513	1335	sensor histidine kinase	1148	24	17.978	3.3	99.8	281.053	5.876
+SUB1677	NA	1656513	1656923	411	sensor histidine kinase (pseudogene)	224	4	9.732	18.5	85.6	178.129	3.181
+SUB1679	gltX	1657952	1659397	1446	glutamyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB1680	NA	1659581	1660294	714	conserved hypothetical protein	7	2	2.801	45.8	78.4	3.204	0.916
+SUB1681	NA	1660489	1660986	498	putative carbonic anhydrase	0	0	0	NA	NA	0	0
+SUB1682	sms	1661146	1662513	1368	putative DNA repair protein	888	10	7.310	4.2	98.0	212.155	2.389
+SUB1683	NA	1662561	1663007	447	deoxyuridine 5'-triphosphate nucleotidohydrolase	3	1	2.237	52.8	52.8	2.194	0.731
+SUB1684	NA	1663122	1663481	360	putative membrane protein	44	3	8.333	62.8	93.9	39.946	2.724
+SUB1685	NA	1663670	1664272	603	putative NADPH-dependent FMN reductase	61	4	6.633	7.3	60.9	33.063	2.168
+SUB1686	NA	1664291	1665538	1248	putative NADPH-dependent FMN reductase	1220	15	12.019	16.0	99.0	319.501	3.928
+SUB1687	NA	1665815	1666336	522	putative exported protein	109	7	13.410	3.6	81.0	68.247	4.383
+SUB1688	NA	1666620	1668404	1785	ABC transporter ATP-binding membrane protein	452	12	6.723	20.7	99.5	82.761	2.197
+SUB1689	NA	1668404	1670113	1710	ABC transporter ATP-binding membrane protein	312	6	3.509	3.4	99.2	59.633	1.147
+SUB1690	NA	1670106	1670558	453	MarR family regulatory protein	274	7	15.453	3.5	100.0	197.688	5.050
+SUB1691	gpsA	1670746	1671762	1017	glycerol-3-phosphate dehydrogenase [NAD(P)+]	0	0	0	NA	NA	0	0
+SUB1692	hasC	1671792	1672706	915	UTP--glucose-1-phosphate uridylyltransferase	9	1	1.093	97.5	97.5	3.215	0.357
+SUB1693	NA	1672735	1673409	675	rhomboid family membrane protein	168	7	10.370	39.4	79.9	81.345	3.389
+SUB1694	NA	1673406	1673933	528	5-formyltetrahydrofolate cyclo-ligase family protein	757	8	15.152	1.7	54.4	468.586	4.952
+SUB1695	NA	1674051	1675409	1359	MATE family efflux protein	1833	19	13.981	0.3	75.1	440.829	4.569
+SUB1696	hasB1	1675606	1676811	1206	UDP-glucose 6-dehydrogenase 1	2453	24	19.900	5.6	98.8	664.779	6.504
+SUB1697	hasA	1676836	1678089	1254	hyaluronan synthase	4051	26	20.734	0.9	94.2	1055.825	6.776
+SUB1698	NA	1678271	1679401	1131	putative peptidase	636	12	10.610	7.5	96.6	183.790	3.468
+SUB1699	NA	1679466	1680164	699	putative transferase	1490	9	12.876	1.3	100.0	696.685	4.208
+SUB1700	srlB	1680312	1680677	366	putative glucitol/sorbitol-specific phosphotransferase system (PTS), IIA component	1032	8	21.858	16.4	61.7	921.565	7.144
+SUB1701	srlE	1680718	1681707	990	putative glucitol/sorbitol-specific phosphotransferase system (PTS), IIBC component	189	6	6.061	32.7	55.7	62.396	1.981
+SUB1702	srlA	1681726	1682274	549	putative glucitol/sorbitol-specific phosphotransferase system (PTS), IIC2 component	339	11	20.036	14.2	86.2	201.816	6.549
+SUB1703	gutM	1682287	1682763	477	glucitol operon activator protein	61961	7	14.675	11.3	91.8	42454.849	4.796
+SUB1704	NA	1682763	1684634	1872	transcription antiterminator	558	23	12.286	0.9	96.2	97.422	4.016
+SUB1705	sorD	1684657	1685457	801	sorbitol-6-phosphate 2-dehydrogenase	84	5	6.242	1.7	53.8	34.275	2.040
+SUB1706	pgi	1685656	1687005	1350	glucose-6-phosphate isomerase	0	0	0	NA	NA	0	0
+SUB1707	NA	1687285	1687788	504	putative deaminase	0	0	0	NA	NA	0	0
+SUB1708	NA	1687788	1688567	780	metallo-beta-lactamase superfamily protein	92	2	2.564	27.3	63.1	38.550	0.838
+SUB1709	NA	1688656	1689201	546	BioY family protein	4	1	1.832	97.6	97.6	2.394	0.599
+SUB1710	NA	1689204	1689524	321	CHY zinc finger protein	0	0	0	NA	NA	0	0
+SUB1711	tgt	1689619	1690761	1143	queuine tRNA-ribosyltransferase	400	18	15.748	0.6	98.2	114.378	5.147
+SUB1713	NA	1690959	1691771	813	putative membrane protein	599	6	7.380	0.5	67.4	240.804	2.412
+SUB1714	NA	1691799	1692269	471	ferric uptake regulator family protein	6	1	2.123	30.4	30.4	4.163	0.694
+SUB1715	NA	1692313	1692747	435	putative CoA binding protein	30	1	2.299	20.0	20.0	22.540	0.751
+SUB1716	polA	1692950	1695595	2646	DNA polymerase I	103	9	3.401	53.6	97.0	12.723	1.112
+SUB1717	NA	1695701	1697428	1728	putative glycine-betaine binding permease protein	839	16	9.259	10.2	99.1	158.689	3.026
+SUB1718	NA	1697445	1698722	1278	putative glycine betaine transport ATP-binding protein	1426	7	5.477	1.6	76.4	364.683	1.790
+SUB1719	NA	1699015	1699899	885	conserved hypothetical protein	879	7	7.910	1.2	99.3	324.618	2.585
+SUB1720	NA	1700012	1701103	1092	conserved hypothetical protein	94	4	3.663	40.9	99.7	28.134	1.197
+SUB1721	NA	1701284	1702948	1665	putative transcriptional antiterminator	1682	13	7.808	1.9	94.5	330.171	2.552
+SUB1722	NA	1703127	1703840	714	L-ribulose 5-phosphate 4-epimerase	502	10	14.006	21.8	95.8	229.791	4.578
+SUB1723	NA	1703840	1704703	864	putative hexulose-6-phosphate isomerase	1687	8	9.259	14.1	98.1	638.159	3.026
+SUB1724	NA	1704708	1705373	666	putative hexulose-6-phosphate synthase	166	5	7.508	1.7	12.2	81.463	2.454
+SUB1725	NA	1705430	1705915	486	sugar phosphotransferase system (PTS), IIA component	94	2	4.115	25.9	34.6	63.215	1.345
+SUB1726	NA	1706007	1706285	279	sugar phosphotransferase system (PTS), lactose/cellobiose-specific family, IIB component	3	1	3.584	15.8	15.8	3.514	1.171
+SUB1727	NA	1706363	1707796	1434	putative sugar-specific permease, SgaT/UlaA family	1578	6	4.184	16.9	95.7	359.654	1.368
+SUB1728	NA	1707949	1709010	1062	putative glycerate kinase	212	11	10.358	18.1	70.7	65.244	3.385
+SUB1729	leuS	1709081	1711582	2502	leucyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB1730	NA	1711718	1712827	1110	putative surface-anchored protein	129	7	6.306	38.2	89.0	37.983	2.061
+SUB1731	nusG	1713039	1713581	543	transcription antitermination factor	0	0	0	NA	NA	0	0
+SUB1732	NA	1713727	1713906	180	putative preprotein translocase SecE subunit	0	0	0	NA	NA	0	0
+SUB1732A	NA	1713918	1714070	153	50S ribosomal protein L33	0	0	0	NA	NA	0	0
+SUB1733	pbp2A	1714120	1716444	2325	penicillin-binding protein 2a	203	11	4.731	24.9	96.9	28.536	1.546
+SUB1734	NA	1716477	1716863	387	conserved hypothetical protein	30	2	5.168	21.7	32.6	25.336	1.689
+SUB1735	NA	1717080	1717268	189	conserved hypothetical protein	6	2	10.582	77.8	86.8	10.376	3.459
+SUB1736	NA	1717255	1718139	885	RNA pseudouridylate synthase	1666	9	10.169	23.3	81.9	615.260	3.324
+SUB1737	NA	1718153	1719790	1638	putative exported protein	4570	15	9.158	6.2	99.7	911.863	2.993
+SUB1738	NA	1719987	1721483	1497	putative dipeptidase	247	11	7.348	14.0	98.1	53.927	2.402
+SUB1739	NA	1721591	1723633	2043	putative surface-anchored protein (pseudogene)	1839	17	8.321	14.7	99.9	294.199	2.720
+SUB1741	groEL	1725110	1726738	1629	60 kDa chaperonin	3	1	0.614	99.8	99.8	0.602	0.201
+SUB1742	groES	1726784	1727071	288	10 kDa chaperonin	0	0	0	NA	NA	0	0
+SUB1743	clpC	1727213	1729654	2442	putative stress response-related Clp ATPase	145	10	4.095	13.3	78.1	19.407	1.338
+SUB1744	ctsR	1729654	1730115	462	transcriptional regulator	0	0	0	NA	NA	0	0
+SUB1745	csp	1730329	1730532	204	cold shock protein	0	0	0	NA	NA	0	0
+SUB1746	NA	1730820	1731089	270	conserved hypothetical protein	832	1	3.704	14.1	14.1	1007.133	1.210
+SUB1747	NA	1731091	1733160	2070	putative membrane protein	2268	8	3.865	12.4	62.8	358.096	1.263
+SUB1748	NA	1733286	1734248	963	putative dioxygenase	459	5	5.192	26.4	99.6	155.781	1.697
+SUB1749	NA	1734258	1735178	921	putative dioxygenase	131	10	10.858	2.5	96.3	46.488	3.549
+SUB1750	NA	1735165	1735773	609	conserved hypothetical protein	846	6	9.852	3.6	97.7	454.026	3.220
+SUB1751	NA	1735785	1736381	597	putative phospholipase/carboxylesterase	80	2	3.350	11.2	18.3	43.797	1.095
+SUB1752	ahpC	1736978	1737541	564	alkyl hydroperoxide reductase subunit C	20	2	3.546	41.7	61.5	11.590	1.159
+SUB1753	ndh	1737580	1739112	1533	NADH dehydrogenase	0	0	0	NA	NA	0	0
+SUB1754	rpsB	1739337	1740104	768	30S ribosomal protein S2	0	0	0	NA	NA	0	0
+SUB1755	tsf	1740243	1741283	1041	elongation factor Ts	198	1	0.961	99.1	99.1	62.164	0.314
+SUB1756	pepO	1741360	1743255	1896	putative endopeptidase O	954	27	14.241	6.9	98.6	164.451	4.654
+SUB1757	NA	1743384	1744313	930	putative transketolase subunit	240	9	9.677	27.7	94.8	84.344	3.163
+SUB1758	NA	1744310	1745167	858	putative transketolase subunit	487	5	5.828	11.2	65.5	185.511	1.905
+SUB1759	NA	1745170	1746513	1344	putative sugar-specific permease, SgaT/UlaA family	1096	13	9.673	17.2	86.2	266.525	3.161
+SUB1760	NA	1746526	1746810	285	sugar phosphotransferase system (PTS), lactose/cellobiose-specific family, IIB component	49	2	7.018	16.5	31.2	56.193	2.294
+SUB1761	NA	1746815	1748857	2043	putative PTS multi-domain regulator	281	15	7.342	1.2	78.8	44.954	2.400
+SUB1762	treA	1749090	1750721	1632	putative trehalose-6-phosphate hydrolase	0	0	0	NA	NA	0	0
+SUB1763	NA	1750789	1752774	1986	sugar phosphotransferase system (PTS), IIABC component	1115	22	11.078	8.6	71.9	183.494	3.621
+SUB1764	NA	1752994	1753707	714	GntR family regulatory protein	12	1	1.401	95.0	95.0	5.493	0.458
+SUB1765	NA	1753726	1754052	327	transcriptional regulator protein	10	1	3.058	87.5	87.5	9.995	0.999
+SUB1766	NA	1754255	1755115	861	glyoxalase/bleomycin resistance protein/dioxygenase superfamily protein	156	6	6.969	6.6	71.3	59.217	2.278
+SUB1767	NA	1755168	1755899	732	conserved hypothetical protein	62	6	8.197	36.3	96.9	27.683	2.679
+SUB1768	nrdG	1756014	1756628	615	putative anaerobic ribonucleoside-triphosphate reductase activating protein	148	8	13.008	12.0	85.0	78.653	4.251
+SUB1769	NA	1756633	1757136	504	acetyltransferase (GNAT) family protein	0	0	0	NA	NA	0	0
+SUB1770	NA	1757105	1758085	981	putative oxidoreductase	171	7	7.136	28.6	86.5	56.971	2.332
+SUB1771	NA	1758111	1758260	150	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1772	nrdD	1758366	1760561	2196	anaerobic ribonucleoside-triphosphate reductase	218	12	5.464	7.1	91.5	32.445	1.786
+SUB1773	NA	1760662	1762224	1563	putative membrane protein	1004	26	16.635	0.7	83.8	209.943	5.437
+SUB1774	NA	1762380	1762685	306	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1775	NA	1762696	1763115	420	putative Holliday junction resolvase	0	0	0	NA	NA	0	0
+SUB1776	NA	1763112	1763381	270	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1777	NA	1763497	1763895	399	regulatory protein Spx	0	0	0	NA	NA	0	0
+SUB1778	recA	1764211	1765350	1140	RecA recombinase (recombinase A)	0	0	0	NA	NA	0	0
+SUB1779	cinA	1765432	1766703	1272	CinA-like protein	55	4	3.145	41.0	96.3	14.132	1.028
+SUB1780	tag	1766794	1767348	555	DNA-3-methyladenine glycosylase I	0	0	0	NA	NA	0	0
+SUB1781	ruvA	1767353	1767946	594	Holliday junction DNA helicase RuvA	0	0	0	NA	NA	0	0
+SUB1782	lmrP	1767948	1769171	1224	putative transporter protein	16	1	0.817	55.6	55.6	4.272	0.267
+SUB1783	mutL	1769181	1771163	1983	DNA mismatch repair protein MutL	214	2	1.009	8.7	38.2	35.271	0.330
+SUB1784	NA	1771381	1771890	510	putative exported protein	157	8	15.686	7.3	90.6	100.614	5.127
+SUB1785	NA	1772117	1772977	861	PauA protein precursor (streptokinase precursor)	86	5	5.807	3.4	78.9	32.645	1.898
+SUB1786	mutS	1773067	1775610	2544	DNA mismatch repair protein MutS	138	14	5.503	9.8	99.6	17.729	1.799
+SUB1787	NA	1775597	1775950	354	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1788	argR	1775947	1776384	438	putative arginine repressor	0	0	0	NA	NA	0	0
+SUB1789	argS	1776668	1778356	1689	arginyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB1790	NA	1778401	1779279	879	putative membrane protein	506	4	4.551	48.7	95.1	188.143	1.487
+SUB1791	NA	1779326	1780210	885	putative membrane protein	90	9	10.169	9.2	66.2	33.237	3.324
+SUB1792	NA	1780225	1781166	942	putative membrane protein	35	5	5.308	23.4	97.0	12.144	1.735
+SUB1793	aspS	1781159	1782907	1749	aspartyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB1794	hisS	1783130	1784407	1278	histidyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB1795	rpmF	1784664	1784846	183	50S ribosomal protein L32	0	0	0	NA	NA	0	0
+SUB1796	rpmG	1784862	1785011	150	50S ribosomal protein L33	0	0	0	NA	NA	0	0
+SUB1797	NA	1785310	1785804	495	NUDIX hydrolase	8	1	2.020	57.8	57.8	5.282	0.660
+SUB1798	NA	1785838	1785939	102	putative DNA-binding membrane protein (pseudogene)	10	1	9.804	93.1	93.1	32.043	3.204
+SUB1799	NA	1786622	1787464	843	putative membrane protein	0	0	0	NA	NA	0	0
+SUB1800	NA	1787494	1789686	2193	conserved hypothetical protein	6153	9	4.104	4.8	79.8	917.013	1.341
+SUB1801	NA	1789808	1791382	1575	putative coenzyme A transferase	175	7	4.444	3.4	90.5	36.315	1.453
+SUB1802	NA	1791409	1792947	1539	putative fatty-acid CoA ligase	79	3	1.949	2.5	70.9	16.777	0.637
+SUB1803	NA	1792995	1795043	2049	putative fusion protein (3-hydroxyacyl-CoA dehydrogenase and enoyl-CoA hydratase/isomerase family protein)	92	3	1.464	0.7	52.0	14.675	0.479
+SUB1804	thlA	1795067	1796317	1251	acetyl-CoA acetyltransferase	657	4	3.197	3.3	87.3	171.647	1.045
+SUB1805	NA	1796397	1797614	1218	putative acyl-CoA dehydrogenase	114	7	5.747	11.9	50.7	30.590	1.878
+SUB1806	hbd	1797655	1798518	864	3-hydroxybutyryl-CoA dehydrogenase	118	4	4.630	46.4	81.6	44.637	1.513
+SUB1807	NA	1798668	1798895	228	putative thioredoxin	24	1	4.386	98.2	98.2	34.404	1.433
+SUB1808	NA	1799021	1799983	963	putative permease	2873	8	8.307	8.7	88.1	975.072	2.715
+SUB1809	NA	1800066	1800338	273	ArsR family regulatory protein	0	0	0	NA	NA	0	0
+SUB1810	NA	1800427	1801038	612	NUDIX hydrolase	18	2	3.268	38.9	45.8	9.613	1.068
+SUB1811	NA	1801235	1801561	327	PadR family regulatory protein	63	3	9.174	45.6	89.0	62.968	2.998
+SUB1812	NA	1801548	1802132	585	putative membrane protein	114	4	6.838	3.4	83.2	63.691	2.235
+SUB1813	NA	1802129	1803037	909	putative exported protein	1165	8	8.801	23.0	90.2	418.880	2.876
+SUB1814	NA	1803075	1803431	357	putative membrane protein	52	3	8.403	8.1	51.0	47.606	2.747
+SUB1815	NA	1803440	1805719	2280	putative membrane protein	117	8	3.509	4.1	73.1	16.772	1.147
+SUB1816	NA	1805850	1806389	540	TetR family regulatory protein	21	2	3.704	1.9	95.9	12.710	1.210
+SUB1817	NA	1806465	1806626	162	conserved hypothetical protein (fragment)	4	1	6.173	76.5	76.5	8.070	2.017
+SUB1818	NA	1806935	1808176	1242	Fic protein family phage protein	41	3	2.415	67.4	78.5	10.789	0.789
+SUB1819	NA	1808319	1808492	174	hypothetical phage protein	0	0	0	NA	NA	0	0
+SUB1820	NA	1808618	1808818	201	hypothetical phage protein	29	1	4.975	3.0	3.0	47.155	1.626
+SUB1821	NA	1808926	1809270	345	hypothetical phage protein	115	4	11.594	22.3	97.4	108.945	3.789
+SUB1822	NA	1809435	1809764	330	hypothetical phage protein	14	1	3.030	9.1	9.1	13.866	0.990
+SUB1823	NA	1809858	1810049	192	hypothetical phage protein	24	2	10.417	18.2	31.2	40.854	3.405
+SUB1824	NA	1810126	1810401	276	phage membrane protein	0	0	0	NA	NA	0	0
+SUB1825	NA	1810911	1811210	300	hypothetical phage protein	6	1	3.333	1.0	1.0	6.537	1.089
+SUB1826	NA	1811453	1811875	423	putative autolysin regulatory protein	10	1	2.364	92.4	92.4	7.727	0.773
+SUB1827	NA	1812018	1812236	219	hypothetical phage protein	0	0	0	NA	NA	0	0
+SUB1828	NA	1812227	1812715	489	hypothetical phage protein	20	1	2.045	84.7	84.7	13.367	0.668
+SUB1829	NA	1812789	1813406	618	hypothetical phage protein	13	2	3.236	53.1	90.3	6.875	1.058
+SUB1830	NA	1813434	1814294	861	hypothetical phage protein	231	8	9.292	4.2	94.8	87.687	3.037
+SUB1831	NA	1814342	1814611	270	putative DNA-binding phage protein	0	0	0	NA	NA	0	0
+SUB1832	NA	1814613	1814951	339	putative DNA-binding phage protein	0	0	0	NA	NA	0	0
+SUB1832A	NA	1814962	1815153	192	putative phage membrane protein	4	1	5.208	27.6	27.6	6.809	1.702
+SUB1834	NA	1815135	1815317	183	hypothetical phage protein	0	0	0	NA	NA	0	0
+SUB1835	NA	1815310	1815594	285	hypothetical phage protein	184	2	7.018	11.6	85.3	211.009	2.294
+SUB1836	NA	1815887	1816180	294	hypothetical phage protein	16	2	6.803	55.1	69.4	17.787	2.223
+SUB1837	NA	1816199	1816816	618	hypothetical phage protein	0	0	0	NA	NA	0	0
+SUB1838	NA	1816828	1817013	186	putative DNA-binding phage protein	37	2	10.753	47.8	70.4	65.015	3.514
+SUB1839	NA	1817175	1817876	702	putative DNA-binding phage protein	0	0	0	NA	NA	0	0
+SUB1840	NA	1817988	1819154	1167	phage integrase	105	7	5.998	48.8	98.5	29.407	1.960
+SUB1841	rpsD	1819245	1819856	612	30S ribosomal protein S4	0	0	0	NA	NA	0	0
+SUB1842	veg	1820177	1820449	273	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1843	dnaC	1820461	1821822	1362	replicative DNA helicase	0	0	0	NA	NA	0	0
+SUB1844	rplI	1821857	1822309	453	50S ribosomal protein L9	0	0	0	NA	NA	0	0
+SUB1845	NA	1822309	1824279	1971	DHH family protein	0	0	0	NA	NA	0	0
+SUB1846	gidA	1824367	1826268	1902	glucose inhibited division protein A	10	1	0.526	59.5	59.5	1.718	0.172
+SUB1847	NA	1826623	1827744	1122	putative tRNA (5-methylaminomethyl-2-thiouridylate)-methyltransferase	0	0	0	NA	NA	0	0
+SUB1848	sdhB	1827951	1828622	672	putative L-serine dehydratase, beta chain	0	0	0	NA	NA	0	0
+SUB1849	sdhA	1828634	1829506	873	putative L-serine dehydratase, alpha chain	68	2	2.291	82.0	86.8	25.458	0.749
+SUB1850	NA	1829512	1830156	645	putative 5'-nucleotidase	26	1	1.550	36.0	36.0	13.175	0.507
+SUB1851	NA	1830169	1830819	651	putative transglycosylase protein	28	3	4.608	24.1	84.9	14.057	1.506
+SUB1852	NA	1830964	1831770	807	putative cobalt transport protein	6	1	1.239	98.4	98.4	2.430	0.405
+SUB1853	NA	1831763	1832605	843	ABC transporter ATP-binding protein	0	0	0	NA	NA	0	0
+SUB1854	NA	1832581	1833420	840	ABC transporter ATP-binding protein	0	0	0	NA	NA	0	0
+SUB1855	pgsA	1833423	1833965	543	putative CDP-diacylglycerol--glycerol-3-phosphate 3-phosphatidyltransferase	0	0	0	NA	NA	0	0
+SUB1856	NA	1833975	1835018	1044	putative membrane protein	16	2	1.916	70.6	74.6	5.009	0.626
+SUB1857	NA	1835069	1836352	1284	putative protease	506	6	4.673	39.7	97.7	128.799	1.527
+SUB1858	NA	1836349	1837596	1248	conserved hypothetical protein	195	4	3.205	20.4	48.6	51.068	1.048
+SUB1859	NA	1837972	1838361	390	conserved hypothetical protein	0	0	0	NA	NA	0	0
+SUB1860	recF	1838364	1839458	1095	DNA replication and repair protein RecF	18	1	0.913	47.9	47.9	5.373	0.298
+SUB1861	NA	1839470	1840333	864	putative sugar uptake protein	20	1	1.157	76.5	76.5	7.566	0.378
+SUB1862	guaB	1840521	1842002	1482	inosine-5'-monophosphate dehydrogenase	76	2	1.350	32.8	71.5	16.761	0.441
+SUB1863	trsA	1842244	1843266	1023	tryptophanyl-tRNA synthetase	0	0	0	NA	NA	0	0
+SUB1864	NA	1843662	1844534	873	putative membrane protein	183	1	1.145	2.3	2.3	68.512	0.374
+SUB1865	NA	1844613	1846232	1620	ABC transporter, ATP-binding protein	8	1	0.617	65.5	65.5	1.614	0.202
+SUB1866	NA	1846291	1848861	2571	putative membrane protein	752	14	5.445	1.1	90.8	95.597	1.780
+SUB1867	NA	1849397	1849876	480	conserved hypothetical protein	109	6	12.500	25.2	74.8	74.219	4.085
+SUB1868	htrA	1850062	1851264	1203	serine protease	1857	2	1.663	82.5	85.5	504.514	0.543
+SUB1869	NA	1851342	1852118	777	putative chromosome partitioning protein	63239	5	6.435	4.9	90.9	26600.588	2.103
+tRNA-Ala	tRNA-Ala	1369887	1369959	73	transfer RNA-Ala	38	4	54.795	90.4	90.4	170.133	17.909
+tRNA-Arg	tRNA-Arg	1849270	1849343	74	transfer RNA-Arg	40	1	13.514	70.8	70.8	176.667	4.417
+tRNA-Asn	tRNA-Asn	1848889	1848962	74	transfer RNA-Asn	6	1	13.514	85.1	85.1	26.500	4.417
+tRNA-Asp	tRNA-Asp	1366295	1366367	73	transfer RNA-Asp	0	0	0	NA	NA	0	0
+tRNA-Cys	tRNA-Cys	1736619	1736689	71	transfer RNA-Cys	0	0	0	NA	NA	0	0
+tRNA-Gln	tRNA-Gln	987050	987121	72	transfer RNA-Gln	0	0	0	NA	NA	0	0
+tRNA-Glu	tRNA-Glu	1848999	1849070	72	transfer RNA-Glu	0	0	0	NA	NA	0	0
+tRNA-Gly	tRNA-Gly	93448	93518	71	transfer RNA-Gly	0	0	0	NA	NA	0	0
+tRNA-His	tRNA-His	94170	94242	73	transfer RNA-His	0	0	0	NA	NA	0	0
+tRNA-Ile	tRNA-Ile	1365855	1365928	74	transfer RNA-Ile	0	0	0	NA	NA	0	0
+tRNA-Leu	tRNA-Leu	1366062	1366143	82	transfer RNA-Leu	0	0	0	NA	NA	0	0
+tRNA-Lys	tRNA-Lys	1366149	1366221	73	transfer RNA-Lys	0	0	0	NA	NA	0	0
+tRNA-Met	tRNA-Met	93817	93890	74	transfer RNA-Met	0	0	0	NA	NA	0	0
+tRNA-Phe	tRNA-Phe	93912	93984	73	transfer RNA-Phe	0	0	0	NA	NA	0	0
+tRNA-Pro	tRNA-Pro	23884	23957	74	transfer RNA-Pro	0	0	0	NA	NA	0	0
+tRNA-Ser	tRNA-Ser	1466377	1466463	87	transfer RNA-Ser	0	0	0	NA	NA	0	0
+tRNA-Thr	tRNA-Thr	1365979	1366051	73	transfer RNA-Thr	0	0	0	NA	NA	0	0
+tRNA-Trp	tRNA-Trp	94088	94158	71	transfer RNA-Trp	0	0	0	NA	NA	0	0
+tRNA-Tyr	tRNA-Tyr	987127	987207	81	transfer RNA-Tyr	0	0	0	NA	NA	0	0
+tRNA-Val	tRNA-Val	1366386	1366458	73	transfer RNA-Val	0	0	0	NA	NA	0	0
