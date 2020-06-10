@@ -4,210 +4,256 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
-import plotly.express as px
-import plotly.graph_objs as go
+from dash.dependencies import Input, Output
 
 import pandas as pd
 
-intro_text = """
-Prototype dashboard
-"""
 
-global_width = '70%'
-graph_dimensions = ["x", "y", "color", "facet_col", "facet_row"]
+app_title = 'Pimms Dashboard'
 
 # Define local paths
 BASE_PATH = pathlib.Path(__file__).parent.resolve()
-DATA_PATH = BASE_PATH.joinpath("data").resolve()  # TODO create data folder within package, remove test_data_path
+DATA_PATH = BASE_PATH.joinpath("data").resolve()
 
 # Available data
 test_csvs = list(DATA_PATH.glob('*.csv'))
-
-# Read data for startup
-df = pd.read_csv(test_csvs[0])
+info_columns = ['seq_id', 'locus_tag', 'type', 'gene', 'start', 'end', 'feat_length', 'product']
 
 # Initialise App
 app = dash.Dash(__name__)
 app.config['suppress_callback_exceptions'] = True
 server = app.server
 
+
 # Header
-header = html.Div(
-    id="app-header",
-    children=[
-        html.Img(src=app.get_asset_url("DRS-header.png"), className="logo"),
-    ],
-)
+def create_header(title):
+    return html.Div(id='app-header', children=[
+            html.A(
+                id='drs-link', children=[
+                    html.H1('DRS |'),
+                ],
+                href="https://digitalresearch.nottingham.ac.uk/",
+                style={'display': 'inline-block',
+                       'margin-left': '10px',
+                       'margin-right': '10px',
+                       'text-decoration': 'none',
+                       'align': 'center'
+                       }
+            ),
+            html.H2(
+                title,
+                style={'display': 'inline-block', }
+            ),
+            html.A(
+                id='uni-link', children=[
+                    html.H1('UoN'),
+                ],
+                href="https://www.nottingham.ac.uk/",
+                style={'display': 'inline-block',
+                       'float': 'right',
+                       'margin-right': '10px',
+                       'text-decoration': 'none',
+                       'color': '#FFFFFF',
+                       }
+            ),
+        ],
+        style={'width': '100%', 'display': 'inline-block'}
+        )
+
+
+def merge_control_test(control_df, test_df, on):
+    assert (set(on).issubset(control_df.columns)), 'On columns are not present in control_df'
+    assert (set(on).issubset(test_df.columns)), 'On columns are not present in test_df'
+    ctrl_data_cols = set(control_df.columns) - set(on)
+    test_data_cols = set(test_df.columns) - set(on)
+    new_control_names = [(i, i + '_control') for i in list(ctrl_data_cols)]
+    new_test_names = [(i, i + '_test') for i in list(test_data_cols)]
+    control_df.rename(columns=dict(new_control_names), inplace=True)
+    test_df.rename(columns=dict(new_test_names), inplace=True)
+    df_m = pd.merge(test_df, control_df, how='inner', on=on)
+    return df_m
+
+
+def create_datatable(df_c, df_t):
+    df_m = merge_control_test(df_c, df_t, on=info_columns)
+    return dash_table.DataTable(id='main_table',
+                columns=[{"name": ["Information", i.replace("_", " ")], "id": i, "deletable": True} for i in df_m.columns if i in info_columns] + \
+                        [{"name": ['Control', i.replace("_", " ")], "id": i, "selectable": True} for i in df_m.columns if i.endswith('_control')] + \
+                        [{"name": ['Test', i.replace("_", " ")], "id": i, "selectable": True} for i in df_m.columns if i.endswith('_test')],
+                data=df_m.to_dict('records'),
+                merge_duplicate_headers=True,
+                sort_mode="multi",
+                column_selectable="multi",
+                style_table={'height': '525px', 'overflowX': 'scroll', 'overflowY': 'auto'},
+                style_cell={
+                    'minWidth': '50px', 'width': '180px', 'maxWidth': '180px',
+                    'whiteSpace': 'normal',
+                },
+                style_cell_conditional=[
+                    {'if': {'column_id': 'product'},
+                        'overflow': 'hidden',
+                        'text-overflow': 'ellipsis',
+                        'white-space': 'nowrap'}] + [{'if': {'column_id': str(x)}, 'backgroundColor': '#333652', 'color': 'white'} for x in info_columns] + \
+                                [{'if': {'column_id': str(x)}, 'backgroundColor': '#F6F6F6', 'color': 'black'} for x in df_m.columns if x.endswith('_control')],
+                style_data={
+                    'lineHeight': '15px'
+                },
+                page_size=50,
+                sort_action="native",
+            )
 
 # Main App
-app.layout = html.Div(
-    children=[
-        header,
-        html.Br(),
-        html.Details(
-            id="intro-text",
-            children=[html.Summary(html.B("About This App")), dcc.Markdown(intro_text)],
-        ),
-        html.Br(),
-        html.Div([
-            html.Label('Select CSV'),
-            dcc.Dropdown(
-                id='csv_dropdown',
-                options=[{'label': i.name, 'value': i.name} for i in test_csvs],
-                value=test_csvs[0].name,
-                placeholder='... Select CSV'
-            )],
-            style={'width': '20%', 'margin-bottom': '20px'}),
-        # Hidden div inside the app that stores the selected csv value as json
-        html.Div(id='csv-idx-store', style={'display': 'none'}),
-        html.Br(),
-        html.Div([dcc.Markdown('''## Table Preview'''),
-                  dcc.Markdown("----------------",
-                               style={'width': global_width}),
-                  ]),
-        html.Br(),
-        html.Div(id='select_rows',
-                 children=[
-                     html.Label('Select Rows to Preview'),
-                     dcc.RangeSlider(
-                         id='row-slider',
-                         min=0,
-                         max=len(df),
-                         value=[0, 5],
-                         step=5,
-                         marks={'0': '0', str(int(len(df) / 2)): str(int(len(df) / 2)), str(len(df)): str(len(df))}
-                     )],
-                 style={'width': global_width, 'margin-bottom': '10px'}),
-        html.Br(),
-        html.Div(id='select_columns',
-                 children=[html.Label('Select Columns'),
-                           dcc.Dropdown(id='column_dropdown',
-                                        options=[{'label': col, 'value': col} for col in df.columns],
-                                        value=df.columns[0:10],
-                                        multi=True
-                                        )],
-                 style={'width': global_width, 'margin-bottom': '10px'}),
-        html.Br(),
-        html.Div(id='table_preview',
-                 style={'width': global_width}),
-        html.Br(),
-        html.Div([dcc.Markdown('''## Missing Data'''),
-                  dcc.Markdown("----------------",
-                               style={'width': global_width}),
-                  dcc.Markdown("Placeholder - Insert missing data report",
-                               style={'width': global_width}),
-                  ]),
-        html.Br(),
-        html.Br(),
-        html.Div([dcc.Markdown('''## Analysis'''),
-                  dcc.Markdown("----------------",
-                               style={'width': global_width}),
-                  ]),
-        html.Br(),
-        html.Div(id='graph1_selection',
-                 style={"width": global_width}),
-        html.Br(),
-        dcc.Graph(id="graph1", style={"width": global_width}),
-    ]
+app.layout = html.Div(id='main-app', children=[
+                create_header(app_title),
+                # Control-Tabs
+                html.Div(id='control-tabs', children=[
+                    dcc.Tabs(id='tabs', value='tab1', children=[
+                        dcc.Tab(
+                            label='About',
+                            value='tab1',
+                            children=html.Div(children=[
+                                html.H3(children="PIMMS",
+                                        style={'font-weight': '400', 'font-size': '20pt',
+                                               'margin-bottom': '30px', 'text-align': 'center'}
+                                        ),
+                                dcc.Markdown("""
+                                ### Pragmatic Insertional Mutation Mapping system mapping pipeline
+                                The PIMMS (Pragmatic Insertional Mutation Mapping System) pipeline has been
+                                developed for simple conditionally essential genome discovery experiments in bacteria.
+                                Capable of using raw sequence data files alongside a FASTA sequence of the
+                                reference genome and GFF file, PIMMS will generate a tabulated output of each coding
+                                sequence with corresponding mapped insertions accompanied with normalized results
+                                enabling streamlined analysis. This allows for a quick assay of the genome to identify
+                                conditionally essential genes on a standard desktop computer prioritizing results for
+                                further investigation.
+                                """,
+                                style={'font-weight': '200', 'font-size': '10pt', 'line-height':'1.6'}),
+                                html.Div([
+                                    'Reference: ',
+                                    html.A('PIMMS paper',
+                                           href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4391243/pdf/fgene-06-00139.pdf',
+                                           style={'color': '#FFFFFF'})
+                                ]),
+                            ], style={'margin-left': '10px', 'text-align': 'Left'}),
+                            style={'color': '#000000'}
+                        ),
+                        dcc.Tab(
+                            label='Import Data',
+                            value='tab2',
+                            children=html.Div(children=[
+                                        html.Div(children=[
+                                            html.Div(className='bac-dropdown-name', children='Bacterial Species',
+                                                     style={'margin-right': '2em', 'verticalAlign': "middle"}),
+                                            dcc.Dropdown(
+                                                id='bac-species-dropdown',
+                                                options=[
+                                                    {'label': 'Species A', 'value': 'specA'},
+                                                    {'label': 'Species B', 'value': 'specB'},
+                                                    {'label': 'Species C', 'value': 'specC'},
+                                                    {'label': 'Species D', 'value': 'specD'}
+                                                ],
+                                                value='specA',
+                                                style={'width': '140px', 'verticalAlign': "middle",
+                                                       'border': 'solid 1px #545454', 'color': 'black'}
+                                            )
+                                        ], style={'display': 'flex', 'marginTop': '5px', 'justify-content': 'center',
+                                                  'align-items': 'center'}),
+                                        html.Hr(),
+                                        html.Br(),
+                                        html.H3(children='Select upload data', style={'text-align': 'center'}),
+                                        html.Br(),
+                                        html.Div(id='uploaded-data', children=[
+                                            html.Div(id='up-control-block', children=[
+                                                html.Div(children='Select control'),
+                                                dcc.Dropdown(
+                                                    id="control-dropdown",
+                                                    options=[{'label': i.name, 'value': i.name} for i in test_csvs],
+                                                    value=0,
+                                                    style={'width': '140px', 'verticalAlign': "middle",
+                                                           'border': 'solid 1px #545454', 'color': 'black'}
+                                                ),
+                                            ], style={'marginRight': '10px'}),
+                                            html.Div(id='up-test-block', children=[
+                                                html.Div(children='Select test'),
+                                                dcc.Dropdown(
+                                                    id="test-dropdown",
+                                                    options=[{'label': i.name, 'value': i.name} for i in test_csvs],
+                                                    value=0,
+                                                    style={'width': '140px', 'verticalAlign': "middle",
+                                                           'border': 'solid 1px #545454', 'color': 'black'}
+                                                ),
+                                            ], style={'marginRight': '10px'}),
+                                            ], style={'display': 'flex', 'marginTop': '5px',
+                                                      'justify-content': 'center', 'align-items': 'center'}
+                                            ),
+                                        html.Br(),
+                                        html.Br(),
+                                        html.Br(),
+                                        html.Button(
+                                            "Run Selection",
+                                            id="run-button",
+                                            style={'display': 'block', 'text-align': 'center', 'padding': '10px',
+                                                   'margin':'auto'}
+                                        ),
+                                        ]),
+                            style={'color': '#000000'}
+                        ),
+                    ]),
+                ], style={'display': 'inline-block',
+                          'width': '350px',
+                          'height': '525px',
+                          'margin': '35px',
+                          'margin-right': '0px',
+                          'background-color': '#333652',
+                          'font-size': '10pt',
+                          'float': 'left'}
+                ),
+
+                html.Div(id='table_preview',
+                         style={'display': 'inline-block',
+                                'height': '525px',
+                                'margin': '35px',
+                                'width': '1060px',
+                                'background-color': '#333652',
+                                'font-size': '10pt',
+                                'color': 'black'}
+                ),
+            ])
+
+
+#Callbacks
+@app.callback(
+    Output('table', 'style_data_conditional'),
+    [Input('table', 'selected_columns')]
 )
-
-
-# Interactivity
-
-@app.callback(
-    dash.dependencies.Output('csv-idx-store', 'children'),
-    [dash.dependencies.Input('csv_dropdown', 'value')])
-def select_csv(value):
-    csv_idx = [i.name for i in test_csvs].index(value)
-    return csv_idx
-
+def update_styles(selected_columns):
+    if selected_columns is None:
+        return []
+    else:
+        return [{
+            'if': { 'column_id': i },
+            'background_color': '#D2F3FF'
+        } for i in selected_columns]
 
 @app.callback(
-    dash.dependencies.Output('select_columns', 'children'),
-    [dash.dependencies.Input('csv-idx-store', 'children')])
-def update_select_columns(csv_idx):
-    csv_path = test_csvs[csv_idx]
-    dff = pd.read_csv(csv_path)
-    return [html.Label('Select Columns'),
-            dcc.Dropdown(id='column_dropdown',
-                         options=[{'label': col, 'value': col} for col in dff.columns],
-                         value=dff.columns[0:10],
-                         multi=True
-                         )]
-
-
-@app.callback(
-    dash.dependencies.Output('select_rows', 'children'),
-    [dash.dependencies.Input('csv-idx-store', 'children')])
-def update_select_rows(csv_idx):
-    csv_path = test_csvs[csv_idx]
-    dff = pd.read_csv(csv_path)
-    l = len(dff)
-    return [html.Label('Select Rows to Preview'),
-            dcc.RangeSlider(
-                id='row-slider',
-                min=0,
-                max=l,
-                value=[0, 5],
-                step=5,
-                marks={'0': '0', str(int(l / 2)): str(int(l / 2)), str(l): str(l)}
-            )]
-
-
-@app.callback(
-    dash.dependencies.Output('table_preview', 'children'),
-    [dash.dependencies.Input('csv-idx-store', 'children'),
-     dash.dependencies.Input('row-slider', 'value'),
-     dash.dependencies.Input('column_dropdown', 'value')])
-def update_preview_table(csv_idx, row_value, col_value):
-    csv_path = test_csvs[csv_idx]
-    dff = pd.read_csv(csv_path)
-    subset_df = dff[row_value[0]:row_value[1]]
-    if set(col_value).intersection(set(dff.columns)):
-        subset_df = subset_df[col_value]
-    return html.Div(dash_table.DataTable(
-        id='table',
-        columns=[{"name": i, "id": i} for i in subset_df.columns],
-        data=subset_df.to_dict('records'),
-    ),
-    )
-
-# Graphs
-@app.callback(
-    dash.dependencies.Output('graph1_selection', 'children'),
-    [dash.dependencies.Input('csv-idx-store', 'children')])
-def update_select_columns(csv_idx):
-    csv_path = test_csvs[csv_idx]
-    dff = pd.read_csv(csv_path)
-    options = [{'label': col, 'value': col} for col in dff.columns]
-    style_dict = {
-        'width':'10%',
-        'display':'inline-block',
-        'verticalAlign':"middle",
-        'margin-right':'2em',
-    }
-    return html.Div([
-        html.Div([d + ":", dcc.Dropdown(id=d, options=options)], style=style_dict) for d in graph_dimensions],
-    )
-
-
-@app.callback(
-    dash.dependencies.Output("graph1", "figure"),
-    [dash.dependencies.Input('csv-idx-store', 'children'),
-     *(dash.dependencies.Input(d, "value") for d in graph_dimensions)])
-def make_figure(csv_idx, x, y, color, facet_col, facet_row):
-    csv_path = test_csvs[csv_idx]
-    dff = pd.read_csv(csv_path)
-    return px.scatter(
-        dff,
-        x=x,
-        y=y,
-        color=color,
-        facet_col=facet_col,
-        facet_row=facet_row,
-        height=700,
-    )
-
+    Output('table_preview', 'children'),
+    [Input('run-button', 'n_clicks'),
+     Input('test-dropdown', 'value'),
+     Input('control-dropdown', 'value')]
+)
+def onclick(n_clicks,test_path, control_path):
+    if n_clicks is not None:
+        if test_path not in [0, None] and control_path not in [0, None]:
+            test_csv_idx = [i.name for i in test_csvs].index(test_path)
+            control_csv_idx = [i.name for i in test_csvs].index(control_path)
+            df_c = pd.read_csv(test_csvs[test_csv_idx])
+            df_t = pd.read_csv(test_csvs[control_csv_idx])
+            return create_datatable(df_c, df_t)
+    return html.Div('Select data for import', style={'color': 'white', 'margin': '10px'})
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(
+        host='0.0.0.0',
+        port=8050,
+        debug=True
+    )
