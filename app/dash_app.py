@@ -13,6 +13,8 @@ from plotly.subplots import make_subplots
 
 import matplotlib
 matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from matplotlib_venn import venn2
 
 import pandas as pd
 import numpy as np
@@ -224,6 +226,14 @@ def control_options_tab():
                     )
                 ], style={'display': 'flex', 'marginTop': '5px', 'justify-content': 'center',
                           'align-items': 'center'}),
+                html.Hr(),
+                html.H3("Venn options"),
+                html.Div(children=[
+                    html.Div(id='venn-thresh-desc-c',children='SET A: Control NIM scores <=', style={'margin-left': '10px', 'margin-right': '10px'}),
+                    dcc.Slider(id='venn-slider-c', value=0, min=0, max=50, step=1),
+                    html.Div(id='venn-thresh-desc-t',children='SET B: Test NIM scores <=', style={'margin-left': '10px', 'margin-right': '10px'}),
+                    dcc.Slider(id='venn-slider-t', value=0, min=0, max=50, step=1),
+                ]),
 
     ],style={'marginLeft': '5px'})
 
@@ -244,6 +254,16 @@ def analysis_datatable_tab():
 def analysis_hist_tab():
     return html.Div(children=[
         html.Div(id='histogram'),
+        ], style={'backgroundColor': 'white'})
+
+
+#Third analysis tab, display venn diagram
+def analysis_venn_tab():
+    return html.Div(children=[
+        html.Div(id='venn-diagram'),
+        dcc.Markdown("""
+        
+        """)
         ], style={'backgroundColor': 'white'})
 
 
@@ -342,6 +362,25 @@ def create_histogram_t2(series_control, series_test,):
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
 
     return fig
+
+
+def create_venn(df, col_A, col_B, thresh_A=0, thresh_B=0):
+    # get venn sets
+    aB = ((df[col_A] > thresh_A) & (df[col_B] <= thresh_B)).sum()
+    Ab = ((df[col_A] <= thresh_A) & (df[col_B] > thresh_B)).sum()
+    AB = ((df[col_A] <= thresh_A) & (df[col_B] <= thresh_B)).sum()
+
+    # Create venn using matplotlib, encode to b64, pass to html.img
+    plt.figure(linewidth=10, edgecolor="black", facecolor="black")
+    mpl_fig = venn2(subsets=(Ab, aB, AB))
+    pic_IObytes = io.BytesIO()
+    plt.savefig(pic_IObytes, format='png')
+    pic_IObytes.seek(0)
+    encoded_image = base64.b64encode(pic_IObytes.read())
+    img = 'data:image/png;base64,{}'.format(encoded_image.decode())
+    # plotly_fig = mpl_to_plotly(mpl_fig) # Not working for venn
+    plt.close()
+    return html.Img(src=img, style={'display':'flex', 'justify-content': 'center', 'align-items': 'center', 'height': '460px'})
 
 
 def merge_control_test(control_df, test_df, on, control_suffix='_control', test_suffix='_test'):
@@ -445,7 +484,7 @@ app.layout = html.Div(id='main-app', children=[
                         dcc.Tab(
                             label='Venn Diagram',
                             value='tab3',
-                            children=empty_tab()
+                            children=analysis_venn_tab()
                         ),
                         dcc.Tab(
                             label='Analysis tab4',
@@ -492,6 +531,7 @@ def update_styles(selected_columns, checked_options):
                 })
     return style_data_conditional
 
+
 @app.callback(
     Output('main_table', 'filter_action'),
     [Input('datatable_check', 'value')],
@@ -530,6 +570,51 @@ def create_table(n_clicks, test_path, control_path, checked_options):
             return create_datatable(df_c, df_t, is_simple)
     return empty_tab()
 
+@app.callback(
+    Output('venn-thresh-desc-c', 'children'),
+    [Input('venn-slider-c', 'value')]
+)
+def update_venn_thresh_desc_control(slider_val):
+    return f'SET A: Control NIM scores <= {slider_val}'
+
+@app.callback(
+    Output('venn-thresh-desc-t', 'children'),
+    [Input('venn-slider-t', 'value')]
+)
+def update_venn_thresh_desc_control(slider_val):
+    return f'SET B: Test NIM scores <= {slider_val}'
+
+@app.callback(
+    Output('venn-diagram', 'children'),
+    [Input('run-button', 'n_clicks'),
+     Input('test-dropdown', 'value'),
+     Input('control-dropdown', 'value'),
+     Input('venn-slider-c', 'value'),
+     Input('venn-slider-t', 'value')]
+)
+def update_venn(n_clicks, test_path, control_path, thresh_c, thresh_t):
+    if n_clicks is not None:
+        if test_path not in [0, None] and control_path not in [0, None]:
+            test_csv_idx = [i.name for i in test_csvs].index(test_path)
+            control_csv_idx = [i.name for i in test_csvs].index(control_path)
+            df_c = pd.read_csv(test_csvs[test_csv_idx])
+            df_t = pd.read_csv(test_csvs[control_csv_idx])
+            df_m = merge_control_test(df_c, df_t, on=info_columns)
+            venn_img = create_venn(df_m, df_c.columns[-1], df_t.columns[-1], thresh_c, thresh_t)
+            label = dcc.Markdown(f"""
+            * **Set A**: 
+            {df_c.columns[-1]}
+            
+            * **Set B**:
+            {df_t.columns[-1]}
+
+            """)
+            return html.Div(children=[
+                html.Div(venn_img),
+                label,
+            ],style={'display': 'flex','justify-content': 'center',
+                          'align-items': 'center'})
+    return empty_tab()
 
 @app.callback(
     Output('histogram', 'children'),
