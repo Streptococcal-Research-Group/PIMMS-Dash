@@ -1,4 +1,6 @@
 import pathlib
+import io
+import base64
 
 import dash
 import dash_core_components as dcc
@@ -6,7 +8,16 @@ import dash_html_components as html
 import dash_table
 from dash.dependencies import Input, Output
 
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
+import matplotlib
+matplotlib.use('Agg')
+
 import pandas as pd
+import numpy as np
+
+
 
 app_title = 'Pimms Dashboard'
 
@@ -16,7 +27,13 @@ DATA_PATH = BASE_PATH.joinpath("data").resolve()
 
 # Available data
 test_csvs = list(DATA_PATH.glob('*.csv'))
+
+#Expected columns
 info_columns = ['seq_id', 'locus_tag', 'type', 'gene', 'start', 'end', 'feat_length', 'product']
+simple_columns = info_columns + ['UK15_Blood_Output_NRM_score',
+                                 'UK15_Blood_Output_NIM_score',
+                                 'UK15_Media_Input_NRM_score',
+                                 'UK15_Media_Input_NIM_score']
 
 # Initialise App
 app = dash.Dash(__name__)
@@ -56,7 +73,7 @@ def create_header(title):
                        }
             ),
         ],
-        style={'width': '100%', 'display': 'inline-block'}
+        style={'width': '100%', 'display': 'inline-block', 'color': 'white'}
         )
 
 
@@ -109,33 +126,29 @@ def control_data_tab():
                 ], style={'display': 'flex', 'marginTop': '5px', 'justify-content': 'center',
                           'align-items': 'center'}),
                 html.Hr(),
-                html.Br(),
-                html.H3(children='Select upload data', style={'text-align': 'center'}),
-                html.Br(),
+                html.H3(children='Select Data', style={'text-align': 'center'}),
                 html.Div(id='uploaded-data', children=[
                     html.Div(id='up-control-block', children=[
-                        html.Div(children='Select control'),
+                        html.Div(children='Select Control'),
                         dcc.Dropdown(
                             id="control-dropdown",
                             options=[{'label': i.name, 'value': i.name} for i in test_csvs],
                             value=0,
-                            style={'width': '140px', 'verticalAlign': "middle",
+                            style={'verticalAlign': "middle",
                                    'border': 'solid 1px #545454', 'color': 'black'}
                         ),
-                    ], style={'marginRight': '10px'}),
+                    ], style={'marginRight': '10px', 'margin-top':'10px', 'width':'80%'}),
                     html.Div(id='up-test-block', children=[
-                        html.Div(children='Select test'),
+                        html.Div(children='Select Test'),
                         dcc.Dropdown(
                             id="test-dropdown",
                             options=[{'label': i.name, 'value': i.name} for i in test_csvs],
                             value=0,
-                            style={'width': '140px', 'verticalAlign': "middle",
+                            style={'verticalAlign': "middle",
                                    'border': 'solid 1px #545454', 'color': 'black'}
                         ),
-                    ], style={'marginRight': '10px'}),
-                    ], style={'display': 'flex', 'marginTop': '5px',
-                              'justify-content': 'center', 'align-items': 'center'}
-                    ),
+                    ], style={'marginRight': '10px', 'margin-top':'10px','width':'80%'}),
+                    ], style={'margin-left':'20px'}),
                 html.Br(),
                 html.Br(),
                 html.Br(),
@@ -145,37 +158,109 @@ def control_data_tab():
                     style={'display': 'block', 'text-align': 'center', 'padding': '10px',
                            'margin':'auto'}
                 ),
+                html.Br(),
+                html.Hr(),
+                html.H3(children='Upload Data', style={'text-align': 'center'}),
+                html.Div(
+                    dcc.Upload(
+                        id='upload-data',
+                        children=html.Div([
+                            'Drag and Drop Files'
+                        ]),
+                        style={
+                            'width': '100%',
+                            'height': '60px',
+                            'lineHeight': '60px',
+                            'borderWidth': '1px',
+                            'borderStyle': 'dashed',
+                            'borderRadius': '5px',
+                            'textAlign': 'center',
+                            'margin': '1px'
+                        },
+                        # Allow multiple files to be uploaded
+                        multiple=True
+                    ),
+                    style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center',}
+                ),
+                html.Div(id='output-data-upload'),
                 ]),
 
 
-def merge_control_test(control_df, test_df, on):
+#third tab on control panel
+def control_options_tab():
+    return html.Div(children=[
+                html.H3("Datatable options"),
+                dcc.Checklist(id='datatable_check',
+                    options=[
+                        {'label': 'Highlight', 'value': 'hl'},
+                        {'label': 'Show Filter', 'value': 'filter'},
+                        {'label': 'Simple Table (NRM NIM only)', 'value': 'simple'},
+                    ],
+                    value=['hl', 'filter', 'simple'],
+                    labelStyle={'display': 'flex', 'marginTop': '5px', 'marginLeft': '10px'},
+                ),
+                html.Div(children=[
+                    html.Div('Rows per page:'),
+                    dcc.Input(
+                        id='page_num_in',
+                        type='number',
+                        value=12,
+                        style={'margin-left':'10px', 'width':'40px'}
+                    )
+                ],style={'display':'flex', 'margin': '10px'}),
+                html.Hr(),
+
+    ],style={'marginLeft': '5px'})
+
+
+# empty analysis tab
+def empty_tab():
+    return html.Div('Select data for import ...', style={'height': '460px', 'backgroundColor': 'white'})
+
+
+# First tab in analysis panel, display datatable
+def analysis_datatable_tab():
+    return html.Div(children=[
+        html.Div(id='table_preview')
+        ], style={'backgroundColor': 'white'})
+
+
+def merge_control_test(control_df, test_df, on, control_suffix='_control', test_suffix='_test'):
     assert (set(on).issubset(control_df.columns)), 'On columns are not present in control_df'
     assert (set(on).issubset(test_df.columns)), 'On columns are not present in test_df'
     ctrl_data_cols = set(control_df.columns) - set(on)
     test_data_cols = set(test_df.columns) - set(on)
-    new_control_names = [(i, i + '_control') for i in list(ctrl_data_cols)]
-    new_test_names = [(i, i + '_test') for i in list(test_data_cols)]
+    new_control_names = [(i, i + control_suffix) for i in list(ctrl_data_cols)]
+    new_test_names = [(i, i + test_suffix) for i in list(test_data_cols)]
     control_df.rename(columns=dict(new_control_names), inplace=True)
     test_df.rename(columns=dict(new_test_names), inplace=True)
     df_m = pd.merge(test_df, control_df, how='inner', on=on)
     return df_m
 
 
-def create_datatable(df_c, df_t):
-    df_m = merge_control_test(df_c, df_t, on=info_columns)
+def create_datatable(df_c, df_t, simple=False):
+    if simple:
+        df_c = df_c[set(simple_columns).intersection(set(df_c.columns))]
+        df_t = df_t[set(simple_columns).intersection(set(df_t.columns))]
+    c_suffix = '_control'
+    t_suffix = '_test'
+    df_m = merge_control_test(df_c, df_t, info_columns, c_suffix, t_suffix)
     return dash_table.DataTable(id='main_table',
                 columns=[{"name": ["Information", i.replace("_", " ")], "id": i, "deletable": True} for i in df_m.columns if i in info_columns] + \
-                        [{"name": ['Control', i.replace("_", " ")], "id": i, "selectable": True} for i in df_m.columns if i.endswith('_control')] + \
-                        [{"name": ['Test', i.replace("_", " ")], "id": i, "selectable": True} for i in df_m.columns if i.endswith('_test')],
+                        [{"name": ['Control', i.replace("_", " ")], "id": i, "selectable": True} for i in df_m.columns if i.endswith(c_suffix)] + \
+                        [{"name": ['Test', i.replace("_", " ")], "id": i, "selectable": True} for i in df_m.columns if i.endswith(t_suffix)],
                 data=df_m.to_dict('records'),
                 merge_duplicate_headers=True,
-                filter_action="native",
                 sort_mode="multi",
                 column_selectable="multi",
-                style_table={'height': '525px', 'overflowX': 'scroll', 'overflowY': 'auto'},
+                tooltip_data=[{'product':{'type': 'text','value': f'{r}'} } for r in df_m['product'].values],
+                style_table={'overflowX': 'scroll', 'overflowY': 'auto', 'color':'black'},
+                style_as_list_view=True,
+                style_header={'backgroundColor': 'white', 'fontWeight': 'bold'},
+
                 style_cell={
                     'minWidth': '50px', 'width': '180px', 'maxWidth': '180px',
-                    'whiteSpace': 'normal',
+                    'whiteSpace': 'normal','padding': '5px','textAlign': 'left'
                 },
                 style_cell_conditional=[
                     {'if': {'column_id': 'product'},
@@ -185,7 +270,7 @@ def create_datatable(df_c, df_t):
                 style_data={
                     'lineHeight': '15px'
                 },
-                page_size=50,
+                page_size=12,
                 sort_action="native",
             )
 
@@ -203,13 +288,20 @@ app.layout = html.Div(id='main-app', children=[
                             style={'color': '#000000'}
                         ),
                         dcc.Tab(
-                            label='Import Data',
+                            label='Data',
                             value='tab2',
                             children=control_data_tab(),
                             style={'color': '#000000'}
                         ),
+                        dcc.Tab(
+                            label='Options',
+                            value='tab3',
+                            children=control_options_tab(),
+                            style={'color': '#000000'}
+                        ),
                     ]),
                 ], style={'display': 'inline-block',
+                          'color': 'white',
                           'width': '350px',
                           'height': '525px',
                           'margin': '35px',
@@ -218,49 +310,106 @@ app.layout = html.Div(id='main-app', children=[
                           'font-size': '10pt',
                           'float': 'left'}
                 ),
-
-                html.Div(id='table_preview',
-                         style={'display': 'inline-block',
-                                'height': '525px',
-                                'margin': '35px',
-                                'width': '65%',
-                                'background-color': '#333652',
-                                'font-size': '10pt',
-                                'color': 'black'}
+                # Visualisation Tabs
+                html.Div(id='analysis-tabs', children=[
+                    dcc.Tabs(id='a_tabs', value='tab1',children=[
+                        dcc.Tab(
+                            label='DataTable',
+                            value='tab1',
+                            children=analysis_datatable_tab()
+                        ),
+                        dcc.Tab(
+                            label='Histogram',
+                            value='tab2',
+                            children=empty_tab()
+                        ),
+                        dcc.Tab(
+                            label='Venn Diagram',
+                            value='tab3',
+                            children=empty_tab()
+                        ),
+                        dcc.Tab(
+                            label='Analysis tab4',
+                            value='tab4',
+                            children=empty_tab()
+                        ),
+                        dcc.Tab(
+                            label='Analysis tab5',
+                            value='tab5',
+                            children=empty_tab()
+                        ),
+                        dcc.Tab(
+                            label='Analysis tab6',
+                            value='tab6',
+                            children=empty_tab()
+                        ),
+                    ]),
+                ], style={'display': 'inline-block',
+                          'margin': '35px',
+                          'width': '65%',
+                          'box-shadow':'black'}
                 ),
             ])
 
 
 #Callbacks
 @app.callback(
-    Output('table', 'style_data_conditional'),
-    [Input('table', 'selected_columns')]
+    Output('main_table', 'style_data_conditional'),
+    [Input('main_table', 'selected_columns'),
+     Input('datatable_check', 'value')]
 )
-def update_styles(selected_columns):
-    if selected_columns is None:
-        return []
+def update_styles(selected_columns, checked_options):
+    style_data_conditional = []
+    if 'hl' in checked_options:
+        style_data_conditional.append({
+                    'if': {'filter_query': '({UK15_Media_Input_NIM_score_control} = 0 and {UK15_Blood_Output_NIM_score_test} > 0) or \
+                     ({UK15_Media_Input_NIM_score_control} > 0 and {UK15_Blood_Output_NIM_score_test} = 0)'},
+                    'backgroundColor': '#EDFFEC'})
+    if selected_columns != None:
+        for col in selected_columns:
+            style_data_conditional.append({
+                    'if': { 'column_id': col },
+                    'background_color': '#D2F3FF'
+                })
+    return style_data_conditional
+
+@app.callback(
+    Output('main_table', 'filter_action'),
+    [Input('datatable_check', 'value')],
+)
+def toggle_filter(checked_options):
+    if 'filter' in checked_options:
+        return 'native'
     else:
-        return [{
-            'if': { 'column_id': i },
-            'background_color': '#D2F3FF'
-        } for i in selected_columns]
+        return 'none'
+
+@app.callback(
+    Output('main_table', 'page_size'),
+    [Input('page_num_in', 'value')],
+)
+def table_page_size(number_pages):
+    if number_pages > 0:
+        return number_pages
+    else:
+        return 1
 
 @app.callback(
     Output('table_preview', 'children'),
     [Input('run-button', 'n_clicks'),
      Input('test-dropdown', 'value'),
-     Input('control-dropdown', 'value')]
+     Input('control-dropdown', 'value'),
+     Input('datatable_check', 'value')]
 )
-def onclick(n_clicks,test_path, control_path):
+def create_table(n_clicks, test_path, control_path, checked_options):
+    is_simple = 'simple' in checked_options
     if n_clicks is not None:
         if test_path not in [0, None] and control_path not in [0, None]:
             test_csv_idx = [i.name for i in test_csvs].index(test_path)
             control_csv_idx = [i.name for i in test_csvs].index(control_path)
             df_c = pd.read_csv(test_csvs[test_csv_idx])
             df_t = pd.read_csv(test_csvs[control_csv_idx])
-            return create_datatable(df_c, df_t)
-    return html.Div('Select data for import', style={'color': 'white', 'margin': '10px'})
-
+            return create_datatable(df_c, df_t, is_simple)
+    return empty_tab()
 
 if __name__ == '__main__':
     app.run_server(
