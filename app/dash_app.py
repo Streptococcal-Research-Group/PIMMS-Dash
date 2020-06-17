@@ -209,6 +209,21 @@ def control_options_tab():
                     )
                 ],style={'display':'flex', 'margin': '10px'}),
                 html.Hr(),
+                html.H3("Histogram options"),
+                html.Div(children=[
+                    html.Div('Style', style={'margin-right': '2em', 'verticalAlign': "middle"}),
+                    dcc.Dropdown(
+                        id='hist-type-dropdown',
+                        options=[
+                            {'label': 'Type 1', 'value': 'type1'},
+                            {'label': 'Type 2', 'value': 'type2'},
+                        ],
+                        value='type1',
+                        style={'width': '140px', 'verticalAlign': "middle",
+                               'border': 'solid 1px #545454', 'color': 'black'}
+                    )
+                ], style={'display': 'flex', 'marginTop': '5px', 'justify-content': 'center',
+                          'align-items': 'center'}),
 
     ],style={'marginLeft': '5px'})
 
@@ -223,6 +238,110 @@ def analysis_datatable_tab():
     return html.Div(children=[
         html.Div(id='table_preview')
         ], style={'backgroundColor': 'white'})
+
+
+#Second analysis tab, display histogram
+def analysis_hist_tab():
+    return html.Div(children=[
+        html.Div(id='histogram'),
+        ], style={'backgroundColor': 'white'})
+
+
+def create_histogram(series_control, series_test, range_x=None, range_y=None):
+    # Build histogram using numpy
+    np_hist_t = np.histogram(series_test.values, bins='auto')
+    np_hist_c = np.histogram(series_control.values, bins=np_hist_t[1])
+    np_hist_info = {
+        'test': {
+            'nbins': len(np_hist_t[1]) - 1,
+            'start': np_hist_t[1][0],
+            'end': np_hist_t[1][-1],
+            'max': np_hist_t[0].max(),
+            'min': np_hist_t[0].min(),
+            'size': np_hist_t[1][1]
+        },
+        'control': {
+            'nbins': len(np_hist_c[1]) - 1,
+            'start': np_hist_c[1][0],
+            'end': np_hist_c[1][-1],
+            'max': np_hist_c[0].max(),
+            'min': np_hist_c[0].min(),
+            'size': np_hist_c[1][1]
+        },
+    }
+    range_max = np.max([np_hist_info['test']['max'], np_hist_info['control']['max']])
+    range_min = np.min([np_hist_info['test']['min'], np_hist_info['control']['min']])
+
+    #create plotly graph objects
+    hist_t = go.Histogram(x=series_test,
+                          ybins={'end': np_hist_info['test']['end'],
+                                 'size': np_hist_info['test']['size'],
+                                 'start': np_hist_info['test']['start']},
+                          name='Test',
+                          opacity=0.5,
+                          marker={'line':{'width':1}}
+                          )
+    hist_c = go.Histogram(x=series_control,
+                          ybins={'end': np_hist_info['control']['end'],
+                                 'size': np_hist_info['control']['size'],
+                                 'start': np_hist_info['control']['start']},
+                          name='Control',
+                          opacity=0.5,
+                          marker={'line': {'width': 1}}
+                          )
+    #create figure
+    fig = make_subplots(rows=2, cols=1,
+                        shared_xaxes=True,
+                        vertical_spacing=0,
+                        column_titles=['Sampled Results'],  # title of plot
+                        x_title='NIM',  # xaxis label
+                        y_title='Count',
+                        )
+
+    fig.add_trace(hist_c, row=1, col=1)
+    fig.add_trace(hist_t, row=2, col=1)
+
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
+
+    #Manage range
+    if range_y:
+        fig.update_layout(go.Layout(yaxis=dict(range=range_y)))
+        fig.update_layout(go.Layout(yaxis2=dict(range=range_y[::-1])))
+    else:
+        fig.update_layout(go.Layout(yaxis=dict(range=[range_min, range_max])))
+        fig.update_layout(go.Layout(yaxis2=dict(range=[range_max, range_min])))
+
+    if range_x:
+        fig.update_layout(go.Layout(xaxis=dict(range=range_x)))
+        fig.update_layout(go.Layout(xaxis2=dict(range=range_x)))
+
+    return fig
+
+
+def create_histogram_t2(series_control, series_test,):
+    fig = go.Figure()
+    fig.add_trace(go.Histogram(x=series_control,
+                               name='Control',
+                               opacity=0.5,
+                               marker={'line': {'width': 1}}
+                               ))
+    fig.add_trace(go.Histogram(x=series_test,
+                               name='Test',
+                               opacity=0.5,
+                               marker={'line': {'width': 1}}
+                               ))
+
+    fig.update_layout(
+        bargap=0.2,  # gap between bars of adjacent location coordinates
+        bargroupgap=0,  # gap between bars of the same location coordinates
+        xaxis_title="NIM",
+        yaxis_title="Count",
+    )
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
+
+    return fig
 
 
 def merge_control_test(control_df, test_df, on, control_suffix='_control', test_suffix='_test'):
@@ -321,7 +440,7 @@ app.layout = html.Div(id='main-app', children=[
                         dcc.Tab(
                             label='Histogram',
                             value='tab2',
-                            children=empty_tab()
+                            children=analysis_hist_tab()
                         ),
                         dcc.Tab(
                             label='Venn Diagram',
@@ -410,6 +529,63 @@ def create_table(n_clicks, test_path, control_path, checked_options):
             df_t = pd.read_csv(test_csvs[control_csv_idx])
             return create_datatable(df_c, df_t, is_simple)
     return empty_tab()
+
+
+@app.callback(
+    Output('histogram', 'children'),
+    [Input('run-button', 'n_clicks'),
+     Input('test-dropdown', 'value'),
+     Input('control-dropdown', 'value'),
+     Input('hist-type-dropdown', 'value')]
+)
+def create_hist(n_clicks, test_path, control_path, hist_type):
+    if n_clicks is not None:
+        if test_path not in [0, None] and control_path not in [0, None]:
+            test_csv_idx = [i.name for i in test_csvs].index(test_path)
+            control_csv_idx = [i.name for i in test_csvs].index(control_path)
+            df_c = pd.read_csv(test_csvs[test_csv_idx])
+            df_t = pd.read_csv(test_csvs[control_csv_idx])
+            df_m = merge_control_test(df_c, df_t, on=info_columns)
+            control_col = [col for col in df_m.columns if 'NIM_score_control' in col][0]
+            test_col = [col for col in df_m.columns if 'NIM_score_test' in col][0]
+            if hist_type == 'type1':
+                hist_fig = create_histogram(df_m[control_col], df_m[test_col])
+                return dcc.Graph(id='hist-fig', figure=hist_fig)
+            elif hist_type == 'type2':
+                hist_fig = create_histogram_t2(df_m[control_col], df_m[test_col])
+                return dcc.Graph(id='hist-fig-t2', figure=hist_fig)
+    return empty_tab()
+
+@app.callback(
+    Output('hist-fig', 'figure'),
+    [Input('hist-fig', 'relayoutData'),
+     Input('test-dropdown', 'value'),
+     Input('control-dropdown', 'value')])
+def display_hist_type1(relayoutData, test_path, control_path):
+    if relayoutData:
+        if 'autosize' in relayoutData:
+            raise dash.exceptions.PreventUpdate
+        test_csv_idx = [i.name for i in test_csvs].index(test_path)
+        control_csv_idx = [i.name for i in test_csvs].index(control_path)
+        df_c = pd.read_csv(test_csvs[test_csv_idx])
+        df_t = pd.read_csv(test_csvs[control_csv_idx])
+        df_m = merge_control_test(df_c, df_t, on=info_columns)
+        control_col = [col for col in df_m.columns if 'NIM_score_control' in col][0]
+        test_col = [col for col in df_m.columns if 'NIM_score_test' in col][0]
+
+        if 'yaxis.range[1]' in relayoutData:
+            r_y = [0, relayoutData['yaxis.range[1]']]
+        elif 'yaxis2.range[1]' in relayoutData:
+            r_y = [0, relayoutData['yaxis2.range[0]']]
+        else:
+            r_y = None
+
+        if 'xaxis.range[0]' in relayoutData:
+            r_x = [relayoutData['xaxis.range[0]'], relayoutData['xaxis.range[1]']]
+        else:
+            r_x = None
+        return create_histogram(df_m[control_col], df_m[test_col], range_x=r_x, range_y=r_y)
+    raise dash.exceptions.PreventUpdate
 
 if __name__ == '__main__':
     app.run_server(
