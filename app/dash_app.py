@@ -43,16 +43,36 @@ app = dash.Dash(__name__)
 app.config['suppress_callback_exceptions'] = True
 server = app.server
 
-def load_and_merge(control_data_path, test_data_path, simple=False):
+def load_and_merge(control_data_path, test_data_path):
     test_csv_idx = [i.name for i in test_csvs].index(test_data_path)
     control_csv_idx = [i.name for i in test_csvs].index(control_data_path)
     df_c = pd.read_csv(test_csvs[test_csv_idx])
     df_t = pd.read_csv(test_csvs[control_csv_idx])
-    if simple:
-        df_c = df_c[set(simple_columns).intersection(set(df_c.columns))]
-        df_t = df_t[set(simple_columns).intersection(set(df_t.columns))]
     df_m = merge_control_test(df_c, df_t, info_columns, c_suffix, t_suffix)
     return df_m.to_json(date_format='iso', orient='split')
+
+
+def merge_control_test(control_df, test_df, on, control_suffix, test_suffix):
+    assert (set(on).issubset(control_df.columns)), 'On columns are not present in control_df'
+    assert (set(on).issubset(test_df.columns)), 'On columns are not present in test_df'
+    ctrl_data_cols = set(control_df.columns) - set(on)
+    test_data_cols = set(test_df.columns) - set(on)
+    new_control_names = [(i, i + control_suffix) for i in list(ctrl_data_cols)]
+    new_test_names = [(i, i + test_suffix) for i in list(test_data_cols)]
+    control_df.rename(columns=dict(new_control_names), inplace=True)
+    test_df.rename(columns=dict(new_test_names), inplace=True)
+    df_m = pd.merge(test_df, control_df, how='inner', on=on)
+    return df_m
+
+
+def simplify_df_m(df_m):
+    new_cols = []
+    for col in set(df_m.columns)-set(info_columns):
+        for simple_col in set(simple_columns)-set(info_columns):
+            if col.startswith(simple_col):
+                new_cols.append(col)
+    return df_m[info_columns+new_cols]
+
 
 # Header
 def create_header(title):
@@ -394,19 +414,6 @@ def create_venn(series_A, series_B, thresh_A=0, thresh_B=0):
     return html.Img(src=img, style={'display':'flex', 'justify-content': 'center', 'align-items': 'center', 'height': '460px'})
 
 
-def merge_control_test(control_df, test_df, on, control_suffix, test_suffix):
-    assert (set(on).issubset(control_df.columns)), 'On columns are not present in control_df'
-    assert (set(on).issubset(test_df.columns)), 'On columns are not present in test_df'
-    ctrl_data_cols = set(control_df.columns) - set(on)
-    test_data_cols = set(test_df.columns) - set(on)
-    new_control_names = [(i, i + control_suffix) for i in list(ctrl_data_cols)]
-    new_test_names = [(i, i + test_suffix) for i in list(test_data_cols)]
-    control_df.rename(columns=dict(new_control_names), inplace=True)
-    test_df.rename(columns=dict(new_test_names), inplace=True)
-    df_m = pd.merge(test_df, control_df, how='inner', on=on)
-    return df_m
-
-
 def create_datatable(df_m):
     return dash_table.DataTable(id='main_table',
                 columns=[{"name": ["Information", i.replace("_", " ")], "id": i, "deletable": True} for i in df_m.columns if i in info_columns] + \
@@ -529,7 +536,6 @@ def on_click(n_clicks, test_path, control_path, data):
 
     # Give a default data dict with 0 clicks if there's no data.
     data = data or {'clicks': 0, 'dataframe': None}
-
     if n_clicks > data['clicks']:
         data['dataframe'] = load_and_merge(control_path, test_path)
         data['clicks'] = n_clicks
@@ -584,9 +590,10 @@ def table_page_size(number_pages):
     [State('memory', 'data')]
 )
 def create_table(ts, checked_options, data):
-    is_simple = 'simple' in checked_options
     if ts is not None:
         df_m = pd.read_json(data['dataframe'], orient='split')
+        if 'simple' in checked_options:
+            df_m = simplify_df_m(df_m)
         return create_datatable(df_m)
     return empty_tab()
 
