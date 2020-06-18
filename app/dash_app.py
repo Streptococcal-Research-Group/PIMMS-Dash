@@ -6,7 +6,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -18,7 +18,6 @@ from matplotlib_venn import venn2
 
 import pandas as pd
 import numpy as np
-
 
 
 app_title = 'Pimms Dashboard'
@@ -36,12 +35,24 @@ simple_columns = info_columns + ['UK15_Blood_Output_NRM_score',
                                  'UK15_Blood_Output_NIM_score',
                                  'UK15_Media_Input_NRM_score',
                                  'UK15_Media_Input_NIM_score']
+c_suffix = '_control'
+t_suffix = '_test'
 
 # Initialise App
 app = dash.Dash(__name__)
 app.config['suppress_callback_exceptions'] = True
 server = app.server
 
+def load_and_merge(control_data_path, test_data_path, simple=False):
+    test_csv_idx = [i.name for i in test_csvs].index(test_data_path)
+    control_csv_idx = [i.name for i in test_csvs].index(control_data_path)
+    df_c = pd.read_csv(test_csvs[test_csv_idx])
+    df_t = pd.read_csv(test_csvs[control_csv_idx])
+    if simple:
+        df_c = df_c[set(simple_columns).intersection(set(df_c.columns))]
+        df_t = df_t[set(simple_columns).intersection(set(df_t.columns))]
+    df_m = merge_control_test(df_c, df_t, info_columns, c_suffix, t_suffix)
+    return df_m.to_json(date_format='iso', orient='split')
 
 # Header
 def create_header(title):
@@ -364,11 +375,11 @@ def create_histogram_t2(series_control, series_test,):
     return fig
 
 
-def create_venn(df, col_A, col_B, thresh_A=0, thresh_B=0):
+def create_venn(series_A, series_B, thresh_A=0, thresh_B=0):
     # get venn sets
-    aB = ((df[col_A] > thresh_A) & (df[col_B] <= thresh_B)).sum()
-    Ab = ((df[col_A] <= thresh_A) & (df[col_B] > thresh_B)).sum()
-    AB = ((df[col_A] <= thresh_A) & (df[col_B] <= thresh_B)).sum()
+    aB = ((series_A > thresh_A) & (series_B <= thresh_B)).sum()
+    Ab = ((series_A <= thresh_A) & (series_B > thresh_B)).sum()
+    AB = ((series_A <= thresh_A) & (series_B <= thresh_B)).sum()
 
     # Create venn using matplotlib, encode to b64, pass to html.img
     plt.figure(linewidth=10, edgecolor="black", facecolor="black")
@@ -383,7 +394,7 @@ def create_venn(df, col_A, col_B, thresh_A=0, thresh_B=0):
     return html.Img(src=img, style={'display':'flex', 'justify-content': 'center', 'align-items': 'center', 'height': '460px'})
 
 
-def merge_control_test(control_df, test_df, on, control_suffix='_control', test_suffix='_test'):
+def merge_control_test(control_df, test_df, on, control_suffix, test_suffix):
     assert (set(on).issubset(control_df.columns)), 'On columns are not present in control_df'
     assert (set(on).issubset(test_df.columns)), 'On columns are not present in test_df'
     ctrl_data_cols = set(control_df.columns) - set(on)
@@ -396,13 +407,7 @@ def merge_control_test(control_df, test_df, on, control_suffix='_control', test_
     return df_m
 
 
-def create_datatable(df_c, df_t, simple=False):
-    if simple:
-        df_c = df_c[set(simple_columns).intersection(set(df_c.columns))]
-        df_t = df_t[set(simple_columns).intersection(set(df_t.columns))]
-    c_suffix = '_control'
-    t_suffix = '_test'
-    df_m = merge_control_test(df_c, df_t, info_columns, c_suffix, t_suffix)
+def create_datatable(df_m):
     return dash_table.DataTable(id='main_table',
                 columns=[{"name": ["Information", i.replace("_", " ")], "id": i, "deletable": True} for i in df_m.columns if i in info_columns] + \
                         [{"name": ['Control', i.replace("_", " ")], "id": i, "selectable": True} for i in df_m.columns if i.endswith(c_suffix)] + \
@@ -435,6 +440,7 @@ def create_datatable(df_c, df_t, simple=False):
 
 # Main App
 app.layout = html.Div(id='main-app', children=[
+                dcc.Store(id='memory'),
                 create_header(app_title),
                 # Control-Tabs
                 html.Div(id='control-tabs', children=[
@@ -511,6 +517,25 @@ app.layout = html.Div(id='main-app', children=[
 
 
 #Callbacks
+
+@app.callback(Output('memory', 'data'),
+              [Input('run-button', 'n_clicks'),
+               Input('test-dropdown', 'value'),
+               Input('control-dropdown', 'value')],
+              [State('memory', 'data')])
+def on_click(n_clicks, test_path, control_path, data):
+    if (n_clicks is None) or (test_path in [0, None]) or (control_path in [0, None]):
+        raise dash.exceptions.PreventUpdate
+
+    # Give a default data dict with 0 clicks if there's no data.
+    data = data or {'clicks': 0, 'dataframe': None}
+
+    if n_clicks > data['clicks']:
+        data['dataframe'] = load_and_merge(control_path, test_path)
+        data['clicks'] = n_clicks
+
+    return data
+
 @app.callback(
     Output('main_table', 'style_data_conditional'),
     [Input('main_table', 'selected_columns'),
@@ -520,8 +545,8 @@ def update_styles(selected_columns, checked_options):
     style_data_conditional = []
     if 'hl' in checked_options:
         style_data_conditional.append({
-                    'if': {'filter_query': '({UK15_Media_Input_NIM_score_control} = 0 and {UK15_Blood_Output_NIM_score_test} > 0) or \
-                     ({UK15_Media_Input_NIM_score_control} > 0 and {UK15_Blood_Output_NIM_score_test} = 0)'},
+                    'if': {'filter_query': f'({{UK15_Media_Input_NIM_score{c_suffix}}} = 0 and {{UK15_Blood_Output_NIM_score{t_suffix}}} > 0) or \
+                     ({{UK15_Media_Input_NIM_score{c_suffix}}} > 0 and {{UK15_Blood_Output_NIM_score{t_suffix}}} = 0)'},
                     'backgroundColor': '#EDFFEC'})
     if selected_columns != None:
         for col in selected_columns:
@@ -554,20 +579,15 @@ def table_page_size(number_pages):
 
 @app.callback(
     Output('table_preview', 'children'),
-    [Input('run-button', 'n_clicks'),
-     Input('test-dropdown', 'value'),
-     Input('control-dropdown', 'value'),
-     Input('datatable_check', 'value')]
+    [Input('memory', 'modified_timestamp'),
+     Input('datatable_check', 'value')],
+    [State('memory', 'data')]
 )
-def create_table(n_clicks, test_path, control_path, checked_options):
+def create_table(ts, checked_options, data):
     is_simple = 'simple' in checked_options
-    if n_clicks is not None:
-        if test_path not in [0, None] and control_path not in [0, None]:
-            test_csv_idx = [i.name for i in test_csvs].index(test_path)
-            control_csv_idx = [i.name for i in test_csvs].index(control_path)
-            df_c = pd.read_csv(test_csvs[test_csv_idx])
-            df_t = pd.read_csv(test_csvs[control_csv_idx])
-            return create_datatable(df_c, df_t, is_simple)
+    if ts is not None:
+        df_m = pd.read_json(data['dataframe'], orient='split')
+        return create_datatable(df_m)
     return empty_tab()
 
 @app.callback(
@@ -586,77 +606,63 @@ def update_venn_thresh_desc_control(slider_val):
 
 @app.callback(
     Output('venn-diagram', 'children'),
-    [Input('run-button', 'n_clicks'),
-     Input('test-dropdown', 'value'),
-     Input('control-dropdown', 'value'),
+    [Input('memory', 'modified_timestamp'),
      Input('venn-slider-c', 'value'),
-     Input('venn-slider-t', 'value')]
+     Input('venn-slider-t', 'value')],
+    [State('memory', 'data')]
 )
-def update_venn(n_clicks, test_path, control_path, thresh_c, thresh_t):
-    if n_clicks is not None:
-        if test_path not in [0, None] and control_path not in [0, None]:
-            test_csv_idx = [i.name for i in test_csvs].index(test_path)
-            control_csv_idx = [i.name for i in test_csvs].index(control_path)
-            df_c = pd.read_csv(test_csvs[test_csv_idx])
-            df_t = pd.read_csv(test_csvs[control_csv_idx])
-            df_m = merge_control_test(df_c, df_t, on=info_columns)
-            venn_img = create_venn(df_m, df_c.columns[-1], df_t.columns[-1], thresh_c, thresh_t)
-            label = dcc.Markdown(f"""
-            * **Set A**: 
-            {df_c.columns[-1]}
-            
-            * **Set B**:
-            {df_t.columns[-1]}
+def update_venn(ts, thresh_c, thresh_t, data):
+    if ts is not None:
+        df_m = pd.read_json(data['dataframe'], orient='split')
+        control_col = [col for col in df_m.columns if f'NIM_score{c_suffix}' in col][0]
+        test_col = [col for col in df_m.columns if f'NIM_score{t_suffix}' in col][0]
+        venn_img = create_venn(df_m[control_col], df_m[test_col],thresh_c, thresh_t)
+        label = dcc.Markdown(f"""
+        * **Set A**: 
+        {control_col}
+        
+        * **Set B**:
+        {test_col}
 
-            """)
-            return html.Div(children=[
-                html.Div(venn_img),
-                label,
-            ],style={'display': 'flex','justify-content': 'center',
-                          'align-items': 'center'})
+        """)
+        return html.Div(children=[
+            html.Div(venn_img),
+            label,
+        ],style={'display': 'flex','justify-content': 'center',
+                      'align-items': 'center'})
     return empty_tab()
 
 @app.callback(
     Output('histogram', 'children'),
-    [Input('run-button', 'n_clicks'),
-     Input('test-dropdown', 'value'),
-     Input('control-dropdown', 'value'),
-     Input('hist-type-dropdown', 'value')]
+    [Input('memory', 'modified_timestamp'),
+     Input('hist-type-dropdown', 'value')],
+    [State('memory', 'data')]
 )
-def create_hist(n_clicks, test_path, control_path, hist_type):
-    if n_clicks is not None:
-        if test_path not in [0, None] and control_path not in [0, None]:
-            test_csv_idx = [i.name for i in test_csvs].index(test_path)
-            control_csv_idx = [i.name for i in test_csvs].index(control_path)
-            df_c = pd.read_csv(test_csvs[test_csv_idx])
-            df_t = pd.read_csv(test_csvs[control_csv_idx])
-            df_m = merge_control_test(df_c, df_t, on=info_columns)
-            control_col = [col for col in df_m.columns if 'NIM_score_control' in col][0]
-            test_col = [col for col in df_m.columns if 'NIM_score_test' in col][0]
-            if hist_type == 'type1':
-                hist_fig = create_histogram(df_m[control_col], df_m[test_col])
-                return dcc.Graph(id='hist-fig', figure=hist_fig)
-            elif hist_type == 'type2':
-                hist_fig = create_histogram_t2(df_m[control_col], df_m[test_col])
-                return dcc.Graph(id='hist-fig-t2', figure=hist_fig)
+def create_hist(ts, hist_type, data):
+    if ts is not None:
+        df_m = pd.read_json(data['dataframe'], orient='split')
+        control_col = [col for col in df_m.columns if f'NIM_score{c_suffix}' in col][0]
+        test_col = [col for col in df_m.columns if f'NIM_score{t_suffix}' in col][0]
+        if hist_type == 'type1':
+            hist_fig = create_histogram(df_m[control_col], df_m[test_col])
+            return dcc.Graph(id='hist-fig', figure=hist_fig)
+        elif hist_type == 'type2':
+            hist_fig = create_histogram_t2(df_m[control_col], df_m[test_col])
+            return dcc.Graph(id='hist-fig-t2', figure=hist_fig)
     return empty_tab()
 
 @app.callback(
     Output('hist-fig', 'figure'),
-    [Input('hist-fig', 'relayoutData'),
-     Input('test-dropdown', 'value'),
-     Input('control-dropdown', 'value')])
-def display_hist_type1(relayoutData, test_path, control_path):
+    [Input('hist-fig', 'relayoutData')],
+    [State('memory', 'data')]
+)
+def display_hist_type1(relayoutData, data):
     if relayoutData:
         if 'autosize' in relayoutData:
             raise dash.exceptions.PreventUpdate
-        test_csv_idx = [i.name for i in test_csvs].index(test_path)
-        control_csv_idx = [i.name for i in test_csvs].index(control_path)
-        df_c = pd.read_csv(test_csvs[test_csv_idx])
-        df_t = pd.read_csv(test_csvs[control_csv_idx])
-        df_m = merge_control_test(df_c, df_t, on=info_columns)
-        control_col = [col for col in df_m.columns if 'NIM_score_control' in col][0]
-        test_col = [col for col in df_m.columns if 'NIM_score_test' in col][0]
+        df_m = pd.read_json(data['dataframe'], orient='split')
+        control_col = [col for col in df_m.columns if f'NIM_score{c_suffix}' in col][0]
+        test_col = [col for col in df_m.columns if f'NIM_score{t_suffix}' in col][0]
 
         if 'yaxis.range[1]' in relayoutData:
             r_y = [0, relayoutData['yaxis.range[1]']]
