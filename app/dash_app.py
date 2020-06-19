@@ -245,7 +245,7 @@ def control_options_tab():
                 html.Hr(),
                 html.H3("Histogram options"),
                 html.Div(children=[
-                    html.Div('Style', style={'margin-right': '2em', 'verticalAlign': "middle"}),
+                    html.Div('Style', style={'margin': '2px', 'margin-left':'5px', 'margin-right':'20px', 'verticalAlign': "middle"}),
                     dcc.Dropdown(
                         id='hist-type-dropdown',
                         options=[
@@ -256,8 +256,17 @@ def control_options_tab():
                         style={'width': '140px', 'verticalAlign': "middle",
                                'border': 'solid 1px #545454', 'color': 'black'}
                     )
-                ], style={'display': 'flex', 'marginTop': '5px', 'justify-content': 'center',
-                          'align-items': 'center'}),
+                ], style={'display': 'flex', 'margin': '10px', 'align-items': 'center'}),
+                html.Div(children=[
+                    html.Div('Bin Size :', style={'margin': '2px', 'margin-left':'5px', 'margin-right':'20px', 'verticalAlign': "middle"}),
+                    dcc.Input(
+                        id='hist-bin-size',
+                        type='number',
+                        value=1,
+                        style={'width': '45px', 'verticalAlign': "middle",
+                               'border': 'solid 1px #545454', 'color': 'black'}
+                    ),
+                ], style={'display': 'flex', 'margin': '10px'}),
                 html.Hr(),
                 html.H3("Venn options"),
                 html.Div(children=[
@@ -315,9 +324,15 @@ def analysis_venn_tab():
         ], style={'backgroundColor': 'white'})
 
 
-def create_histogram(series_control, series_test, range_x=None, range_y=None):
-    # Build histogram using numpy
-    np_hist_t = np.histogram(series_test.values, bins='auto')
+def create_histogram(series_control, series_test, range_x=None, range_y=None, bin_size=None):
+    #create numpy xbins
+    if bin_size == None:
+        xbins = 'auto'
+    else:
+        xbins = np.arange(0, np.max([series_control.max(),series_test.max()])+bin_size, bin_size)
+
+    # Build histogram first using numpy to be able to extract y range.
+    np_hist_t = np.histogram(series_test.values, bins=xbins)
     np_hist_c = np.histogram(series_control.values, bins=np_hist_t[1])
     np_hist_info = {
         'test': {
@@ -340,9 +355,9 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None):
     range_max = np.max([np_hist_info['test']['max'], np_hist_info['control']['max']])
     range_min = np.min([np_hist_info['test']['min'], np_hist_info['control']['min']])
 
-    #create plotly graph objects
+    #Replicate numpy histograms as plotly graph objects
     hist_t = go.Histogram(x=series_test,
-                          ybins={'end': np_hist_info['test']['end'],
+                          xbins={'end': np_hist_info['test']['end'],
                                  'size': np_hist_info['test']['size'],
                                  'start': np_hist_info['test']['start']},
                           name='Test',
@@ -350,7 +365,7 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None):
                           marker={'line':{'width':1}}
                           )
     hist_c = go.Histogram(x=series_control,
-                          ybins={'end': np_hist_info['control']['end'],
+                          xbins={'end': np_hist_info['control']['end'],
                                  'size': np_hist_info['control']['size'],
                                  'start': np_hist_info['control']['start']},
                           name='Control',
@@ -372,7 +387,7 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None):
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
 
-    #Manage range
+    #Manage range, reversing range for subplot 2
     if range_y:
         fig.update_layout(go.Layout(yaxis=dict(range=range_y)))
         fig.update_layout(go.Layout(yaxis2=dict(range=range_y[::-1])))
@@ -387,14 +402,21 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None):
     return fig
 
 
-def create_histogram_t2(series_control, series_test,):
+def create_histogram_t2(series_control, series_test, bin_size=None):
+    if bin_size:
+        xbins = {'start': 0, 'size': bin_size}
+    else:
+        xbins = None
+
     fig = go.Figure()
     fig.add_trace(go.Histogram(x=series_control,
+                               xbins=xbins,
                                name='Control',
                                opacity=0.5,
                                marker={'line': {'width': 1}}
                                ))
     fig.add_trace(go.Histogram(x=series_test,
+                               xbins=xbins,
                                name='Test',
                                opacity=0.5,
                                marker={'line': {'width': 1}}
@@ -686,31 +708,34 @@ def update_venn(ts, thresh_c, thresh_t, slider_c, slider_t, data):
                       'align-items': 'center'})
     return empty_tab()
 
+
 @app.callback(
     Output('histogram', 'children'),
     [Input('memory', 'modified_timestamp'),
-     Input('hist-type-dropdown', 'value')],
+     Input('hist-type-dropdown', 'value'),
+     Input('hist-bin-size', 'value')],
     [State('memory', 'data')]
 )
-def create_hist(ts, hist_type, data):
+def create_hist(ts, hist_type, bin_size, data):
     if ts is not None:
         df_m = pd.read_json(data['dataframe'], orient='split')
         control_col = [col for col in df_m.columns if f'NIM_score{c_suffix}' in col][0]
         test_col = [col for col in df_m.columns if f'NIM_score{t_suffix}' in col][0]
         if hist_type == 'type1':
-            hist_fig = create_histogram(df_m[control_col], df_m[test_col])
+            hist_fig = create_histogram(df_m[control_col], df_m[test_col], bin_size=bin_size)
             return dcc.Graph(id='hist-fig', figure=hist_fig)
         elif hist_type == 'type2':
-            hist_fig = create_histogram_t2(df_m[control_col], df_m[test_col])
+            hist_fig = create_histogram_t2(df_m[control_col], df_m[test_col], bin_size=bin_size)
             return dcc.Graph(id='hist-fig-t2', figure=hist_fig)
     return empty_tab()
 
 @app.callback(
     Output('hist-fig', 'figure'),
-    [Input('hist-fig', 'relayoutData')],
+    [Input('hist-fig', 'relayoutData'),
+     Input('hist-bin-size', 'value')],
     [State('memory', 'data')]
 )
-def display_hist_type1(relayoutData, data):
+def display_hist_type1(relayoutData, bin_size, data):
     if relayoutData:
         if 'autosize' in relayoutData:
             raise dash.exceptions.PreventUpdate
@@ -729,7 +754,7 @@ def display_hist_type1(relayoutData, data):
             r_x = [relayoutData['xaxis.range[0]'], relayoutData['xaxis.range[1]']]
         else:
             r_x = None
-        return create_histogram(df_m[control_col], df_m[test_col], range_x=r_x, range_y=r_y)
+        return create_histogram(df_m[control_col], df_m[test_col], range_x=r_x, range_y=r_y, bin_size=bin_size)
     raise dash.exceptions.PreventUpdate
 
 if __name__ == '__main__':
