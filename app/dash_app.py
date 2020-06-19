@@ -21,6 +21,7 @@ import numpy as np
 
 
 app_title = 'Pimms Dashboard'
+tab_height = '600px'
 
 # Define local paths
 BASE_PATH = pathlib.Path(__file__).parent.resolve()
@@ -260,10 +261,26 @@ def control_options_tab():
                 html.Hr(),
                 html.H3("Venn options"),
                 html.Div(children=[
-                    html.Div(id='venn-thresh-desc-c',children='SET A: Control NIM scores <=', style={'margin-left': '10px', 'margin-right': '10px'}),
+                    html.Div(id='venn-thresh-desc-c', style={'margin-left': '10px', 'margin-right': '10px'}),
                     dcc.Slider(id='venn-slider-c', value=0, min=0, max=50, step=1),
-                    html.Div(id='venn-thresh-desc-t',children='SET B: Test NIM scores <=', style={'margin-left': '10px', 'margin-right': '10px'}),
+                    html.Div(id='venn-thresh-desc-t', style={'margin-left': '10px', 'margin-right': '10px'}),
                     dcc.Slider(id='venn-slider-t', value=0, min=0, max=50, step=1),
+                    html.Div(id='venn-inserts-desc-c', style={'margin-left': '10px', 'margin-right': '10px'}),
+                    dcc.RangeSlider(
+                        id='venn-inserts-slider-c',
+                        min=0,
+                        max=100,
+                        step=1,
+                        value=[0, 100]
+                    ),
+                    html.Div(id='venn-inserts-desc-t',style={'margin-left': '10px', 'margin-right': '10px'}),
+                    dcc.RangeSlider(
+                        id='venn-inserts-slider-t',
+                        min=0,
+                        max=100,
+                        step=1,
+                        value=[0, 100]
+                    ),
                 ]),
 
     ],style={'marginLeft': '5px'})
@@ -271,7 +288,7 @@ def control_options_tab():
 
 # empty analysis tab
 def empty_tab():
-    return html.Div('Select data for import ...', style={'height': '460px', 'backgroundColor': 'white'})
+    return html.Div('Select data for import ...', style={'height': '100%', 'backgroundColor': 'white'})
 
 
 # First tab in analysis panel, display datatable
@@ -395,11 +412,11 @@ def create_histogram_t2(series_control, series_test,):
     return fig
 
 
-def create_venn(series_A, series_B, thresh_A=0, thresh_B=0):
+def create_venn(set_A, set_B):
     # get venn sets
-    aB = ((series_A > thresh_A) & (series_B <= thresh_B)).sum()
-    Ab = ((series_A <= thresh_A) & (series_B > thresh_B)).sum()
-    AB = ((series_A <= thresh_A) & (series_B <= thresh_B)).sum()
+    aB = len(set(set_B) - set(set_A))
+    Ab = len(set(set_A) - set(set_B))
+    AB = len(set(set_A) & set(set_B))
 
     # Create venn using matplotlib, encode to b64, pass to html.img
     plt.figure(linewidth=10, edgecolor="black", facecolor="black")
@@ -411,7 +428,7 @@ def create_venn(series_A, series_B, thresh_A=0, thresh_B=0):
     img = 'data:image/png;base64,{}'.format(encoded_image.decode())
     # plotly_fig = mpl_to_plotly(mpl_fig) # Not working for venn
     plt.close()
-    return html.Img(src=img, style={'display':'flex', 'justify-content': 'center', 'align-items': 'center', 'height': '460px'})
+    return html.Img(src=img, style={'display':'flex', 'justify-content': 'center', 'align-items': 'center', 'height': '100%'})
 
 
 def create_datatable(df_m):
@@ -474,7 +491,7 @@ app.layout = html.Div(id='main-app', children=[
                 ], style={'display': 'inline-block',
                           'color': 'white',
                           'width': '350px',
-                          'height': '525px',
+                          'height': tab_height,
                           'margin': '35px',
                           'margin-right': '0px',
                           'background-color': '#333652',
@@ -517,8 +534,9 @@ app.layout = html.Div(id='main-app', children=[
                     ]),
                 ], style={'display': 'inline-block',
                           'margin': '35px',
+                          'height': tab_height,
                           'width': '65%',
-                          'box-shadow':'black'}
+                          'backgroundColor':'white'}
                 ),
             ])
 
@@ -612,18 +630,47 @@ def update_venn_thresh_desc_control(slider_val):
     return f'SET B: Test NIM scores <= {slider_val}'
 
 @app.callback(
+    Output('venn-inserts-desc-c', 'children'),
+    [Input('venn-inserts-slider-c', 'value')]
+)
+def update_venn_thresh_desc_control(slider_val):
+    return f'SET A: Control inserts are within percentiles {slider_val[0]} to {slider_val[1]} '
+
+@app.callback(
+    Output('venn-inserts-desc-t', 'children'),
+    [Input('venn-inserts-slider-t', 'value')]
+)
+def update_venn_thresh_desc_control(slider_val):
+    return f'SET B: Test inserts are within percentiles {slider_val[0]} to {slider_val[1]}'
+
+@app.callback(
     Output('venn-diagram', 'children'),
     [Input('memory', 'modified_timestamp'),
      Input('venn-slider-c', 'value'),
-     Input('venn-slider-t', 'value')],
+     Input('venn-slider-t', 'value'),
+     Input('venn-inserts-slider-c', 'value'),
+     Input('venn-inserts-slider-t', 'value')],
     [State('memory', 'data')]
 )
-def update_venn(ts, thresh_c, thresh_t, data):
+def update_venn(ts, thresh_c, thresh_t, slider_c, slider_t, data):
     if ts is not None:
         df_m = pd.read_json(data['dataframe'], orient='split')
         control_col = [col for col in df_m.columns if f'NIM_score{c_suffix}' in col][0]
         test_col = [col for col in df_m.columns if f'NIM_score{t_suffix}' in col][0]
-        venn_img = create_venn(df_m[control_col], df_m[test_col],thresh_c, thresh_t)
+        control_perc_cols = [col for col in df_m.columns if f'insert_posn_as_percentile{t_suffix}' in col]
+        test_perc_cols = [col for col in df_m.columns if f'insert_posn_as_percentile{t_suffix}' in col]
+
+        df_m['unique'] = np.arange(len(df_m)).astype(str)
+
+        #apply filters to get sets
+        control_set = df_m[((df_m[control_col] <= thresh_c) &
+                            (df_m[control_perc_cols[0]] >= slider_c[0]) &
+                            (df_m[control_perc_cols[1]] <= slider_c[1]))]['unique']
+        test_set = df_m[((df_m[test_col] <= thresh_t) &
+                            (df_m[test_perc_cols[0]] >= slider_t[0]) &
+                            (df_m[test_perc_cols[1]] <= slider_t[1]))]['unique']
+
+        venn_img = create_venn(control_set, test_set)
         label = dcc.Markdown(f"""
         * **Set A**: 
         {control_col}
