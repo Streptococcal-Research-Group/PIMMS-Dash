@@ -1,23 +1,28 @@
+# Standard Library
 import pathlib
 import io
 import base64
 
+# Dash and plotly
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
 from dash.dependencies import Input, Output, State
-
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+# Other
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib_venn import venn2
-
 import pandas as pd
 import numpy as np
+
+#local imports
+from utils import GffDataFrame
+
 
 #Globals
 app_title = 'Pimms Dashboard'
@@ -335,6 +340,13 @@ def analysis_venn_tab():
         ], style={'backgroundColor': 'white'})
 
 
+# Fourth analysis tab, display genome scatter
+def analysis_gff_scatter_tab():
+    return html.Div(children=[
+        html.Div(id='genome-scatter'),
+    ], style={'backgroundColor': 'white'})
+
+
 def create_histogram(series_control, series_test, range_x=None, range_y=None, bin_size=None):
     #create numpy xbins
     if bin_size == None:
@@ -476,6 +488,31 @@ def create_venn(set_A, set_B):
     return html.Img(src=img, style={'display':'flex', 'justify-content': 'center', 'align-items': 'center', 'height': '100%'})
 
 
+def create_genome_scatter(gff_df):
+    start_counts = gff_df.value_counts('start')
+    start_counts.sort_index()
+    # Create figure, Use scattergl for large datasets.
+    fig = go.Figure()
+    fig.add_trace(go.Scattergl(
+        x=start_counts.index, y=start_counts,
+        name='mutations',
+        mode='markers',
+        marker=dict(
+            size=16,
+            color=start_counts,
+            colorscale='Aggrnyl',
+            showscale=False
+        )
+    ))
+    # Set options common to all traces with fig.update_traces
+    fig.update_traces(mode='markers', marker_line_width=2, marker_size=10)
+    fig.update_layout(title='Insertions across the genome',
+                      xaxis=dict(title_text="Position in the Genome"),
+                      yaxis=dict(title_text="Number of Mutations / base"),
+                      template=plotly_template,)
+    return fig
+
+
 def create_datatable(df_m):
     return dash_table.DataTable(id='main_table',
                 columns=[{"name": ["Information", i.replace("_", " ")], "id": i, "deletable": True} for i in df_m.columns if i in info_columns] + \
@@ -562,9 +599,9 @@ app.layout = html.Div(id='main-app', children=[
                             children=analysis_venn_tab()
                         ),
                         dcc.Tab(
-                            label='Analysis tab4',
+                            label='Genome Scatter',
                             value='tab4',
-                            children=empty_tab()
+                            children=analysis_gff_scatter_tab()
                         ),
                         dcc.Tab(
                             label='Analysis tab5',
@@ -779,6 +816,20 @@ def display_hist_type1(relayoutData, bin_size, data):
             r_x = None
         return create_histogram(df_m[control_col], df_m[test_col], range_x=r_x, range_y=r_y, bin_size=bin_size)
     raise dash.exceptions.PreventUpdate
+
+@app.callback(
+    Output('genome-scatter', 'children'),
+    [Input('run-button', 'n_clicks'),
+     Input('gff-dropdown', 'value'),]
+)
+def update_genome_scatter(n_clicks, gff_path):
+    if (n_clicks is not None) and (gff_path not in [0, None]):
+        gff_idx = [i.name for i in test_gff].index(gff_path)
+        gff_df = GffDataFrame(test_gff[gff_idx])
+        fig = create_genome_scatter(gff_df)
+        return dcc.Graph(id='gff-scatter-fig', figure=fig)
+    else:
+        return empty_tab()
 
 if __name__ == '__main__':
     app.run_server(
