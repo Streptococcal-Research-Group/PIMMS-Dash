@@ -19,9 +19,10 @@ from matplotlib_venn import venn2
 import pandas as pd
 import numpy as np
 
-
+#Globals
 app_title = 'Pimms Dashboard'
 tab_height = '600px'
+plotly_template = 'simple_white'
 
 # Define local paths
 BASE_PATH = pathlib.Path(__file__).parent.resolve()
@@ -29,6 +30,7 @@ DATA_PATH = BASE_PATH.joinpath("data").resolve()
 
 # Available data
 test_csvs = list(DATA_PATH.glob('*.csv'))
+test_gff = list(DATA_PATH.glob('*.gff'))
 
 #Expected columns
 info_columns = ['seq_id', 'locus_tag', 'type', 'gene', 'start', 'end', 'feat_length', 'product']
@@ -171,7 +173,7 @@ def control_data_tab():
                             style={'verticalAlign': "middle",
                                    'border': 'solid 1px #545454', 'color': 'black'}
                         ),
-                    ], style={'marginRight': '10px', 'margin-top':'10px', 'width':'80%'}),
+                    ], style={'marginRight': '10px', 'margin-top':'10px', 'width':'80%', 'margin-left':'20px'}),
                     html.Div(id='up-test-block', children=[
                         html.Div(children='Select Test'),
                         dcc.Dropdown(
@@ -181,9 +183,8 @@ def control_data_tab():
                             style={'verticalAlign': "middle",
                                    'border': 'solid 1px #545454', 'color': 'black'}
                         ),
-                    ], style={'marginRight': '10px', 'margin-top':'10px','width':'80%'}),
-                    ], style={'margin-left':'20px'}),
-                html.Br(),
+                    ], style={'marginRight': '10px', 'margin-top':'10px', 'width':'80%', 'margin-left':'20px'}),
+                    ]),
                 html.Br(),
                 html.Br(),
                 html.Button(
@@ -193,6 +194,16 @@ def control_data_tab():
                            'margin':'auto'}
                 ),
                 html.Br(),
+                html.Div(id='gff-up-control-block', children=[
+                    html.Div(children='Select Gff file'),
+                    dcc.Dropdown(
+                        id="gff-dropdown",
+                        options=[{'label': i.name, 'value': i.name} for i in test_gff],
+                        value=0,
+                        style={'verticalAlign': "middle",
+                               'border': 'solid 1px #545454', 'color': 'black'}
+                    ),
+                ], style={'marginRight': '10px', 'margin-top': '10px', 'width': '80%', 'margin-left':'20px'}),
                 html.Hr(),
                 html.H3(children='Upload Data', style={'text-align': 'center'}),
                 html.Div(
@@ -387,6 +398,8 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None, bi
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
 
+    fig.update_layout(template=plotly_template)
+
     #Manage range, reversing range for subplot 2
     if range_y:
         fig.update_layout(go.Layout(yaxis=dict(range=range_y)))
@@ -427,6 +440,7 @@ def create_histogram_t2(series_control, series_test, bin_size=None):
         bargroupgap=0,  # gap between bars of the same location coordinates
         xaxis_title="NIM",
         yaxis_title="Count",
+        template=plotly_template
     )
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
@@ -443,6 +457,15 @@ def create_venn(set_A, set_B):
     # Create venn using matplotlib, encode to b64, pass to html.img
     plt.figure(linewidth=10, edgecolor="black", facecolor="black")
     mpl_fig = venn2(subsets=(Ab, aB, AB))
+
+    #style to plotly simple_white colours
+    for id, color in [('10', '#8FBBDA'), ('01', '#FFBF87'), ('11', '#B599C7')]:
+        if mpl_fig.get_patch_by_id(id) is not None:
+            mpl_fig.get_patch_by_id(id).set_color(color)
+            mpl_fig.get_patch_by_id(id).set_alpha(1.0)
+            mpl_fig.get_patch_by_id(id).set_edgecolor('black')
+
+    # convert to b64
     pic_IObytes = io.BytesIO()
     plt.savefig(pic_IObytes, format='png')
     pic_IObytes.seek(0)

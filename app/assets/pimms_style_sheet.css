@@ -20,10 +20,6 @@ html {
     color: #FFFFFF;
 }
 
-#test-dropdown .VirtualizedSelectOption, #control-dropdown .VirtualizedSelectOption {
+#test-dropdown .VirtualizedSelectOption, #control-dropdown .VirtualizedSelectOption, #gff-dropdown .VirtualizedSelectOption {
     font-size: .8em;
-}
-
-#test-dropdown .dropdown-menu {
-    width: 2000px;
 }
