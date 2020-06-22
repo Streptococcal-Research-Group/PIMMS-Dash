@@ -81,6 +81,27 @@ def simplify_df_m(df_m):
                 new_cols.append(col)
     return df_m[info_columns+new_cols]
 
+def parse_upload(contents, filename, date):
+    content_type, content_string = contents.split(',')
+    save_path = DATA_PATH.joinpath(filename)
+    decoded = base64.b64decode(content_string)
+    if save_path.is_file():
+        return html.Div(['File Already Exists'])
+
+    try:
+        if '.csv' in filename:
+            df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
+            df.to_csv(save_path, index=False)
+        elif '.xls' in filename:
+            df = pd.read_excel(io.BytesIO(decoded))
+            df.to_excel(DATA_PATH.joinpath(filename), index=False)
+        else:
+            raise TypeError('Unexpected file format')
+    except Exception as e:
+        print(e)
+        return html.Div([
+            'There was an error processing this file.'
+        ])
 
 # Header
 def create_header(title):
@@ -215,7 +236,7 @@ def control_data_tab():
                     dcc.Upload(
                         id='upload-data',
                         children=html.Div([
-                            'Drag and Drop Files'
+                            'Drag and Drop Files',
                         ]),
                         style={
                             'width': '100%',
@@ -225,14 +246,14 @@ def control_data_tab():
                             'borderStyle': 'dashed',
                             'borderRadius': '5px',
                             'textAlign': 'center',
-                            'margin': '1px'
+                            'margin': '1px',
                         },
                         # Allow multiple files to be uploaded
-                        multiple=True
+                        multiple=True,
                     ),
                     style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center',}
                 ),
-                html.Div(id='output-data-upload'),
+                html.Div(id='output-data-upload', style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center',}),
                 ]),
 
 
@@ -830,6 +851,21 @@ def update_genome_scatter(n_clicks, gff_path):
         return dcc.Graph(id='gff-scatter-fig', figure=fig)
     else:
         return empty_tab()
+
+@app.callback(Output('output-data-upload', 'children'),
+              [Input('upload-data', 'contents')],
+              [State('upload-data', 'filename'),
+               State('upload-data', 'last_modified')])
+def update_output(list_of_contents, list_of_names, list_of_dates):
+    if list_of_contents is not None:
+        children = [
+            parse_upload(c, n, d) for c, n, d in
+            zip(list_of_contents, list_of_names, list_of_dates)]
+        global test_csvs
+        test_csvs = list(DATA_PATH.glob('*.csv'))
+        global test_gff
+        test_gff = list(DATA_PATH.glob('*.gff'))
+        return children
 
 if __name__ == '__main__':
     app.run_server(
