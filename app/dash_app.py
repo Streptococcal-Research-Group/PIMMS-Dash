@@ -26,7 +26,7 @@ from utils import GffDataFrame
 
 #Globals
 app_title = 'Pimms Dashboard'
-tab_height = '600px'
+tab_height = '80vh'
 plotly_template = 'simple_white'
 
 # Define local paths
@@ -275,7 +275,7 @@ def control_options_tab():
                     dcc.Input(
                         id='page_num_in',
                         type='number',
-                        value=12,
+                        value=20,
                         style={'margin-left':'10px', 'width':'40px'}
                     )
                 ],style={'display':'flex', 'margin': '10px'}),
@@ -431,7 +431,7 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None, bi
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
 
-    fig.update_layout(template=plotly_template)
+    fig.update_layout(template=plotly_template, legend=dict(x=0.9,y=1))
 
     #Manage range, reversing range for subplot 2
     if range_y:
@@ -473,7 +473,8 @@ def create_histogram_t2(series_control, series_test, bin_size=None):
         bargroupgap=0,  # gap between bars of the same location coordinates
         xaxis_title="NIM",
         yaxis_title="Count",
-        template=plotly_template
+        template=plotly_template,
+        legend = dict(x=0.9, y=1),
     )
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
@@ -569,78 +570,75 @@ def create_datatable(df_m):
 app.layout = html.Div(id='main-app', children=[
                 dcc.Store(id='memory'),
                 create_header(app_title),
-                # Control-Tabs
-                html.Div(id='control-tabs', children=[
-                    dcc.Tabs(id='tabs', value='tab1', children=[
-                        dcc.Tab(
-                            label='About',
-                            value='tab1',
-                            children=control_about_tab(),
-                            style={'color': '#000000'}
-                        ),
-                        dcc.Tab(
-                            label='Data',
-                            value='tab2',
-                            children=control_data_tab(),
-                            style={'color': '#000000'}
-                        ),
-                        dcc.Tab(
-                            label='Options',
-                            value='tab3',
-                            children=control_options_tab(),
-                            style={'color': '#000000'}
-                        ),
-                    ]),
-                ], style={'display': 'inline-block',
-                          'color': 'white',
-                          'width': '350px',
-                          'height': tab_height,
-                          'margin': '35px',
-                          'margin-right': '0px',
-                          'background-color': '#333652',
-                          'font-size': '10pt',
-                          'float': 'left'}
-                ),
-                # Visualisation Tabs
-                html.Div(id='analysis-tabs', children=[
-                    dcc.Tabs(id='a_tabs', value='tab1',children=[
-                        dcc.Tab(
-                            label='DataTable',
-                            value='tab1',
-                            children=analysis_datatable_tab()
-                        ),
-                        dcc.Tab(
-                            label='Histogram',
-                            value='tab2',
-                            children=analysis_hist_tab()
-                        ),
-                        dcc.Tab(
-                            label='Venn Diagram',
-                            value='tab3',
-                            children=analysis_venn_tab()
-                        ),
-                        dcc.Tab(
-                            label='Genome Scatter',
-                            value='tab4',
-                            children=analysis_gff_scatter_tab()
-                        ),
-                        dcc.Tab(
-                            label='Analysis tab5',
-                            value='tab5',
-                            children=empty_tab()
-                        ),
-                        dcc.Tab(
-                            label='Analysis tab6',
-                            value='tab6',
-                            children=empty_tab()
-                        ),
-                    ]),
-                ], style={'display': 'inline-block',
-                          'margin': '35px',
-                          'height': tab_height,
-                          'width': '65%',
-                          'backgroundColor':'white'}
-                ),
+                html.Div(id='main-section', children=[
+                    # Control-Tabs
+                    html.Div(id='control-tabs', children=[
+                        dcc.Tabs(id='tabs', value='tab1', children=[
+                            dcc.Tab(
+                                label='About',
+                                value='tab1',
+                                children=control_about_tab(),
+                                style={'color': '#000000'}
+                            ),
+                            dcc.Tab(
+                                label='Data',
+                                value='tab2',
+                                children=control_data_tab(),
+                                style={'color': '#000000'}
+                            ),
+                            dcc.Tab(
+                                label='Options',
+                                value='tab3',
+                                children=control_options_tab(),
+                                style={'color': '#000000'}
+                            ),
+                        ]),
+                    ], style={'color': 'white',
+                              'width': '25%',
+                              'height': tab_height,
+                              'margin-right': '35px',
+                              'background-color': '#333652',
+                              'font-size': '10pt'}
+                    ),
+                    # Visualisation Tabs
+                    html.Div(id='analysis-tabs', children=[
+                        dcc.Tabs(id='a_tabs', value='tab1',children=[
+                            dcc.Tab(
+                                label='DataTable',
+                                value='tab1',
+                                children=analysis_datatable_tab()
+                            ),
+                            dcc.Tab(
+                                label='Histogram',
+                                value='tab2',
+                                children=analysis_hist_tab()
+                            ),
+                            dcc.Tab(
+                                label='Venn Diagram',
+                                value='tab3',
+                                children=analysis_venn_tab()
+                            ),
+                            dcc.Tab(
+                                label='Genome Scatter',
+                                value='tab4',
+                                children=analysis_gff_scatter_tab()
+                            ),
+                            dcc.Tab(
+                                label='Analysis tab5',
+                                value='tab5',
+                                children=empty_tab()
+                            ),
+                            dcc.Tab(
+                                label='Analysis tab6',
+                                value='tab6',
+                                children=empty_tab()
+                            ),
+                        ]),
+                    ], style={'height': tab_height,
+                              'width': '75%',
+                              'backgroundColor':'white'}
+                    ),
+                ],style={'display': 'flex', 'margin': '35px'})
             ])
 
 
