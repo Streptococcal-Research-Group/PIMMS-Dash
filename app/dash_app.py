@@ -511,27 +511,31 @@ def create_venn(set_A, set_B):
 
 
 def create_genome_scatter(gff_df):
-    start_counts = gff_df.value_counts('start')
-    start_counts.sort_index()
+    # If gff has score values - assume these are insert counts
+    if gff_df.empty_score():
+        insert_counts = gff_df.value_counts('start')
+    else:
+        insert_counts = gff_df['score']
     # Create figure, Use scattergl for large datasets.
     fig = go.Figure()
     fig.add_trace(go.Scattergl(
-        x=start_counts.index, y=start_counts,
+        x=insert_counts.index, y=insert_counts,
         name='mutations',
         mode='markers',
         marker=dict(
             size=16,
-            color=start_counts,
+            color=insert_counts,
             colorscale='Aggrnyl',
             showscale=False
-        )
+        ),
     ))
     # Set options common to all traces with fig.update_traces
     fig.update_traces(mode='markers', marker_line_width=2, marker_size=10)
     fig.update_layout(title='Insertions across the genome',
                       xaxis=dict(title_text="Position in the Genome"),
                       yaxis=dict(title_text="Number of Mutations / base"),
-                      template=plotly_template,)
+                      template=plotly_template,
+                      )
     return fig
 
 
