@@ -309,8 +309,6 @@ def control_options_tab():
                 html.Div(children=[
                     html.Div(id='venn-thresh-desc-c', style={'margin-left': '10px', 'margin-right': '10px'}),
                     dcc.Slider(id='venn-slider-c', value=0, min=0, max=50, step=1),
-                    html.Div(id='venn-thresh-desc-t', style={'margin-left': '10px', 'margin-right': '10px'}),
-                    dcc.Slider(id='venn-slider-t', value=0, min=0, max=50, step=1),
                     html.Div(id='venn-inserts-desc-c', style={'margin-left': '10px', 'margin-right': '10px'}),
                     dcc.RangeSlider(
                         id='venn-inserts-slider-c',
@@ -319,15 +317,17 @@ def control_options_tab():
                         step=1,
                         value=[0, 100]
                     ),
-                    html.Div(id='venn-inserts-desc-t',style={'margin-left': '10px', 'margin-right': '10px'}),
-                    dcc.RangeSlider(
-                        id='venn-inserts-slider-t',
-                        min=0,
-                        max=100,
-                        step=1,
-                        value=[0, 100]
-                    ),
                 ]),
+                html.Hr(),
+                html.H3("Genome Scatter Options"),
+                dcc.Checklist(id='scatter-checkbox',
+                    options=[
+                        {'label': 'Log scale', 'value': 'log'},
+                    ],
+                    value=['log'],
+                    labelStyle={'display': 'flex', 'marginTop': '5px', 'marginLeft': '10px'},
+                    ),
+
 
     ],style={'marginLeft': '5px'})
 
@@ -474,7 +474,7 @@ def create_histogram_t2(series_control, series_test, bin_size=None):
         xaxis_title="NIM",
         yaxis_title="Count",
         template=plotly_template,
-        legend = dict(x=0.9, y=1),
+        legend=dict(x=0.9, y=1),
     )
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
@@ -522,15 +522,9 @@ def create_genome_scatter(gff_df):
         x=insert_counts.index, y=insert_counts,
         name='mutations',
         mode='markers',
-        marker=dict(
-            size=16,
-            color=insert_counts,
-            colorscale='Aggrnyl',
-            showscale=False
-        ),
     ))
     # Set options common to all traces with fig.update_traces
-    fig.update_traces(mode='markers', marker_line_width=2, marker_size=10)
+    fig.update_traces(mode='markers', marker_line_width=2, marker_size=6)
     fig.update_layout(title='Insertions across the genome',
                       xaxis=dict(title_text="Position in the Genome"),
                       yaxis=dict(title_text="Number of Mutations / base"),
@@ -602,7 +596,8 @@ app.layout = html.Div(id='main-app', children=[
                               'height': tab_height,
                               'margin-right': '35px',
                               'background-color': '#333652',
-                              'font-size': '10pt'}
+                              'font-size': '10pt',
+                              'overflow-y':'auto'}
                     ),
                     # Visualisation Tabs
                     html.Div(id='analysis-tabs', children=[
@@ -725,39 +720,23 @@ def create_table(ts, checked_options, data):
     [Input('venn-slider-c', 'value')]
 )
 def update_venn_thresh_desc_control(slider_val):
-    return f'SET A: Control NIM scores <= {slider_val}'
-
-@app.callback(
-    Output('venn-thresh-desc-t', 'children'),
-    [Input('venn-slider-t', 'value')]
-)
-def update_venn_thresh_desc_control(slider_val):
-    return f'SET B: Test NIM scores <= {slider_val}'
+    return f'NIM scores <= {slider_val}'
 
 @app.callback(
     Output('venn-inserts-desc-c', 'children'),
     [Input('venn-inserts-slider-c', 'value')]
 )
 def update_venn_thresh_desc_control(slider_val):
-    return f'SET A: Control inserts are within percentiles {slider_val[0]} to {slider_val[1]} '
-
-@app.callback(
-    Output('venn-inserts-desc-t', 'children'),
-    [Input('venn-inserts-slider-t', 'value')]
-)
-def update_venn_thresh_desc_control(slider_val):
-    return f'SET B: Test inserts are within percentiles {slider_val[0]} to {slider_val[1]}'
+    return f'Inserts are within percentiles {slider_val[0]} to {slider_val[1]} '
 
 @app.callback(
     Output('venn-diagram', 'children'),
     [Input('memory', 'modified_timestamp'),
      Input('venn-slider-c', 'value'),
-     Input('venn-slider-t', 'value'),
-     Input('venn-inserts-slider-c', 'value'),
-     Input('venn-inserts-slider-t', 'value')],
+     Input('venn-inserts-slider-c', 'value')],
     [State('memory', 'data')]
 )
-def update_venn(ts, thresh_c, thresh_t, slider_c, slider_t, data):
+def update_venn(ts, thresh_c, slider_c, data):
     if ts is not None:
         df_m = pd.read_json(data['dataframe'], orient='split')
         control_col = [col for col in df_m.columns if f'NIM_score{c_suffix}' in col][0]
@@ -771,9 +750,9 @@ def update_venn(ts, thresh_c, thresh_t, slider_c, slider_t, data):
         control_set = df_m[((df_m[control_col] <= thresh_c) &
                             (df_m[control_perc_cols[0]] >= slider_c[0]) &
                             (df_m[control_perc_cols[1]] <= slider_c[1]))]['unique']
-        test_set = df_m[((df_m[test_col] <= thresh_t) &
-                            (df_m[test_perc_cols[0]] >= slider_t[0]) &
-                            (df_m[test_perc_cols[1]] <= slider_t[1]))]['unique']
+        test_set = df_m[((df_m[test_col] <= thresh_c) &
+                            (df_m[test_perc_cols[0]] >= slider_c[0]) &
+                            (df_m[test_perc_cols[1]] <= slider_c[1]))]['unique']
 
         venn_img = create_venn(control_set, test_set)
         label = dcc.Markdown(f"""
@@ -843,13 +822,16 @@ def display_hist_type1(relayoutData, bin_size, data):
 @app.callback(
     Output('genome-scatter', 'children'),
     [Input('run-button', 'n_clicks'),
-     Input('gff-dropdown', 'value'),]
+     Input('gff-dropdown', 'value'),
+     Input('scatter-checkbox', 'value')]
 )
-def update_genome_scatter(n_clicks, gff_path):
+def update_genome_scatter(n_clicks, gff_path, checkbox):
     if (n_clicks is not None) and (gff_path not in [0, None]):
         gff_idx = [i.name for i in test_gff].index(gff_path)
         gff_df = GffDataFrame(test_gff[gff_idx])
         fig = create_genome_scatter(gff_df)
+        if 'log' in checkbox:
+            fig.update_layout(yaxis_type="log")
         return dcc.Graph(id='gff-scatter-fig', figure=fig)
     else:
         return empty_tab()
