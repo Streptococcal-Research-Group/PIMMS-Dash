@@ -22,6 +22,7 @@ import numpy as np
 
 #local imports
 from utils import GffDataFrame
+from circos import create_pimms_circos, load_data_test
 
 
 #Globals
@@ -327,6 +328,15 @@ def control_options_tab():
                     value=['log'],
                     labelStyle={'display': 'flex', 'marginTop': '5px', 'marginLeft': '10px'},
                     ),
+                html.Hr(),
+                html.H3("Circos Options"),
+                dcc.Checklist(id='circos-checkbox',
+                              options=[
+                                  {'label': 'Hide values where both scores = 0', 'value': 'hide_zero'},
+                              ],
+                              value=['hide_zero'],
+                              labelStyle={'display': 'flex', 'marginTop': '5px', 'marginLeft': '10px'},
+                              ),
 
 
     ],style={'marginLeft': '5px'})
@@ -366,6 +376,20 @@ def analysis_gff_scatter_tab():
     return html.Div(children=[
         html.Div(id='genome-scatter'),
     ], style={'backgroundColor': 'white'})
+
+# Fifth analysis tab, display circos plot
+def analysis_circos_tab():
+    return html.Div(children=[
+        html.Div(id='circos-plot-container'),
+        html.Div(id='circos-slider-container', children=[
+            dcc.RangeSlider(
+                id='circos-gen-slider',
+                min=0,
+                max=1,
+                step=0.001,
+                value=[0, 1],
+            )], style={'display':'none'}),
+    ], style={'backgroundColor': '#333652'})
 
 
 def create_histogram(series_control, series_test, range_x=None, range_y=None, bin_size=None):
@@ -623,9 +647,9 @@ app.layout = html.Div(id='main-app', children=[
                                 children=analysis_gff_scatter_tab()
                             ),
                             dcc.Tab(
-                                label='Analysis tab5',
+                                label='Circos',
                                 value='tab5',
-                                children=empty_tab()
+                                children=analysis_circos_tab(),
                             ),
                             dcc.Tab(
                                 label='Analysis tab6',
@@ -850,6 +874,58 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
         global test_gff
         test_gff = list(DATA_PATH.glob('*.gff'))
         return children
+
+@app.callback(Output('circos-plot-container', 'children'),
+              [Input('memory', 'modified_timestamp'),
+               Input('circos-gen-slider', 'value'),
+               Input('circos-checkbox','value')],
+              [State('memory', 'data')])
+def create_circos(ts, g_len, checkbox, data):
+    hide_zeros = 'hide_zero' in checkbox
+    if ts is not None:
+        df_m = pd.read_json(data['dataframe'], orient='split')
+        genome_range = df_m['end'].max() - df_m['start'].min()
+        start = int(g_len[0] * genome_range)
+        end = int(g_len[1] * genome_range)
+        control_col = [col for col in df_m.columns if f'NIM_score{c_suffix}' in col][0]
+        test_col = [col for col in df_m.columns if f'NIM_score{t_suffix}' in col][0]
+        inner_ring = df_m[info_columns + [control_col]]
+        inner_ring = inner_ring.rename(columns={"seq_id": "block_id", control_col: "value"})
+        outer_ring = df_m[info_columns + [test_col]]
+        outer_ring = outer_ring.rename(columns={"seq_id": "block_id", test_col: "value"})
+        #inner_ring, outer_ring = load_data_test()
+        circos = create_pimms_circos(inner_ring, outer_ring, start, end, hide_zeros=hide_zeros)
+        return html.Div(children=[
+                    html.Div(children=[
+                        circos,
+                        html.Div(id='event-data-select', style={'color': 'white'})],
+                        style={'display': 'flex', 'justify-content': 'left', 'align-items': 'center'}),
+                    html.Div(f'Displaying Genome from positions {start} to {end}',
+                             style={'color':'white', 'margin-left': '20px'})
+                    ])
+    else:
+        return empty_tab()
+
+@app.callback(Output('circos-slider-container', 'style'),
+              [Input('memory', 'modified_timestamp')])
+def display_circos_slider(ts):
+    if ts is not None:
+        return {'display': 'block'}
+    else:
+        raise dash.exceptions.PreventUpdate
+
+@app.callback(
+    Output('event-data-select', 'children'),
+    [Input('main-circos', 'eventDatum')])
+def event_data_select(event_datum):
+    contents = ['Hover over circos plot to', html.Br(), 'display locus information.']
+    if event_datum is not None:
+        contents = []
+        for key in event_datum.keys():
+            contents.append(html.Span(key.title(), style={'font-weight': 'bold'}))
+            contents.append(' - {}'.format(event_datum[key]))
+            contents.append(html.Br())
+    return contents
 
 if __name__ == '__main__':
     app.run_server(
