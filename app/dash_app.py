@@ -20,7 +20,7 @@ import pandas as pd
 import numpy as np
 
 # local imports
-from utils import GffDataFrame
+from utils import GffDataFrame, log2_fold_change
 from circos import create_pimms_circos
 
 matplotlib.use('Agg')
@@ -59,7 +59,7 @@ def load_and_merge(control_data_path, test_data_path):
     df_c = pd.read_csv(test_csvs[test_csv_idx])
     df_t = pd.read_csv(test_csvs[control_csv_idx])
     df_m = merge_control_test(df_c, df_t, info_columns, c_suffix, t_suffix)
-    return df_m.to_json(date_format='iso', orient='split')
+    return df_m
 
 
 def merge_control_test(control_df, test_df, on, control_suffix, test_suffix):
@@ -75,13 +75,27 @@ def merge_control_test(control_df, test_df, on, control_suffix, test_suffix):
     return df_m
 
 
+def comparision_metric(df_m):
+    test_cols, control_cols = get_test_control_cols(df_m)
+    df_m['c_metric'] = df_m.apply(lambda row: log2_fold_change(row[test_cols[0]], row[control_cols[0]]), axis=1)
+    df_m['c_metric'] = abs(df_m['c_metric'])
+    return df_m
+
+
 def simplify_df_m(df_m):
     new_cols = []
     for col in set(df_m.columns)-set(info_columns):
         for simple_col in set(simple_columns)-set(info_columns):
             if col.startswith(simple_col):
                 new_cols.append(col)
+    new_cols.append('c_metric')
     return df_m[info_columns+new_cols]
+
+
+def get_test_control_cols(df_m, col_name='NIM_score'):
+    control_col = [col for col in df_m.columns if f'{col_name}{c_suffix}' in col]
+    test_col = [col for col in df_m.columns if f'{col_name}{t_suffix}' in col]
+    return test_col, control_col
 
 
 def parse_upload(contents, filename, date):
@@ -568,15 +582,9 @@ def create_genome_scatter(gff_df):
 def create_datatable(df_m):
     return dash_table.DataTable(
                 id='main_table',
-                columns=[{"name": ["Information", i.replace("_", " ")],
+                columns=[{"name": i.replace("_", " "),
                           "id": i,
-                          "deletable": True} for i in df_m.columns if i in info_columns] +
-                        [{"name": ['Control', i.replace("_", " ")],
-                          "id": i,
-                          "selectable": True} for i in df_m.columns if i.endswith(c_suffix)] +
-                        [{"name": ['Test', i.replace("_", " ")],
-                          "id": i,
-                          "selectable": True} for i in df_m.columns if i.endswith(t_suffix)],
+                          "selectable": True} for i in df_m.columns],
                 data=df_m.to_dict('records'),
                 merge_duplicate_headers=True,
                 sort_mode="multi",
@@ -694,7 +702,9 @@ def on_click(n_clicks, test_path, control_path, data):
     # Give a default data dict with 0 clicks if there's no data.
     data = data or {'clicks': 0, 'dataframe': None}
     if n_clicks > data['clicks']:
-        data['dataframe'] = load_and_merge(control_path, test_path)
+        df_m = load_and_merge(control_path, test_path)
+        df_m = comparision_metric(df_m)
+        data['dataframe'] = df_m.to_json(date_format='iso', orient='split')
         data['clicks'] = n_clicks
 
     return data
@@ -786,28 +796,26 @@ def update_venn_thresh_desc_control(slider_val):
 def update_venn(ts, thresh_c, slider_c, data):
     if ts is not None:
         df_m = pd.read_json(data['dataframe'], orient='split')
-        control_col = [col for col in df_m.columns if f'NIM_score{c_suffix}' in col][0]
-        test_col = [col for col in df_m.columns if f'NIM_score{t_suffix}' in col][0]
-        control_perc_cols = [col for col in df_m.columns if f'insert_posn_as_percentile{t_suffix}' in col]
-        test_perc_cols = [col for col in df_m.columns if f'insert_posn_as_percentile{t_suffix}' in col]
+        test_cols, control_cols = get_test_control_cols(df_m)
+        test_perc_cols, control_perc_cols = get_test_control_cols(df_m, 'insert_posn_as_percentile')
 
         df_m['unique'] = np.arange(len(df_m)).astype(str)
 
         # Apply filters to get sets
-        control_set = df_m[((df_m[control_col] <= thresh_c) &
+        control_set = df_m[((df_m[control_cols[0]] <= thresh_c) &
                             (df_m[control_perc_cols[0]] >= slider_c[0]) &
                             (df_m[control_perc_cols[1]] <= slider_c[1]))]['unique']
-        test_set = df_m[((df_m[test_col] <= thresh_c) &
+        test_set = df_m[((df_m[test_cols[0]] <= thresh_c) &
                          (df_m[test_perc_cols[0]] >= slider_c[0]) &
                          (df_m[test_perc_cols[1]] <= slider_c[1]))]['unique']
 
         venn_img = create_venn(control_set, test_set)
         label = dcc.Markdown(f"""
         * **Set A**: 
-        {control_col}
+        {control_cols[0]}
         
         * **Set B**:
-        {test_col}
+        {test_cols[0]}
 
         """)
         return html.Div(children=[
@@ -827,13 +835,12 @@ def update_venn(ts, thresh_c, slider_c, data):
 def create_hist(ts, hist_type, bin_size, data):
     if ts is not None:
         df_m = pd.read_json(data['dataframe'], orient='split')
-        control_col = [col for col in df_m.columns if f'NIM_score{c_suffix}' in col][0]
-        test_col = [col for col in df_m.columns if f'NIM_score{t_suffix}' in col][0]
+        test_cols, control_cols = get_test_control_cols(df_m)
         if hist_type == 'type1':
-            hist_fig = create_histogram(df_m[control_col], df_m[test_col], bin_size=bin_size)
+            hist_fig = create_histogram(df_m[control_cols[0]], df_m[test_cols[0]], bin_size=bin_size)
             return dcc.Graph(id='hist-fig', figure=hist_fig)
         elif hist_type == 'type2':
-            hist_fig = create_histogram_t2(df_m[control_col], df_m[test_col], bin_size=bin_size)
+            hist_fig = create_histogram_t2(df_m[control_cols[0]], df_m[test_cols[0]], bin_size=bin_size)
             return dcc.Graph(id='hist-fig-t2', figure=hist_fig)
     return empty_tab()
 
@@ -849,8 +856,7 @@ def display_hist_type1(relayoutData, bin_size, data):
         if 'autosize' in relayoutData:
             raise dash.exceptions.PreventUpdate
         df_m = pd.read_json(data['dataframe'], orient='split')
-        control_col = [col for col in df_m.columns if f'NIM_score{c_suffix}' in col][0]
-        test_col = [col for col in df_m.columns if f'NIM_score{t_suffix}' in col][0]
+        test_cols, control_cols = get_test_control_cols(df_m)
 
         if 'yaxis.range[1]' in relayoutData:
             r_y = [0, relayoutData['yaxis.range[1]']]
@@ -863,7 +869,7 @@ def display_hist_type1(relayoutData, bin_size, data):
             r_x = [relayoutData['xaxis.range[0]'], relayoutData['xaxis.range[1]']]
         else:
             r_x = None
-        return create_histogram(df_m[control_col], df_m[test_col], range_x=r_x, range_y=r_y, bin_size=bin_size)
+        return create_histogram(df_m[control_cols[0]], df_m[test_cols[0]], range_x=r_x, range_y=r_y, bin_size=bin_size)
     raise dash.exceptions.PreventUpdate
 
 
@@ -913,13 +919,14 @@ def create_circos(ts, g_len, checkbox, data):
         genome_range = df_m['end'].max() - df_m['start'].min()
         start = int(g_len[0] * genome_range)
         end = int(g_len[1] * genome_range)
-        control_col = [col for col in df_m.columns if f'NIM_score{c_suffix}' in col][0]
-        test_col = [col for col in df_m.columns if f'NIM_score{t_suffix}' in col][0]
-        inner_ring = df_m[info_columns + [control_col]]
-        inner_ring = inner_ring.rename(columns={"seq_id": "block_id", control_col: "value"})
-        outer_ring = df_m[info_columns + [test_col]]
-        outer_ring = outer_ring.rename(columns={"seq_id": "block_id", test_col: "value"})
-        circos = create_pimms_circos(inner_ring, outer_ring, start, end, hide_zeros=hide_zeros)
+        test_cols, control_cols = get_test_control_cols(df_m)
+        inner_ring = df_m[info_columns + control_cols]
+        inner_ring = inner_ring.rename(columns={"seq_id": "block_id", control_cols[0]: "value"})
+        outer_ring = df_m[info_columns + test_cols]
+        outer_ring = outer_ring.rename(columns={"seq_id": "block_id", test_cols[0]: "value"})
+        hist_ring = df_m[info_columns + ['c_metric']]
+        hist_ring = hist_ring.rename(columns={"seq_id": "block_id", 'c_metric': "value"})
+        circos = create_pimms_circos(inner_ring, outer_ring, hist_ring, start, end, hide_zeros=hide_zeros)
         return html.Div(children=[
                     html.Div(children=[
                         circos,

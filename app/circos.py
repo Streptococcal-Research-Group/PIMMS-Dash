@@ -26,12 +26,6 @@ def circos_df_from_pimms(pimms_file):
     return df
 
 
-def create_comparison_df(df_a, df_b):
-    out = df_a.copy(deep=True)
-    out['value'] = abs(df_a['value'] - df_b['value'])
-    return out
-
-
 def limit_genome(circos_df, start, end):
     return circos_df[((circos_df['start'] >= start) & (circos_df['end'] <= end))]
 
@@ -52,14 +46,15 @@ def load_data_test():
     return pimms_data1, pimms_data2
 
 
-def create_pimms_circos(inner_ring_df, outer_ring_df, start, end, hide_zeros=False, size=550):
+def create_pimms_circos(inner_ring_df, outer_ring_df, hist_ring_df, start, end, hide_zeros=False, size=550):
     inner_ring_df['block_id'] = inner_ring_df['block_id'].astype(str)
     outer_ring_df['block_id'] = outer_ring_df['block_id'].astype(str)
+    hist_ring_df['block_id'] = hist_ring_df['block_id'].astype(str)
     inner_ring_df = limit_genome(inner_ring_df, start, end)
     outer_ring_df = limit_genome(outer_ring_df, start, end)
+    hist_ring_df = limit_genome(hist_ring_df, start, end)
     if hide_zeros:
-        inner_ring_df, outer_ring_df = drop_both_zero(inner_ring_df, outer_ring_df)
-    hist_df = create_comparison_df(inner_ring_df, outer_ring_df)
+        inner_ring_df, outer_ring_df, hist_ring_df = drop_both_zero(inner_ring_df, outer_ring_df, hist_ring_df)
     genome_length = inner_ring_df['start'].max() - inner_ring_df['start'].min()
     return dash_bio.Circos(
                 id='main-circos',
@@ -102,7 +97,7 @@ def create_pimms_circos(inner_ring_df, outer_ring_df, start, end, hide_zeros=Fal
                     },
                     {
                         'type': 'HISTOGRAM',
-                        'data': hist_df.to_dict('records'),
+                        'data': hist_ring_df.to_dict('records'),
                         'config': {
                             'innerRadius': (size / 2)*0.8,
                             'outerRadius': (size / 2)*1,

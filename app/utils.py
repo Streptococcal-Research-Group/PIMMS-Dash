@@ -1,3 +1,4 @@
+import math
 import pandas as pd
 
 
@@ -42,3 +43,11 @@ class GffDataFrame:
 
     def empty_score(self):
         return (self._data["score"] == ".").all()
+
+
+def log2_fold_change(a, b):
+    try:
+        fc = a/b
+        return math.log(fc, 2)
+    except (ZeroDivisionError, ValueError):
+        return 0
