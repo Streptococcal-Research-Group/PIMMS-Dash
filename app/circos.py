@@ -7,6 +7,7 @@ from utils import GffDataFrame
 BASE_PATH = pathlib.Path(__file__).parent.resolve()
 DATA_PATH = BASE_PATH.joinpath("data").resolve()
 
+
 def circos_df_from_gff(gff_file):
     GFF = GffDataFrame(gff_file)
     df = GFF[['seq_id', 'start', 'end', 'score']]
@@ -15,21 +16,25 @@ def circos_df_from_gff(gff_file):
     df['block_id'] = df['block_id'].astype(str)
     return df
 
+
 def circos_df_from_pimms(pimms_file):
     df = pd.read_csv(pimms_file)
     NIM_col = df.columns[-1]
-    df = df[['seq_id', 'start', 'end','locus_tag', NIM_col]]
+    df = df[['seq_id', 'start', 'end', 'locus_tag', NIM_col]]
     df = df.rename(columns={"seq_id": "block_id", NIM_col: "value"})
     df['block_id'] = df['block_id'].astype(str)
     return df
 
-def create_comparison_df(dfA, dfB):
-    out = dfA.copy(deep=True)
-    out['value'] = abs(dfA['value'] - dfB['value'])
+
+def create_comparison_df(df_a, df_b):
+    out = df_a.copy(deep=True)
+    out['value'] = abs(df_a['value'] - df_b['value'])
     return out
+
 
 def limit_genome(circos_df, start, end):
     return circos_df[((circos_df['start'] >= start) & (circos_df['end'] <= end))]
+
 
 def drop_both_zero(circos_df1, circos_df2, *args):
     both_zero = ((circos_df1['value'] == 0.0) & (circos_df2['value'] == 0.0))
@@ -40,10 +45,12 @@ def drop_both_zero(circos_df1, circos_df2, *args):
         result.append(arg[~both_zero])
     return result
 
+
 def load_data_test():
     pimms_data1 = circos_df_from_pimms(DATA_PATH.joinpath('UK15_redo_ucbold_UK15_Blood_Output_pimms2out_trim50_lev1_bwa_md3_mm_countinfo_tab.csv'))
     pimms_data2 = circos_df_from_pimms(DATA_PATH.joinpath('UK15_redo_ucbold_UK15_Media_Input_pimms2out_trim50_lev1_bwa_md3_mm_countinfo_tab.csv'))
     return pimms_data1, pimms_data2
+
 
 def create_pimms_circos(inner_ring_df, outer_ring_df, start, end, hide_zeros=False, size=550):
     inner_ring_df['block_id'] = inner_ring_df['block_id'].astype(str)

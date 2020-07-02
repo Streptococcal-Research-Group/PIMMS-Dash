@@ -14,18 +14,18 @@ from plotly.subplots import make_subplots
 
 # Other
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib_venn import venn2
 import pandas as pd
 import numpy as np
 
-#local imports
+# local imports
 from utils import GffDataFrame
-from circos import create_pimms_circos, load_data_test
+from circos import create_pimms_circos
 
+matplotlib.use('Agg')
 
-#Globals
+# Globals
 app_title = 'Pimms Dashboard'
 tab_height = '80vh'
 plotly_template = 'simple_white'
@@ -38,7 +38,7 @@ DATA_PATH = BASE_PATH.joinpath("data").resolve()
 test_csvs = list(DATA_PATH.glob('*.csv'))
 test_gff = list(DATA_PATH.glob('*.gff'))
 
-#Expected columns
+# Expected columns
 info_columns = ['seq_id', 'locus_tag', 'type', 'gene', 'start', 'end', 'feat_length', 'product']
 simple_columns = info_columns + ['UK15_Blood_Output_NRM_score',
                                  'UK15_Blood_Output_NIM_score',
@@ -51,6 +51,7 @@ t_suffix = '_test'
 app = dash.Dash(__name__)
 app.config['suppress_callback_exceptions'] = True
 server = app.server
+
 
 def load_and_merge(control_data_path, test_data_path):
     test_csv_idx = [i.name for i in test_csvs].index(test_data_path)
@@ -82,6 +83,7 @@ def simplify_df_m(df_m):
                 new_cols.append(col)
     return df_m[info_columns+new_cols]
 
+
 def parse_upload(contents, filename, date):
     content_type, content_string = contents.split(',')
     save_path = DATA_PATH.joinpath(filename)
@@ -103,6 +105,7 @@ def parse_upload(contents, filename, date):
         return html.Div([
             'There was an error processing this file.'
         ])
+
 
 # Header
 def create_header(title):
@@ -148,17 +151,17 @@ def control_about_tab():
                                'margin-bottom': '30px', 'text-align': 'center'}
                         ),
                 dcc.Markdown("""
-                ### Pragmatic Insertional Mutation Mapping system mapping pipeline
-                The PIMMS (Pragmatic Insertional Mutation Mapping System) pipeline has been
-                developed for simple conditionally essential genome discovery experiments in bacteria.
-                Capable of using raw sequence data files alongside a FASTA sequence of the
-                reference genome and GFF file, PIMMS will generate a tabulated output of each coding
-                sequence with corresponding mapped insertions accompanied with normalized results
-                enabling streamlined analysis. This allows for a quick assay of the genome to identify
-                conditionally essential genes on a standard desktop computer prioritizing results for
-                further investigation.
-                """,
-                style={'font-weight': '200', 'font-size': '10pt', 'line-height':'1.6'}),
+                    ### Pragmatic Insertional Mutation Mapping system mapping pipeline
+                    The PIMMS (Pragmatic Insertional Mutation Mapping System) pipeline has been
+                    developed for simple conditionally essential genome discovery experiments in bacteria.
+                    Capable of using raw sequence data files alongside a FASTA sequence of the
+                    reference genome and GFF file, PIMMS will generate a tabulated output of each coding
+                    sequence with corresponding mapped insertions accompanied with normalized results
+                    enabling streamlined analysis. This allows for a quick assay of the genome to identify
+                    conditionally essential genes on a standard desktop computer prioritizing results for
+                    further investigation.
+                    """,
+                    style={'font-weight': '200', 'font-size': '10pt', 'line-height': '1.6'}),
                 html.Div([
                     'Reference: ',
                     html.A('PIMMS paper',
@@ -199,8 +202,8 @@ def control_data_tab():
                             value=0,
                             style={'verticalAlign': "middle",
                                    'border': 'solid 1px #545454', 'color': 'black'}
-                        ),
-                    ], style={'marginRight': '10px', 'margin-top':'10px', 'width':'80%', 'margin-left':'20px'}),
+                        )],
+                        style={'marginRight': '10px', 'margin-top': '10px', 'width': '80%', 'margin-left': '20px'}),
                     html.Div(id='up-test-block', children=[
                         html.Div(children='Select Test'),
                         dcc.Dropdown(
@@ -209,16 +212,15 @@ def control_data_tab():
                             value=0,
                             style={'verticalAlign': "middle",
                                    'border': 'solid 1px #545454', 'color': 'black'}
-                        ),
-                    ], style={'marginRight': '10px', 'margin-top':'10px', 'width':'80%', 'margin-left':'20px'}),
+                        )],
+                        style={'marginRight': '10px', 'margin-top': '10px', 'width': '80%', 'margin-left': '20px'}),
                     ]),
                 html.Br(),
                 html.Br(),
                 html.Button(
                     "Run Selection",
                     id="run-button",
-                    style={'display': 'block', 'text-align': 'center', 'padding': '10px',
-                           'margin':'auto'}
+                    style={'display': 'block', 'text-align': 'center', 'padding': '10px', 'margin': 'auto'}
                 ),
                 html.Br(),
                 html.Div(id='gff-up-control-block', children=[
@@ -230,7 +232,7 @@ def control_data_tab():
                         style={'verticalAlign': "middle",
                                'border': 'solid 1px #545454', 'color': 'black'}
                     ),
-                ], style={'marginRight': '10px', 'margin-top': '10px', 'width': '80%', 'margin-left':'20px'}),
+                ], style={'marginRight': '10px', 'margin-top': '10px', 'width': '80%', 'margin-left': '20px'}),
                 html.Hr(),
                 html.H3(children='Upload Data', style={'text-align': 'center'}),
                 html.Div(
@@ -252,13 +254,14 @@ def control_data_tab():
                         # Allow multiple files to be uploaded
                         multiple=True,
                     ),
-                    style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center',}
+                    style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'}
                 ),
-                html.Div(id='output-data-upload', style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center',}),
+                html.Div(id='output-data-upload',
+                         style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'}),
                 ]),
 
 
-#third tab on control panel
+# Third tab on control panel
 def control_options_tab():
     return html.Div(children=[
                 html.H3("Datatable options"),
@@ -277,13 +280,14 @@ def control_options_tab():
                         id='page_num_in',
                         type='number',
                         value=20,
-                        style={'margin-left':'10px', 'width':'40px'}
-                    )
-                ],style={'display':'flex', 'margin': '10px'}),
+                        style={'margin-left': '10px', 'width': '40px'}
+                    )],
+                    style={'display': 'flex', 'margin': '10px'}),
                 html.Hr(),
                 html.H3("Histogram options"),
                 html.Div(children=[
-                    html.Div('Style', style={'margin': '2px', 'margin-left':'5px', 'margin-right':'20px', 'verticalAlign': "middle"}),
+                    html.Div('Style', style={'margin': '2px', 'margin-left': '5px', 'margin-right': '20px',
+                                             'verticalAlign': "middle"}),
                     dcc.Dropdown(
                         id='hist-type-dropdown',
                         options=[
@@ -296,7 +300,8 @@ def control_options_tab():
                     )
                 ], style={'display': 'flex', 'margin': '10px', 'align-items': 'center'}),
                 html.Div(children=[
-                    html.Div('Bin Size :', style={'margin': '2px', 'margin-left':'5px', 'margin-right':'20px', 'verticalAlign': "middle"}),
+                    html.Div('Bin Size :', style={'margin': '2px', 'margin-left': '5px', 'margin-right': '20px',
+                                                  'verticalAlign': "middle"}),
                     dcc.Input(
                         id='hist-bin-size',
                         type='number',
@@ -321,12 +326,13 @@ def control_options_tab():
                 ]),
                 html.Hr(),
                 html.H3("Genome Scatter Options"),
-                dcc.Checklist(id='scatter-checkbox',
+                dcc.Checklist(
+                    id='scatter-checkbox',
                     options=[
                         {'label': 'Log scale', 'value': 'log'},
                     ],
                     value=['log'],
-                    labelStyle={'display': 'flex', 'marginTop': '5px', 'marginLeft': '10px'},
+                    labelStyle={'display': 'flex', 'marginTop': '5px', 'marginLeft': '10px'}
                     ),
                 html.Hr(),
                 html.H3("Circos Options"),
@@ -339,7 +345,7 @@ def control_options_tab():
                               ),
 
 
-    ],style={'marginLeft': '5px'})
+    ], style={'marginLeft': '5px'})
 
 
 # empty analysis tab
@@ -354,14 +360,14 @@ def analysis_datatable_tab():
         ], style={'backgroundColor': 'white'})
 
 
-#Second analysis tab, display histogram
+# Second analysis tab, display histogram
 def analysis_hist_tab():
     return html.Div(children=[
         html.Div(id='histogram'),
         ], style={'backgroundColor': 'white'})
 
 
-#Third analysis tab, display venn diagram
+# Third analysis tab, display venn diagram
 def analysis_venn_tab():
     return html.Div(children=[
         html.Div(id='venn-diagram'),
@@ -377,6 +383,7 @@ def analysis_gff_scatter_tab():
         html.Div(id='genome-scatter'),
     ], style={'backgroundColor': 'white'})
 
+
 # Fifth analysis tab, display circos plot
 def analysis_circos_tab():
     return html.Div(children=[
@@ -388,16 +395,16 @@ def analysis_circos_tab():
                 max=1,
                 step=0.001,
                 value=[0, 1],
-            )], style={'display':'none'}),
+            )], style={'display': 'none'}),
     ], style={'backgroundColor': '#333652'})
 
 
 def create_histogram(series_control, series_test, range_x=None, range_y=None, bin_size=None):
-    #create numpy xbins
+    # Create numpy xbins
     if bin_size == None:
         xbins = 'auto'
     else:
-        xbins = np.arange(0, np.max([series_control.max(),series_test.max()])+bin_size, bin_size)
+        xbins = np.arange(0, np.max([series_control.max(), series_test.max()])+bin_size, bin_size)
 
     # Build histogram first using numpy to be able to extract y range.
     np_hist_t = np.histogram(series_test.values, bins=xbins)
@@ -423,14 +430,14 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None, bi
     range_max = np.max([np_hist_info['test']['max'], np_hist_info['control']['max']])
     range_min = np.min([np_hist_info['test']['min'], np_hist_info['control']['min']])
 
-    #Replicate numpy histograms as plotly graph objects
+    # Replicate numpy histograms as plotly graph objects
     hist_t = go.Histogram(x=series_test,
                           xbins={'end': np_hist_info['test']['end'],
                                  'size': np_hist_info['test']['size'],
                                  'start': np_hist_info['test']['start']},
                           name='Test',
                           opacity=0.5,
-                          marker={'line':{'width':1}}
+                          marker={'line': {'width': 1}}
                           )
     hist_c = go.Histogram(x=series_control,
                           xbins={'end': np_hist_info['control']['end'],
@@ -440,7 +447,7 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None, bi
                           opacity=0.5,
                           marker={'line': {'width': 1}}
                           )
-    #create figure
+    # Create figure
     fig = make_subplots(rows=2, cols=1,
                         shared_xaxes=True,
                         vertical_spacing=0,
@@ -455,9 +462,9 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None, bi
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
 
-    fig.update_layout(template=plotly_template, legend=dict(x=0.9,y=1))
+    fig.update_layout(template=plotly_template, legend=dict(x=0.9, y=1))
 
-    #Manage range, reversing range for subplot 2
+    # Manage range, reversing range for subplot 2
     if range_y:
         fig.update_layout(go.Layout(yaxis=dict(range=range_y)))
         fig.update_layout(go.Layout(yaxis2=dict(range=range_y[::-1])))
@@ -506,24 +513,24 @@ def create_histogram_t2(series_control, series_test, bin_size=None):
     return fig
 
 
-def create_venn(set_A, set_B):
+def create_venn(set_a, set_b):
     # get venn sets
-    aB = len(set(set_B) - set(set_A))
-    Ab = len(set(set_A) - set(set_B))
-    AB = len(set(set_A) & set(set_B))
+    aB = len(set(set_b) - set(set_a))
+    Ab = len(set(set_a) - set(set_b))
+    AB = len(set(set_a) & set(set_b))
 
     # Create venn using matplotlib, encode to b64, pass to html.img
     plt.figure(linewidth=10, edgecolor="black", facecolor="black")
     mpl_fig = venn2(subsets=(Ab, aB, AB))
 
-    #style to plotly simple_white colours
-    for id, color in [('10', '#8FBBDA'), ('01', '#FFBF87'), ('11', '#B599C7')]:
-        if mpl_fig.get_patch_by_id(id) is not None:
-            mpl_fig.get_patch_by_id(id).set_color(color)
-            mpl_fig.get_patch_by_id(id).set_alpha(1.0)
-            mpl_fig.get_patch_by_id(id).set_edgecolor('black')
+    # Style to plotly simple_white colours
+    for ven_id, color in [('10', '#8FBBDA'), ('01', '#FFBF87'), ('11', '#B599C7')]:
+        if mpl_fig.get_patch_by_id(ven_id) is not None:
+            mpl_fig.get_patch_by_id(ven_id).set_color(color)
+            mpl_fig.get_patch_by_id(ven_id).set_alpha(1.0)
+            mpl_fig.get_patch_by_id(ven_id).set_edgecolor('black')
 
-    # convert to b64
+    # Convert to b64
     pic_IObytes = io.BytesIO()
     plt.savefig(pic_IObytes, format='png')
     pic_IObytes.seek(0)
@@ -531,7 +538,8 @@ def create_venn(set_A, set_B):
     img = 'data:image/png;base64,{}'.format(encoded_image.decode())
     # plotly_fig = mpl_to_plotly(mpl_fig) # Not working for venn
     plt.close()
-    return html.Img(src=img, style={'display':'flex', 'justify-content': 'center', 'align-items': 'center', 'height': '100%'})
+    return html.Img(src=img,
+                    style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center', 'height': '100%'})
 
 
 def create_genome_scatter(gff_df):
@@ -558,22 +566,29 @@ def create_genome_scatter(gff_df):
 
 
 def create_datatable(df_m):
-    return dash_table.DataTable(id='main_table',
-                columns=[{"name": ["Information", i.replace("_", " ")], "id": i, "deletable": True} for i in df_m.columns if i in info_columns] + \
-                        [{"name": ['Control', i.replace("_", " ")], "id": i, "selectable": True} for i in df_m.columns if i.endswith(c_suffix)] + \
-                        [{"name": ['Test', i.replace("_", " ")], "id": i, "selectable": True} for i in df_m.columns if i.endswith(t_suffix)],
+    return dash_table.DataTable(
+                id='main_table',
+                columns=[{"name": ["Information", i.replace("_", " ")],
+                          "id": i,
+                          "deletable": True} for i in df_m.columns if i in info_columns] +
+                        [{"name": ['Control', i.replace("_", " ")],
+                          "id": i,
+                          "selectable": True} for i in df_m.columns if i.endswith(c_suffix)] +
+                        [{"name": ['Test', i.replace("_", " ")],
+                          "id": i,
+                          "selectable": True} for i in df_m.columns if i.endswith(t_suffix)],
                 data=df_m.to_dict('records'),
                 merge_duplicate_headers=True,
                 sort_mode="multi",
                 column_selectable="multi",
-                tooltip_data=[{'product':{'type': 'text','value': f'{r}'} } for r in df_m['product'].values],
-                style_table={'overflowX': 'scroll', 'overflowY': 'auto', 'color':'black'},
+                tooltip_data=[{'product': {'type': 'text', 'value': f'{r}'}} for r in df_m['product'].values],
+                style_table={'overflowX': 'scroll', 'overflowY': 'auto', 'color': 'black'},
                 style_as_list_view=True,
                 style_header={'backgroundColor': 'white', 'fontWeight': 'bold'},
 
                 style_cell={
                     'minWidth': '50px', 'width': '180px', 'maxWidth': '180px',
-                    'whiteSpace': 'normal','padding': '5px','textAlign': 'left'
+                    'whiteSpace': 'normal', 'padding': '5px', 'textAlign': 'left'
                 },
                 style_cell_conditional=[
                     {'if': {'column_id': 'product'},
@@ -621,11 +636,11 @@ app.layout = html.Div(id='main-app', children=[
                               'margin-right': '35px',
                               'background-color': '#333652',
                               'font-size': '10pt',
-                              'overflow-y':'auto'}
+                              'overflow-y': 'auto'}
                     ),
                     # Visualisation Tabs
                     html.Div(id='analysis-tabs', children=[
-                        dcc.Tabs(id='a_tabs', value='tab1',children=[
+                        dcc.Tabs(id='a_tabs', value='tab1', children=[
                             dcc.Tab(
                                 label='DataTable',
                                 value='tab1',
@@ -659,13 +674,13 @@ app.layout = html.Div(id='main-app', children=[
                         ]),
                     ], style={'height': tab_height,
                               'width': '75%',
-                              'backgroundColor':'white'}
+                              'backgroundColor': 'white'}
                     ),
-                ],style={'display': 'flex', 'margin': '35px'})
+                ], style={'display': 'flex', 'margin': '35px'})
             ])
 
 
-#Callbacks
+# Callbacks - All callbacks must be declared after app.layout
 
 @app.callback(Output('memory', 'data'),
               [Input('run-button', 'n_clicks'),
@@ -684,6 +699,7 @@ def on_click(n_clicks, test_path, control_path, data):
 
     return data
 
+
 @app.callback(
     Output('main_table', 'style_data_conditional'),
     [Input('main_table', 'selected_columns'),
@@ -693,13 +709,15 @@ def update_styles(selected_columns, checked_options):
     style_data_conditional = []
     if 'hl' in checked_options:
         style_data_conditional.append({
-                    'if': {'filter_query': f'({{UK15_Media_Input_NIM_score{c_suffix}}} = 0 and {{UK15_Blood_Output_NIM_score{t_suffix}}} > 0) or \
-                     ({{UK15_Media_Input_NIM_score{c_suffix}}} > 0 and {{UK15_Blood_Output_NIM_score{t_suffix}}} = 0)'},
+                    'if': {'filter_query': f'({{UK15_Media_Input_NIM_score{c_suffix}}} = 0 and \
+                    {{UK15_Blood_Output_NIM_score{t_suffix}}} > 0) or \
+                     ({{UK15_Media_Input_NIM_score{c_suffix}}} > 0 and \
+                     {{UK15_Blood_Output_NIM_score{t_suffix}}} = 0)'},
                     'backgroundColor': '#EDFFEC'})
     if selected_columns != None:
         for col in selected_columns:
             style_data_conditional.append({
-                    'if': { 'column_id': col },
+                    'if': {'column_id': col},
                     'background_color': '#D2F3FF'
                 })
     return style_data_conditional
@@ -715,6 +733,7 @@ def toggle_filter(checked_options):
     else:
         return 'none'
 
+
 @app.callback(
     Output('main_table', 'page_size'),
     [Input('page_num_in', 'value')],
@@ -724,6 +743,7 @@ def table_page_size(number_pages):
         return number_pages
     else:
         return 1
+
 
 @app.callback(
     Output('table_preview', 'children'),
@@ -739,6 +759,7 @@ def create_table(ts, checked_options, data):
         return create_datatable(df_m)
     return empty_tab()
 
+
 @app.callback(
     Output('venn-thresh-desc-c', 'children'),
     [Input('venn-slider-c', 'value')]
@@ -746,12 +767,14 @@ def create_table(ts, checked_options, data):
 def update_venn_thresh_desc_control(slider_val):
     return f'NIM scores <= {slider_val}'
 
+
 @app.callback(
     Output('venn-inserts-desc-c', 'children'),
     [Input('venn-inserts-slider-c', 'value')]
 )
 def update_venn_thresh_desc_control(slider_val):
     return f'Inserts are within percentiles {slider_val[0]} to {slider_val[1]} '
+
 
 @app.callback(
     Output('venn-diagram', 'children'),
@@ -770,13 +793,13 @@ def update_venn(ts, thresh_c, slider_c, data):
 
         df_m['unique'] = np.arange(len(df_m)).astype(str)
 
-        #apply filters to get sets
+        # Apply filters to get sets
         control_set = df_m[((df_m[control_col] <= thresh_c) &
                             (df_m[control_perc_cols[0]] >= slider_c[0]) &
                             (df_m[control_perc_cols[1]] <= slider_c[1]))]['unique']
         test_set = df_m[((df_m[test_col] <= thresh_c) &
-                            (df_m[test_perc_cols[0]] >= slider_c[0]) &
-                            (df_m[test_perc_cols[1]] <= slider_c[1]))]['unique']
+                         (df_m[test_perc_cols[0]] >= slider_c[0]) &
+                         (df_m[test_perc_cols[1]] <= slider_c[1]))]['unique']
 
         venn_img = create_venn(control_set, test_set)
         label = dcc.Markdown(f"""
@@ -790,8 +813,7 @@ def update_venn(ts, thresh_c, slider_c, data):
         return html.Div(children=[
             html.Div(venn_img),
             label,
-        ],style={'display': 'flex','justify-content': 'center',
-                      'align-items': 'center'})
+        ], style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'})
     return empty_tab()
 
 
@@ -814,6 +836,7 @@ def create_hist(ts, hist_type, bin_size, data):
             hist_fig = create_histogram_t2(df_m[control_col], df_m[test_col], bin_size=bin_size)
             return dcc.Graph(id='hist-fig-t2', figure=hist_fig)
     return empty_tab()
+
 
 @app.callback(
     Output('hist-fig', 'figure'),
@@ -843,6 +866,7 @@ def display_hist_type1(relayoutData, bin_size, data):
         return create_histogram(df_m[control_col], df_m[test_col], range_x=r_x, range_y=r_y, bin_size=bin_size)
     raise dash.exceptions.PreventUpdate
 
+
 @app.callback(
     Output('genome-scatter', 'children'),
     [Input('run-button', 'n_clicks'),
@@ -860,6 +884,7 @@ def update_genome_scatter(n_clicks, gff_path, checkbox):
     else:
         return empty_tab()
 
+
 @app.callback(Output('output-data-upload', 'children'),
               [Input('upload-data', 'contents')],
               [State('upload-data', 'filename'),
@@ -875,10 +900,11 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
         test_gff = list(DATA_PATH.glob('*.gff'))
         return children
 
+
 @app.callback(Output('circos-plot-container', 'children'),
               [Input('memory', 'modified_timestamp'),
                Input('circos-gen-slider', 'value'),
-               Input('circos-checkbox','value')],
+               Input('circos-checkbox', 'value')],
               [State('memory', 'data')])
 def create_circos(ts, g_len, checkbox, data):
     hide_zeros = 'hide_zero' in checkbox
@@ -893,7 +919,6 @@ def create_circos(ts, g_len, checkbox, data):
         inner_ring = inner_ring.rename(columns={"seq_id": "block_id", control_col: "value"})
         outer_ring = df_m[info_columns + [test_col]]
         outer_ring = outer_ring.rename(columns={"seq_id": "block_id", test_col: "value"})
-        #inner_ring, outer_ring = load_data_test()
         circos = create_pimms_circos(inner_ring, outer_ring, start, end, hide_zeros=hide_zeros)
         return html.Div(children=[
                     html.Div(children=[
@@ -901,10 +926,11 @@ def create_circos(ts, g_len, checkbox, data):
                         html.Div(id='event-data-select', style={'color': 'white'})],
                         style={'display': 'flex', 'justify-content': 'left', 'align-items': 'center'}),
                     html.Div(f'Displaying Genome from positions {start} to {end}',
-                             style={'color':'white', 'margin-left': '20px'})
+                             style={'color': 'white', 'margin-left': '20px'})
                     ])
     else:
         return empty_tab()
+
 
 @app.callback(Output('circos-slider-container', 'style'),
               [Input('memory', 'modified_timestamp')])
@@ -913,6 +939,7 @@ def display_circos_slider(ts):
         return {'display': 'block'}
     else:
         raise dash.exceptions.PreventUpdate
+
 
 @app.callback(
     Output('event-data-select', 'children'),
@@ -926,6 +953,7 @@ def event_data_select(event_datum):
             contents.append(' - {}'.format(event_datum[key]))
             contents.append(html.Br())
     return contents
+
 
 if __name__ == '__main__':
     app.run_server(

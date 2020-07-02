@@ -42,13 +42,3 @@ class GffDataFrame:
 
     def empty_score(self):
         return (self._data["score"] == ".").all()
-
-if __name__ == '__main__':
-    fn_full = r'C:\Users\adamt\Downloads\GRCh38_latest_genomic.gff'
-    fn = r'C:\Users\adamt\PycharmProjects\DR000237_pimms_dashboard\app\data\gff_test.gff'
-    pimms = r'C:\Users\adamt\PycharmProjects\DR000237_pimms_dashboard\app\data\pimms_UK15_Blood_Output.gff'
-
-    gdf = GffDataFrame(fn)
-    sequences = gdf.dna_sequences()
-    a = gdf.empty_score()
-    print('here')
