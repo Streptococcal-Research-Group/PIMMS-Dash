@@ -1,7 +1,6 @@
 body {
     font-size: 1.8rem;
     background-color: #1F2132 !important;
-    color: #FFFFFF;
     font-size: 15px;
     font-family: "Open Sans", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin: 0px;
@@ -21,10 +20,6 @@ html {
     color: #FFFFFF;
 }
 
-#test-dropdown .VirtualizedSelectOption, #control-dropdown .VirtualizedSelectOption {
+#test-dropdown .VirtualizedSelectOption, #control-dropdown .VirtualizedSelectOption, #gff-dropdown .VirtualizedSelectOption {
     font-size: .8em;
-}
-
-#test-dropdown .dropdown-menu {
-    width: 2000px;
 }
