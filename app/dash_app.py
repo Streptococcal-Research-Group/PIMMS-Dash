@@ -8,6 +8,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
+from dash_table.Format import Format, Scheme
 from dash.dependencies import Input, Output, State
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -584,7 +585,8 @@ def create_datatable(df_m):
                 id='main_table',
                 columns=[{"name": i.replace("_", " "),
                           "id": i,
-                          "selectable": True} for i in df_m.columns],
+                          "selectable": True,
+                          "format": Format(precision=2,scheme=Scheme.fixed)} for i in df_m.columns],
                 data=df_m.to_dict('records'),
                 merge_duplicate_headers=True,
                 sort_mode="multi",
@@ -764,6 +766,7 @@ def table_page_size(number_pages):
 def create_table(ts, checked_options, data):
     if ts is not None:
         df_m = pd.read_json(data['dataframe'], orient='split')
+        df_m = df_m.round(3)
         if 'simple' in checked_options:
             df_m = simplify_df_m(df_m)
         return create_datatable(df_m)
