@@ -21,7 +21,7 @@ import pandas as pd
 import numpy as np
 
 # local imports
-from utils import GffDataFrame, log2_fold_change
+from utils import GffDataFrame, PIMMSDataFrame, log2_fold_change
 from circos import create_pimms_circos
 
 matplotlib.use('Agg')
@@ -36,67 +36,13 @@ BASE_PATH = pathlib.Path(__file__).parent.resolve()
 DATA_PATH = BASE_PATH.joinpath("data").resolve()
 
 # Available data
-test_csvs = list(DATA_PATH.glob('*.csv'))
+testing_csvs = list(DATA_PATH.glob('*.csv'))
 test_gff = list(DATA_PATH.glob('*.gff'))
-
-# Expected columns
-info_columns = ['seq_id', 'locus_tag', 'type', 'gene', 'start', 'end', 'feat_length', 'product']
-simple_columns = info_columns + ['UK15_Blood_Output_NRM_score',
-                                 'UK15_Blood_Output_NIM_score',
-                                 'UK15_Media_Input_NRM_score',
-                                 'UK15_Media_Input_NIM_score']
-c_suffix = '_control'
-t_suffix = '_test'
 
 # Initialise App
 app = dash.Dash(__name__)
 app.config['suppress_callback_exceptions'] = True
 server = app.server
-
-
-def load_and_merge(control_data_path, test_data_path):
-    test_csv_idx = [i.name for i in test_csvs].index(test_data_path)
-    control_csv_idx = [i.name for i in test_csvs].index(control_data_path)
-    df_c = pd.read_csv(test_csvs[test_csv_idx])
-    df_t = pd.read_csv(test_csvs[control_csv_idx])
-    df_m = merge_control_test(df_c, df_t, info_columns, c_suffix, t_suffix)
-    return df_m
-
-
-def merge_control_test(control_df, test_df, on, control_suffix, test_suffix):
-    assert (set(on).issubset(control_df.columns)), 'On columns are not present in control_df'
-    assert (set(on).issubset(test_df.columns)), 'On columns are not present in test_df'
-    ctrl_data_cols = set(control_df.columns) - set(on)
-    test_data_cols = set(test_df.columns) - set(on)
-    new_control_names = [(i, i + control_suffix) for i in list(ctrl_data_cols)]
-    new_test_names = [(i, i + test_suffix) for i in list(test_data_cols)]
-    control_df.rename(columns=dict(new_control_names), inplace=True)
-    test_df.rename(columns=dict(new_test_names), inplace=True)
-    df_m = pd.merge(test_df, control_df, how='inner', on=on)
-    return df_m
-
-
-def comparision_metric(df_m):
-    test_cols, control_cols = get_test_control_cols(df_m)
-    df_m['c_metric'] = df_m.apply(lambda row: log2_fold_change(row[test_cols[0]], row[control_cols[0]]), axis=1)
-    df_m['c_metric'] = abs(df_m['c_metric'])
-    return df_m
-
-
-def simplify_df_m(df_m):
-    new_cols = []
-    for col in set(df_m.columns)-set(info_columns):
-        for simple_col in set(simple_columns)-set(info_columns):
-            if col.startswith(simple_col):
-                new_cols.append(col)
-    new_cols.append('c_metric')
-    return df_m[info_columns+new_cols]
-
-
-def get_test_control_cols(df_m, col_name='NIM_score'):
-    control_col = [col for col in df_m.columns if f'{col_name}{c_suffix}' in col]
-    test_col = [col for col in df_m.columns if f'{col_name}{t_suffix}' in col]
-    return test_col, control_col
 
 
 def parse_upload(contents, filename, date):
@@ -213,7 +159,7 @@ def control_data_tab():
                         html.Div(children='Select Control'),
                         dcc.Dropdown(
                             id="control-dropdown",
-                            options=[{'label': i.name, 'value': i.name} for i in test_csvs],
+                            options=[{'label': i.name, 'value': i.name} for i in testing_csvs],
                             value=0,
                             style={'verticalAlign': "middle",
                                    'border': 'solid 1px #545454', 'color': 'black'}
@@ -223,7 +169,7 @@ def control_data_tab():
                         html.Div(children='Select Test'),
                         dcc.Dropdown(
                             id="test-dropdown",
-                            options=[{'label': i.name, 'value': i.name} for i in test_csvs],
+                            options=[{'label': i.name, 'value': i.name} for i in testing_csvs],
                             value=0,
                             style={'verticalAlign': "middle",
                                    'border': 'solid 1px #545454', 'color': 'black'}
@@ -580,18 +526,18 @@ def create_genome_scatter(gff_df):
     return fig
 
 
-def create_datatable(df_m):
+def create_datatable(df):
     return dash_table.DataTable(
                 id='main_table',
                 columns=[{"name": i.replace("_", " "),
                           "id": i,
                           "selectable": True,
-                          "format": Format(precision=2,scheme=Scheme.fixed)} for i in df_m.columns],
-                data=df_m.to_dict('records'),
+                          "format": Format(precision=2, scheme=Scheme.fixed)} for i in df.columns],
+                data=df.to_dict('records'),
                 merge_duplicate_headers=True,
                 sort_mode="multi",
                 column_selectable="multi",
-                tooltip_data=[{'product': {'type': 'text', 'value': f'{r}'}} for r in df_m['product'].values],
+                tooltip_data=[{'product': {'type': 'text', 'value': f'{r}'}} for r in df['product'].values],
                 style_table={'overflowX': 'scroll', 'overflowY': 'auto', 'color': 'black'},
                 style_as_list_view=True,
                 style_header={'backgroundColor': 'white', 'fontWeight': 'bold'},
@@ -702,11 +648,15 @@ def on_click(n_clicks, test_path, control_path, data):
         raise dash.exceptions.PreventUpdate
 
     # Give a default data dict with 0 clicks if there's no data.
-    data = data or {'clicks': 0, 'dataframe': None}
+    data = data or {'clicks': 0, 'pimms_df': None}
     if n_clicks > data['clicks']:
-        df_m = load_and_merge(control_path, test_path)
-        df_m = comparision_metric(df_m)
-        data['dataframe'] = df_m.to_json(date_format='iso', orient='split')
+        test_csv_idx = [i.name for i in testing_csvs].index(test_path)
+        control_csv_idx = [i.name for i in testing_csvs].index(control_path)
+        test_path = testing_csvs[test_csv_idx]
+        control_path = testing_csvs[control_csv_idx]
+        pimms_df = PIMMSDataFrame(control_path, test_path)
+        pimms_df.calc_NIM_comparision_metric(log2_fold_change, 'c_metric')
+        data['pimms_df'] = pimms_df.to_json()
         data['clicks'] = n_clicks
 
     return data
@@ -715,16 +665,17 @@ def on_click(n_clicks, test_path, control_path, data):
 @app.callback(
     Output('main_table', 'style_data_conditional'),
     [Input('main_table', 'selected_columns'),
-     Input('datatable_check', 'value')]
+     Input('datatable_check', 'value')],
+    [State('memory', 'data')]
 )
-def update_styles(selected_columns, checked_options):
+def update_styles(selected_columns, checked_options, data):
+    pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
+    NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
     style_data_conditional = []
     if 'hl' in checked_options:
         style_data_conditional.append({
-                    'if': {'filter_query': f'({{UK15_Media_Input_NIM_score{c_suffix}}} = 0 and \
-                    {{UK15_Blood_Output_NIM_score{t_suffix}}} > 0) or \
-                     ({{UK15_Media_Input_NIM_score{c_suffix}}} > 0 and \
-                     {{UK15_Blood_Output_NIM_score{t_suffix}}} = 0)'},
+                    'if': {'filter_query': f'({{{NIM_control_col}}} = 0 and {{{NIM_test_col}}} > 0) or \
+                                             ({{{NIM_control_col}}} > 0 and {{{NIM_test_col}}} = 0)'},
                     'backgroundColor': '#EDFFEC'})
     if selected_columns != None:
         for col in selected_columns:
@@ -765,11 +716,12 @@ def table_page_size(number_pages):
 )
 def create_table(ts, checked_options, data):
     if ts is not None:
-        df_m = pd.read_json(data['dataframe'], orient='split')
-        df_m = df_m.round(3)
+        pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
         if 'simple' in checked_options:
-            df_m = simplify_df_m(df_m)
-        return create_datatable(df_m)
+            df = pimms_df.get_df_simple()
+        else:
+            df = pimms_df.data
+        return create_datatable(df)
     return empty_tab()
 
 
@@ -798,27 +750,27 @@ def update_venn_thresh_desc_control(slider_val):
 )
 def update_venn(ts, thresh_c, slider_c, data):
     if ts is not None:
-        df_m = pd.read_json(data['dataframe'], orient='split')
-        test_cols, control_cols = get_test_control_cols(df_m)
-        test_perc_cols, control_perc_cols = get_test_control_cols(df_m, 'insert_posn_as_percentile')
+        pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
+        NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
+        perc_test_cols, perc_control_cols = pimms_df.test_control_cols_containing('insert_posn_as_percentile')
 
-        df_m['unique'] = np.arange(len(df_m)).astype(str)
+        pimms_df['unique'] = np.arange(len(pimms_df)).astype(str)
 
         # Apply filters to get sets
-        control_set = df_m[((df_m[control_cols[0]] <= thresh_c) &
-                            (df_m[control_perc_cols[0]] >= slider_c[0]) &
-                            (df_m[control_perc_cols[1]] <= slider_c[1]))]['unique']
-        test_set = df_m[((df_m[test_cols[0]] <= thresh_c) &
-                         (df_m[test_perc_cols[0]] >= slider_c[0]) &
-                         (df_m[test_perc_cols[1]] <= slider_c[1]))]['unique']
+        control_set = pimms_df[((pimms_df[NIM_control_col] <= thresh_c) &
+                                (pimms_df[perc_control_cols[0]] >= slider_c[0]) &
+                                (pimms_df[perc_control_cols[1]] <= slider_c[1]))]['unique']
+        test_set = pimms_df[((pimms_df[NIM_test_col] <= thresh_c) &
+                             (pimms_df[perc_test_cols[0]] >= slider_c[0]) &
+                             (pimms_df[perc_test_cols[1]] <= slider_c[1]))]['unique']
 
         venn_img = create_venn(control_set, test_set)
         label = dcc.Markdown(f"""
         * **Set A**: 
-        {control_cols[0]}
+        {NIM_control_col}
         
         * **Set B**:
-        {test_cols[0]}
+        {NIM_test_col}
 
         """)
         return html.Div(children=[
@@ -837,13 +789,14 @@ def update_venn(ts, thresh_c, slider_c, data):
 )
 def create_hist(ts, hist_type, bin_size, data):
     if ts is not None:
-        df_m = pd.read_json(data['dataframe'], orient='split')
-        test_cols, control_cols = get_test_control_cols(df_m)
+        pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
+        NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
+
         if hist_type == 'type1':
-            hist_fig = create_histogram(df_m[control_cols[0]], df_m[test_cols[0]], bin_size=bin_size)
+            hist_fig = create_histogram(pimms_df[NIM_control_col], pimms_df[NIM_test_col], bin_size=bin_size)
             return dcc.Graph(id='hist-fig', figure=hist_fig)
         elif hist_type == 'type2':
-            hist_fig = create_histogram_t2(df_m[control_cols[0]], df_m[test_cols[0]], bin_size=bin_size)
+            hist_fig = create_histogram_t2(pimms_df[NIM_control_col], pimms_df[NIM_test_col], bin_size=bin_size)
             return dcc.Graph(id='hist-fig-t2', figure=hist_fig)
     return empty_tab()
 
@@ -858,8 +811,8 @@ def display_hist_type1(relayoutData, bin_size, data):
     if relayoutData:
         if 'autosize' in relayoutData:
             raise dash.exceptions.PreventUpdate
-        df_m = pd.read_json(data['dataframe'], orient='split')
-        test_cols, control_cols = get_test_control_cols(df_m)
+        pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
+        NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
 
         if 'yaxis.range[1]' in relayoutData:
             r_y = [0, relayoutData['yaxis.range[1]']]
@@ -872,7 +825,7 @@ def display_hist_type1(relayoutData, bin_size, data):
             r_x = [relayoutData['xaxis.range[0]'], relayoutData['xaxis.range[1]']]
         else:
             r_x = None
-        return create_histogram(df_m[control_cols[0]], df_m[test_cols[0]], range_x=r_x, range_y=r_y, bin_size=bin_size)
+        return create_histogram(pimms_df[NIM_control_col], pimms_df[NIM_test_col], range_x=r_x, range_y=r_y, bin_size=bin_size)
     raise dash.exceptions.PreventUpdate
 
 
@@ -897,14 +850,15 @@ def update_genome_scatter(n_clicks, gff_path, checkbox):
 @app.callback(Output('output-data-upload', 'children'),
               [Input('upload-data', 'contents')],
               [State('upload-data', 'filename'),
-               State('upload-data', 'last_modified')])
+               State('upload-data', 'last_modified')]
+)
 def update_output(list_of_contents, list_of_names, list_of_dates):
     if list_of_contents is not None:
         children = [
             parse_upload(c, n, d) for c, n, d in
             zip(list_of_contents, list_of_names, list_of_dates)]
-        global test_csvs
-        test_csvs = list(DATA_PATH.glob('*.csv'))
+        global testing_csvs
+        testing_csvs = list(DATA_PATH.glob('*.csv'))
         global test_gff
         test_gff = list(DATA_PATH.glob('*.gff'))
         return children
@@ -914,20 +868,23 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
               [Input('memory', 'modified_timestamp'),
                Input('circos-gen-slider', 'value'),
                Input('circos-checkbox', 'value')],
-              [State('memory', 'data')])
+              [State('memory', 'data')]
+)
 def create_circos(ts, g_len, checkbox, data):
     hide_zeros = 'hide_zero' in checkbox
     if ts is not None:
-        df_m = pd.read_json(data['dataframe'], orient='split')
-        genome_range = df_m['end'].max() - df_m['start'].min()
+        pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
+        NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
+
+        genome_range = pimms_df['end'].max() - pimms_df['start'].min()
         start = int(g_len[0] * genome_range)
         end = int(g_len[1] * genome_range)
-        test_cols, control_cols = get_test_control_cols(df_m)
-        inner_ring = df_m[info_columns + control_cols]
-        inner_ring = inner_ring.rename(columns={"seq_id": "block_id", control_cols[0]: "value"})
-        outer_ring = df_m[info_columns + test_cols]
-        outer_ring = outer_ring.rename(columns={"seq_id": "block_id", test_cols[0]: "value"})
-        hist_ring = df_m[info_columns + ['c_metric']]
+
+        inner_ring = pimms_df[pimms_df.info_columns + [NIM_control_col]]
+        inner_ring = inner_ring.rename(columns={"seq_id": "block_id", NIM_control_col: "value"})
+        outer_ring = pimms_df[pimms_df.info_columns + [NIM_test_col]]
+        outer_ring = outer_ring.rename(columns={"seq_id": "block_id", NIM_test_col: "value"})
+        hist_ring = pimms_df[pimms_df.info_columns + ['c_metric']]
         hist_ring = hist_ring.rename(columns={"seq_id": "block_id", 'c_metric': "value"})
         circos = create_pimms_circos(inner_ring, outer_ring, hist_ring, start, end, hide_zeros=hide_zeros)
         return html.Div(children=[
@@ -943,7 +900,8 @@ def create_circos(ts, g_len, checkbox, data):
 
 
 @app.callback(Output('circos-slider-container', 'style'),
-              [Input('memory', 'modified_timestamp')])
+              [Input('memory', 'modified_timestamp')]
+)
 def display_circos_slider(ts):
     if ts is not None:
         return {'display': 'block'}
@@ -953,7 +911,8 @@ def display_circos_slider(ts):
 
 @app.callback(
     Output('event-data-select', 'children'),
-    [Input('main-circos', 'eventDatum')])
+    [Input('main-circos', 'eventDatum')]
+)
 def event_data_select(event_datum):
     contents = ['Hover over circos plot to', html.Br(), 'display locus information.']
     if event_datum is not None:
