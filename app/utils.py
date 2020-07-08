@@ -2,6 +2,10 @@ import math
 import pandas as pd
 import json
 import pathlib
+import io
+import base64
+
+from settings import DATA_PATH
 
 
 class GffDataFrame:
@@ -207,6 +211,27 @@ def log2_fold_change(a, b):
     except (ZeroDivisionError, ValueError):
         return 0
 
+
+def parse_upload(contents, filename):
+    content_type, content_string = contents.split(',')
+    save_path = DATA_PATH.joinpath(filename)
+    decoded = base64.b64decode(content_string)
+    try:
+        if save_path.is_file():
+            raise IOError('File Already Exists')
+        if '.csv' in filename:
+            df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
+            df.to_csv(save_path, index=False)
+            return f'Uploaded {filename}'
+        elif '.xls' in filename:
+            df = pd.read_excel(io.BytesIO(decoded))
+            df.to_excel(DATA_PATH.joinpath(filename), index=False)
+            return f'Uploaded {filename}'
+        else:
+            raise TypeError('Unexpected file format')
+    except Exception as e:
+        print(e)
+        return f'Error processing {filename}: {e}'
 
 
 
