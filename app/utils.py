@@ -57,6 +57,7 @@ class GffDataFrame:
 class PIMMSDataFrame:
     """
     PIMMSDataFrame object contains a merged dataframe from the input test and control data.
+    Uses Composition to extend pandas dataframe with methods specific to PIMMS use case.
     :param control_path: Path to input csv file from control experiment
     :param test_path: Path to input csv file from test experiment
     """
