@@ -3,9 +3,7 @@ import pathlib
 import pandas as pd
 
 from utils import GffDataFrame
-
-BASE_PATH = pathlib.Path(__file__).parent.resolve()
-DATA_PATH = BASE_PATH.joinpath("data").resolve()
+from settings import DATA_PATH
 
 
 def circos_df_from_gff(gff_file):

@@ -21,6 +21,7 @@ import pandas as pd
 import numpy as np
 
 # local imports
+from settings import DATA_PATH
 from utils import GffDataFrame, PIMMSDataFrame, log2_fold_change
 from circos import create_pimms_circos
 
@@ -30,10 +31,6 @@ matplotlib.use('Agg')
 app_title = 'Pimms Dashboard'
 tab_height = '80vh'
 plotly_template = 'simple_white'
-
-# Define local paths
-BASE_PATH = pathlib.Path(__file__).parent.resolve()
-DATA_PATH = BASE_PATH.joinpath("data").resolve()
 
 # Available data
 testing_csvs = list(DATA_PATH.glob('*.csv'))
