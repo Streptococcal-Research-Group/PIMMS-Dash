@@ -19,6 +19,7 @@ matplotlib.use('Agg')
 
 
 def create_datatable(df):
+    """Use dash_table package to create a datatable component from pandas dataframe"""
     return dash_table.DataTable(
                 id='main_table',
                 columns=[{"name": i.replace("_", " "),
@@ -52,6 +53,18 @@ def create_datatable(df):
 
 
 def create_histogram(series_control, series_test, range_x=None, range_y=None, bin_size=None):
+    """
+    Create plotly figure containing two histogram subplots. One above the other with the lower flipped in the y axis.
+    In order to provide interactivity linked to both plots (always display the same axis range), this function takes
+    advantage of the numpy histogram function which provides the max hist bar y value (plotly does not), this is then
+    used to limit the graph axes.
+    :param series_control: pandas series control values
+    :param series_test: pandas series test values
+    :param range_x: x axis limit list [min, max]
+    :param range_y: y axis limit list [min, max]
+    :param bin_size:
+    :return: plotly fig
+    """
     # Create numpy xbins
     if bin_size == None:
         xbins = 'auto'
@@ -79,6 +92,7 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None, bi
             'size': np_hist_c[1][1]
         },
     }
+    # Get histogram max and min y values
     range_max = np.max([np_hist_info['test']['max'], np_hist_info['control']['max']])
     range_min = np.min([np_hist_info['test']['min'], np_hist_info['control']['min']])
 
@@ -99,7 +113,7 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None, bi
                           opacity=0.5,
                           marker={'line': {'width': 1}}
                           )
-    # Create figure
+    # Create sub plot figure
     fig = make_subplots(rows=2, cols=1,
                         shared_xaxes=True,
                         vertical_spacing=0,
@@ -107,13 +121,12 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None, bi
                         x_title='NIM',  # xaxis label
                         y_title='Count',
                         )
-
     fig.add_trace(hist_c, row=1, col=1)
     fig.add_trace(hist_t, row=2, col=1)
 
+    # update styling
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey', showline=False)
-
     fig.update_layout(template=plotly_template, legend=dict(x=0.9, y=1))
 
     # Manage range, reversing range for subplot 2
@@ -132,6 +145,13 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None, bi
 
 
 def create_histogram_type2(series_control, series_test, bin_size=None):
+    """
+    Create a multi-bar histogram with plotly
+    :param series_control: pandas series control values
+    :param series_test: pandas series test values
+    :param bin_size:
+    :return:
+    """
     if bin_size:
         xbins = {'start': 0, 'size': bin_size}
     else:
@@ -166,6 +186,11 @@ def create_histogram_type2(series_control, series_test, bin_size=None):
 
 
 def create_genome_scatter(gff_df):
+    """
+    Create a scatter plot of genome insertions from a Gff dataframe object.
+    :param gff_df: GffDataFrame object
+    :return: plotly fig
+    """
     # If gff has score values - assume these are insert counts
     if gff_df.empty_score():
         insert_counts = gff_df.value_counts('start')
@@ -189,6 +214,14 @@ def create_genome_scatter(gff_df):
 
 
 def create_venn(set_a, set_b):
+    """
+    Creates a venn diagram given two sets. As plotly venn diagrams are limited, uses matplotlib_venn package.
+    The resulting matplotlib figure currently can not be directly converted to a plotly figure. As a work around the
+    figure is encoded to a base64 string which can be read as an image by dash Img component.
+    :param set_a:
+    :param set_b:
+    :return: base64 str encoding of plot.
+    """
     # get venn sets
     aB = len(set(set_b) - set(set_a))
     Ab = len(set(set_a) - set(set_b))
