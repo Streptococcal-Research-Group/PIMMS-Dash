@@ -405,18 +405,33 @@ app.layout = html.Div(id='main-app', children=[
                Input('control-dropdown', 'value')],
               [State('memory', 'data')])
 def on_click(n_clicks, test_path, control_path, data):
+    """
+    This Callback stores the input data in a dcc.Store component when the run-button is clicked.
+    :param n_clicks: int number of times run button clicked
+    :param test_path: path from test-dropdown
+    :param control_path: path from control-dropdown
+    :param data: the dcc.Store current data
+    :return:
+    """
+    # Prevent update if run-button unclicked or dropdowns not populated
     if (n_clicks is None) or (test_path in [0, None]) or (control_path in [0, None]):
         raise dash.exceptions.PreventUpdate
 
-    # Give a default data dict with 0 clicks if there's no data.
+    # Give a default data dict with 0 clicks if there's no data currently in dcc.store.
     data = data or {'clicks': 0, 'pimms_df': None}
+    # If number of clicks has changed, update.
     if n_clicks > data['clicks']:
+        # get index position of test_path within the list of available data.
         test_csv_idx = [i.name for i in testing_csvs].index(test_path)
         control_csv_idx = [i.name for i in testing_csvs].index(control_path)
+        # extract full path from available data list
         test_path = testing_csvs[test_csv_idx]
         control_path = testing_csvs[control_csv_idx]
+        # Create pimms dataframe, loading and merging the input data
         pimms_df = PIMMSDataFrame(control_path, test_path)
+        # Create extra comparision column using chosen metric
         pimms_df.calc_NIM_comparision_metric(log2_fold_change, 'c_metric')
+        # store in data dict. Serialising pimms_df object before storing.
         data['pimms_df'] = pimms_df.to_json()
         data['clicks'] = n_clicks
 
@@ -427,11 +442,21 @@ def on_click(n_clicks, test_path, control_path, data):
     Output('main_table', 'style_data_conditional'),
     [Input('main_table', 'selected_columns'),
      Input('datatable_check', 'value')],
-    [State('memory', 'data')]
-)
+    [State('memory', 'data')])
 def update_styles(selected_columns, checked_options, data):
+    """
+    This Callback adds highlighting to datatable.
+    1. Highlights the rows where one NIM score is 0 and other is >0.
+    2. Highlights any selected columns
+    :param selected_columns: list of columns selected in dataframe
+    :param checked_options: list of check values from datatable checkbox
+    :param data: current data stored in dcc.Store component
+    :return:
+    """
+    # Load data from dcc.Store.
     pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
     NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
+    # Add styling dicts to style_data_conditional. See datatable docs
     style_data_conditional = []
     if 'hl' in checked_options:
         style_data_conditional.append({
@@ -449,9 +474,9 @@ def update_styles(selected_columns, checked_options, data):
 
 @app.callback(
     Output('main_table', 'filter_action'),
-    [Input('datatable_check', 'value')],
-)
+    [Input('datatable_check', 'value')])
 def toggle_filter(checked_options):
+    """Callback to show/hide the filter row in datatable when checkbox is clicked."""
     if 'filter' in checked_options:
         return 'native'
     else:
@@ -460,9 +485,9 @@ def toggle_filter(checked_options):
 
 @app.callback(
     Output('main_table', 'page_size'),
-    [Input('page_num_in', 'value')],
-)
+    [Input('page_num_in', 'value')])
 def table_page_size(number_pages):
+    """ Callback to adjust page size of datatable"""
     if number_pages > 0:
         return number_pages
     else:
@@ -473,32 +498,39 @@ def table_page_size(number_pages):
     Output('table_preview', 'children'),
     [Input('memory', 'modified_timestamp'),
      Input('datatable_check', 'value')],
-    [State('memory', 'data')]
-)
+    [State('memory', 'data')])
 def create_table(ts, checked_options, data):
+    """
+    Callback to create datatable when new data placed in dcc.Store. Creates simple table if option is checked.
+    :param ts: timestamp from dcc.store, Used to trigger callback when dcc.store updated.
+    :param checked_options: list of options checked in datatable checkbox
+    :param data: current data stored in dcc.Store component
+    :return:
+    """
     if ts is not None:
         pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
         if 'simple' in checked_options:
             df = pimms_df.get_df_simple()
         else:
             df = pimms_df.data
+        df = df.round(3)
         return create_datatable(df)
     return empty_tab()
 
 
 @app.callback(
     Output('venn-thresh-desc-c', 'children'),
-    [Input('venn-slider-c', 'value')]
-)
+    [Input('venn-slider-c', 'value')])
 def update_venn_thresh_desc_control(slider_val):
+    """ Callback to update text description of venn NIM score slider"""
     return f'NIM scores <= {slider_val}'
 
 
 @app.callback(
     Output('venn-inserts-desc-c', 'children'),
-    [Input('venn-inserts-slider-c', 'value')]
-)
+    [Input('venn-inserts-slider-c', 'value')])
 def update_venn_thresh_desc_control(slider_val):
+    """ Callback to update text description of venn inserts slider"""
     return f'Inserts are within percentiles {slider_val[0]} to {slider_val[1]} '
 
 
@@ -507,14 +539,22 @@ def update_venn_thresh_desc_control(slider_val):
     [Input('memory', 'modified_timestamp'),
      Input('venn-slider-c', 'value'),
      Input('venn-inserts-slider-c', 'value')],
-    [State('memory', 'data')]
-)
+    [State('memory', 'data')])
 def update_venn(ts, thresh_c, slider_c, data):
+    """
+    Callback to create/update venn diagram when new data in dcc.store or venn options are changed.
+    :param ts: timestamp from dcc.store, Used to trigger callback when dcc.store updated.
+    :param thresh_c: NIM score threshold from slider
+    :param slider_c: Inserts range from slider
+    :param data: current data stored in dcc.Store component
+    :return:
+    """
     if ts is not None:
+        # Load data from store
         pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
         NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
         perc_test_cols, perc_control_cols = pimms_df.test_control_cols_containing('insert_posn_as_percentile')
-
+        # Create an unique identifier column
         pimms_df['unique'] = np.arange(len(pimms_df)).astype(str)
 
         # Apply filters to get sets
@@ -524,8 +564,9 @@ def update_venn(ts, thresh_c, slider_c, data):
         test_set = pimms_df[((pimms_df[NIM_test_col] <= thresh_c) &
                              (pimms_df[perc_test_cols[0]] >= slider_c[0]) &
                              (pimms_df[perc_test_cols[1]] <= slider_c[1]))]['unique']
-
+        # Create Venn
         venn_img = create_venn(control_set, test_set)
+        # Create Venn Label
         label = dcc.Markdown(f"""
         * **Set A**: 
         {NIM_control_col}
@@ -535,12 +576,13 @@ def update_venn(ts, thresh_c, slider_c, data):
 
         """)
         return html.Div(children=[
-            html.Div(
-                html.Img(src=venn_img, style={'display': 'flex', 'justify-content': 'center',
-                                              'align-items': 'center', 'height': '100%'})
-            ),
+            html.Div(html.Img(src=venn_img,
+                              style={'display': 'flex', 'justify-content': 'center',
+                                     'align-items': 'center', 'height': '100%'}
+                              )
+                     ),
             label,
-        ], style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'})
+            ], style={'display': 'flex', 'justify-content': 'center', 'align-items': 'center'})
     return empty_tab()
 
 
@@ -549,13 +591,22 @@ def update_venn(ts, thresh_c, slider_c, data):
     [Input('memory', 'modified_timestamp'),
      Input('hist-type-dropdown', 'value'),
      Input('hist-bin-size', 'value')],
-    [State('memory', 'data')]
-)
+    [State('memory', 'data')])
 def create_hist(ts, hist_type, bin_size, data):
+    """
+    Callback to create histogram.
+    :param ts: timestamp from dcc.store, Used to trigger callback when dcc.store updated.
+    :param hist_type: str from dropdown, either type1 or type2
+    :param bin_size: size of histogram bins
+    :param data: current data stored in dcc.Store component
+    :return:
+    """
     if ts is not None:
+        # Load data from store
         pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
         NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
 
+        # Create relevant histogram and return in graph component
         if hist_type == 'type1':
             hist_fig = create_histogram(pimms_df[NIM_control_col], pimms_df[NIM_test_col], bin_size=bin_size)
             return dcc.Graph(id='hist-fig', figure=hist_fig)
@@ -569,15 +620,24 @@ def create_hist(ts, hist_type, bin_size, data):
     Output('hist-fig', 'figure'),
     [Input('hist-fig', 'relayoutData'),
      Input('hist-bin-size', 'value')],
-    [State('memory', 'data')]
-)
+    [State('memory', 'data')])
 def display_hist_type1(relayoutData, bin_size, data):
+    """
+    Callback to update type1 hist according to updated ranges. Used to keep interactivity in the type1 hist where
+    multiple subplots are used with the lower hist flipped vertically.
+    :param relayoutData: dict containing relayout data from histogram. see plotly docs.
+    :param bin_size: histogram bin size
+    :param data: current data stored in dcc.Store component
+    :return:
+    """
     if relayoutData:
         if 'autosize' in relayoutData:
             raise dash.exceptions.PreventUpdate
+        # Load data from store
         pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
         NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
 
+        # Create new y range
         if 'yaxis.range[1]' in relayoutData:
             r_y = [0, relayoutData['yaxis.range[1]']]
         elif 'yaxis2.range[1]' in relayoutData:
@@ -585,10 +645,12 @@ def display_hist_type1(relayoutData, bin_size, data):
         else:
             r_y = None
 
+        # Create new x range
         if 'xaxis.range[0]' in relayoutData:
             r_x = [relayoutData['xaxis.range[0]'], relayoutData['xaxis.range[1]']]
         else:
             r_x = None
+        # Return new type1 histogram with updated ranges
         return create_histogram(pimms_df[NIM_control_col], pimms_df[NIM_test_col], range_x=r_x, range_y=r_y, bin_size=bin_size)
     raise dash.exceptions.PreventUpdate
 
@@ -597,13 +659,24 @@ def display_hist_type1(relayoutData, bin_size, data):
     Output('genome-scatter', 'children'),
     [Input('run-button', 'n_clicks'),
      Input('gff-dropdown', 'value'),
-     Input('scatter-checkbox', 'value')]
-)
-def update_genome_scatter(n_clicks, gff_path, checkbox):
-    if (n_clicks is not None) and (gff_path not in [0, None]):
-        gff_idx = [i.name for i in test_gff].index(gff_path)
+     Input('scatter-checkbox', 'value')])
+def update_genome_scatter(n_clicks, gff_filename, checkbox):
+    """
+    Callback to create/update genome scatter plot.
+    TODO load gff file into dcc.Store, currently reads gff data within this callback
+    :param n_clicks: number of clicks of run button
+    :param gff_filename:
+    :param checkbox: scatter options checkbox
+    :return:
+    """
+    if (n_clicks is not None) and (gff_filename not in [0, None]):
+        # Get full file path
+        gff_idx = [i.name for i in test_gff].index(gff_filename)
+        # Load into gffdataframe object
         gff_df = GffDataFrame(test_gff[gff_idx])
+        # Create figure
         fig = create_genome_scatter(gff_df)
+        # Change to log axis if checked
         if 'log' in checkbox:
             fig.update_layout(yaxis_type="log")
         return dcc.Graph(id='gff-scatter-fig', figure=fig)
@@ -614,9 +687,9 @@ def update_genome_scatter(n_clicks, gff_path, checkbox):
 @app.callback(Output('output-data-upload', 'children'),
               [Input('upload-data', 'contents')],
               [State('upload-data', 'filename'),
-               State('upload-data', 'last_modified')]
-)
+               State('upload-data', 'last_modified')])
 def upload_new_file(list_of_contents, list_of_names, list_of_dates):
+    """ Callback to parse and save uploaded data"""
     if list_of_contents is not None:
         children = [parse_upload(c, n) for c, n in zip(list_of_contents, list_of_names)]
         return children
@@ -624,9 +697,9 @@ def upload_new_file(list_of_contents, list_of_names, list_of_dates):
 
 @app.callback([Output('test-dropdown', 'options'),
                Output('control-dropdown', 'options')],
-              [Input('output-data-upload', 'children')],
-)
+              [Input('output-data-upload', 'children')])
 def update_upload_dropdowns(upload_message):
+    """Callback to update the select data dropdowns when new data uploaded"""
     if not upload_message or not upload_message[0]:
         raise dash.exceptions.PreventUpdate
     if upload_message[0].startswith('Uploaded'):
@@ -640,25 +713,38 @@ def update_upload_dropdowns(upload_message):
               [Input('memory', 'modified_timestamp'),
                Input('circos-gen-slider', 'value'),
                Input('circos-checkbox', 'value')],
-              [State('memory', 'data')]
-)
+              [State('memory', 'data')])
 def create_circos(ts, g_len, checkbox, data):
+    """
+    Callback to create/update circos plot
+    :param ts: timestamp from dcc.store, Used to trigger callback when dcc.store updated.
+    :param g_len: int, length of genome to display from slider. 0 to 1
+    :param checkbox: list of circos checked options
+    :param data: current data stored in dcc.Store component
+    :return:
+    """
     hide_zeros = 'hide_zero' in checkbox
     if ts is not None:
+        # Load data from dcc.Store
         pimms_df = PIMMSDataFrame.from_json(data['pimms_df'])
         NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
 
+        # Calc genome range and limit using slider values
         genome_range = pimms_df['end'].max() - pimms_df['start'].min()
         start = int(g_len[0] * genome_range)
         end = int(g_len[1] * genome_range)
 
+        # Create dataframe for each circos ring, rename cols to relevant names for circos to pick up
         inner_ring = pimms_df[pimms_df.info_columns + [NIM_control_col]]
         inner_ring = inner_ring.rename(columns={"seq_id": "block_id", NIM_control_col: "value"})
         outer_ring = pimms_df[pimms_df.info_columns + [NIM_test_col]]
         outer_ring = outer_ring.rename(columns={"seq_id": "block_id", NIM_test_col: "value"})
         hist_ring = pimms_df[pimms_df.info_columns + ['c_metric']]
         hist_ring = hist_ring.rename(columns={"seq_id": "block_id", 'c_metric': "value"})
+
+        # Create the circos plot
         circos = create_pimms_circos(inner_ring, outer_ring, hist_ring, start, end, hide_zeros=hide_zeros)
+        # Return Tab children
         return html.Div(children=[
                     html.Div(children=[
                         circos,
@@ -672,9 +758,9 @@ def create_circos(ts, g_len, checkbox, data):
 
 
 @app.callback(Output('circos-slider-container', 'style'),
-              [Input('memory', 'modified_timestamp')]
-)
+              [Input('memory', 'modified_timestamp')])
 def display_circos_slider(ts):
+    """ Callback to hide circos slider when no data in dcc.Store"""
     if ts is not None:
         return {'display': 'block'}
     else:
@@ -683,16 +769,17 @@ def display_circos_slider(ts):
 
 @app.callback(
     Output('event-data-select', 'children'),
-    [Input('main-circos', 'eventDatum')]
-)
+    [Input('main-circos', 'eventDatum')])
 def event_data_select(event_datum):
-    contents = ['Hover over circos plot to', html.Br(), 'display locus information.']
+    """ Callback to update text next to circos plot with circos hover data."""
     if event_datum is not None:
         contents = []
         for key in event_datum.keys():
             contents.append(html.Span(key.title(), style={'font-weight': 'bold'}))
             contents.append(' - {}'.format(event_datum[key]))
             contents.append(html.Br())
+    else:
+        contents = ['Hover over circos plot to', html.Br(), 'display locus information.']
     return contents
 
 
