@@ -9,7 +9,7 @@ import numpy as np
 
 # local imports
 from settings import DATA_PATH
-from utils import GffDataFrame, PIMMSDataFrame, log2_fold_change, parse_upload
+from utils import GffDataFrame, PIMMSDataFrame, fold_change_comparision,percentile_rank_comparision, parse_upload
 from circos import create_pimms_circos
 from figures import *
 
@@ -95,17 +95,15 @@ def control_about_tab():
 def control_data_tab():
     return html.Div(children=[
                 html.Div(children=[
-                    html.Div(className='bac-dropdown-name', children='Bacterial Species',
+                    html.Div('Comparision Metric',
                              style={'margin-right': '2em', 'verticalAlign': "middle"}),
                     dcc.Dropdown(
-                        id='bac-species-dropdown',
+                        id='comparision-metric-dropdown',
                         options=[
-                            {'label': 'Species A', 'value': 'specA'},
-                            {'label': 'Species B', 'value': 'specB'},
-                            {'label': 'Species C', 'value': 'specC'},
-                            {'label': 'Species D', 'value': 'specD'}
+                            {'label': 'Log2 Fold Change', 'value': 'fold'},
+                            {'label': 'Percentile Rank', 'value': 'perc'}
                         ],
-                        value='specA',
+                        value='fold',
                         style={'width': '140px', 'verticalAlign': "middle",
                                'border': 'solid 1px #545454', 'color': 'black'}
                     )
@@ -402,14 +400,16 @@ app.layout = html.Div(id='main-app', children=[
 @app.callback(Output('memory', 'data'),
               [Input('run-button', 'n_clicks'),
                Input('test-dropdown', 'value'),
-               Input('control-dropdown', 'value')],
+               Input('control-dropdown', 'value'),
+               Input('comparision-metric-dropdown', 'value')],
               [State('memory', 'data')])
-def on_click(n_clicks, test_path, control_path, data):
+def on_click(n_clicks, test_path, control_path, c_metric, data):
     """
     This Callback stores the input data in a dcc.Store component when the run-button is clicked.
     :param n_clicks: int number of times run button clicked
     :param test_path: path from test-dropdown
     :param control_path: path from control-dropdown
+    :param c_metric: comparision choice from dropdown
     :param data: the dcc.Store current data
     :return:
     """
@@ -430,7 +430,10 @@ def on_click(n_clicks, test_path, control_path, data):
         # Create pimms dataframe, loading and merging the input data
         pimms_df = PIMMSDataFrame(control_path, test_path)
         # Create extra comparision column using chosen metric
-        pimms_df.calc_NIM_comparision_metric(log2_fold_change, 'c_metric')
+        if c_metric == 'fold':
+            pimms_df.calc_NIM_comparision_metric(fold_change_comparision, 'c_metric')
+        elif c_metric == 'perc':
+            pimms_df.calc_NIM_comparision_metric(percentile_rank_comparision, 'c_metric')
         # store in data dict. Serialising pimms_df object before storing.
         data['pimms_df'] = pimms_df.to_json()
         data['clicks'] = n_clicks

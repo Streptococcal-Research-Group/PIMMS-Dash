@@ -181,14 +181,13 @@ class PIMMSDataFrame:
     def calc_NIM_comparision_metric(self, comparison_func, col_name):
         """
         Calculate a comparision score between test and control NIM scores. store in new column.
-        :param comparison_func: Function taking two ints as inputs and returning one value.
+        :param comparison_func: Function taking two pandas series as inputs and returning one series.
         :param col_name: Name for comparision metric column.
         :return:
         """
         # Calc metric and insert as column
         test_NIM_col, control_NIM_col = self.get_NIM_score_columns()
-        self.data[col_name] = self.data.apply(lambda row: comparison_func(row[test_NIM_col], row[control_NIM_col]),
-                                              axis=1)
+        self.data[col_name] = comparison_func(self.data[test_NIM_col], self.data[control_NIM_col])
         self.comparision_col = col_name
 
     def get_df_simple(self):
@@ -207,10 +206,22 @@ class PIMMSDataFrame:
 
 def log2_fold_change(a, b):
     try:
-        fc = a/b
+        fc = float(a)/float(b)
         return math.log(fc, 2)
     except (ZeroDivisionError, ValueError):
         return 0
+
+
+def fold_change_comparision(series_a, series_b):
+    df = pd.concat([series_a, series_b], axis=1)
+    return df.apply(lambda row: log2_fold_change(row[series_a.name], row[series_b.name]), axis=1)
+
+
+def percentile_rank_comparision(series_a, series_b):
+    df = pd.concat([series_a, series_b], axis=1)
+    df['percentile_a'] = df[series_a.name].rank(method='min', pct=True)
+    df['percentile_b'] = df[series_b.name].rank(method='min', pct=True)
+    return df['percentile_a'] - df['percentile_b']
 
 
 def parse_upload(contents, filename):
