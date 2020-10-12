@@ -1,10 +1,10 @@
-FROM python:3.7
+FROM python:3.8
 
 ENV DASH_DEBUG_MODE True
 
 RUN pip install --upgrade pip
 
-WORKDIR /app
+WORKDIR /pimms_dash
 
 COPY requirements.txt .
 
@@ -13,6 +13,6 @@ RUN set -ex && \
 
 EXPOSE 8050
 
-COPY ./app .
+COPY pimms_dash .
 
-CMD ["python", "dash_app.py"]
+CMD ["python", "index.py"]
