@@ -1,33 +1,41 @@
-import math
-import pandas as pd
 import json
 import pathlib
+import math
+import copy
 import io
 import base64
 
-from settings import DATA_PATH
+import pandas as pd
 
+from app import DATA_PATH
 
 class GffDataFrame:
     """
-    Class to Parse .GFF files. Uses Composition, reading data into pd.Dataframe.
+    Class to Parse .GFF files. Uses Composition, reading data into pd._Dataframe.
     :param path: Path to gff file
     """
     gff3_cols = ["seq_id",  "source", "type", "start", "end", "score", "strand", "phase", "attributes"]
 
-    def __init__(self, path):
+    def __init__(self, path, data=None, header=None):
         self.path = path
-        self.data = self.read_gff(path)
-        self.header = self._read_header()
+        if data is None:
+            self._data = self.read_gff(path)
+        else:
+            self._data = data
+
+        if header is None:
+            self.header = self._read_header()
+        else:
+            self.header = header
 
     def __getitem__(self, item):
-        return self.data[item]
+        return self._data[item]
 
     def read_gff(self, path):
         return pd.read_csv(path, sep="\t", comment="#", names=self.gff3_cols)
 
     def _read_header(self):
-        if not self.data.empty:
+        if not self._data.empty:
             header = ""
             for line in open(self.path):
                 if line.startswith("#"):
@@ -39,19 +47,43 @@ class GffDataFrame:
             return None
 
     def to_gff3(self, gff_file):
-        gff_feature = self.data[self.gff3_cols].to_csv(sep="\t", index=False, header=None)
+        gff_feature = self._data[self.gff3_cols].to_csv(sep="\t", index=False, header=None)
         with open(gff_file, "w") as fh:
             fh.write(self.header)
             fh.write(gff_feature)
 
     def value_counts(self, column):
-        return self.data[column].value_counts()
+        return self._data[column].value_counts()
 
     def dna_sequences(self):
-        return self.data[self.gff3_cols[0]].unique()
+        return self._data[self.gff3_cols[0]].unique()
 
     def empty_score(self):
-        return (self.data["score"] == ".").all()
+        return (self._data["score"] == ".").all()
+
+    def to_json(self):
+        """
+        Serialise the class. Converts non-serialisable instance attributes to serialisable objects first.
+        ref https://medium.com/@yzhong.cs/serialize-and-deserialize-complex-json-in-python-205ecc636caa
+        :return: json
+        """
+        serialisable_instance = copy.deepcopy(self)
+        serialisable_instance._data = serialisable_instance._data.to_json(date_format='iso', orient='split')
+        serialisable_instance.path = str(serialisable_instance.path)
+        return json.dumps(serialisable_instance.__dict__)
+
+    @classmethod
+    def from_json(cls, json_data):
+        """
+        Recreate class instance from json. Restores data, control_path and test_path to their original type.
+        :param json_data: json output from to_json method.
+        :return: PIMMSDataFrame class instance
+        """
+        deserialised_data = json.loads(json_data)
+        deserialised_data['data'] = deserialised_data.pop('_data')
+        deserialised_data['data'] = pd.read_json(deserialised_data['data'], orient='split')
+        deserialised_data['path'] = pathlib.Path(deserialised_data['path'])
+        return cls(**deserialised_data)
 
 
 class PIMMSDataFrame:
@@ -70,27 +102,58 @@ class PIMMSDataFrame:
     c_suffix = '_control'
     t_suffix = '_test'
 
-    def __init__(self, control_path, test_path, data=None, comparision_col=None):
+    def __init__(self, control_path, test_path, data=None, comparison_cols=None):
         self.control_path = control_path
         self.test_path = test_path
+
         if data is None:
-            self.data = self.load_and_merge(control_path, test_path)
+            self._data = self.load_and_merge(control_path, test_path)
         else:
-            self.data = data
-        self.comparision_col = comparision_col
+            self._data = data
 
-    def __getitem__(self, item):
-        return self.data[item]
+        if comparison_cols is not None:
+            self.comparison_cols = [col_name for col_name in comparison_cols if col_name in self._data.columns]
+        else:
+            self.comparison_cols = []
 
-    def __setitem__(self, key, value):
-        self.data[key] = value
+        # Calculate comparison columns
+        self.calc_NIM_comparision_metric(fold_change_comparision, 'fold_change')
+        self.calc_NIM_comparision_metric(percentile_rank_comparision, 'pctl_rank')
 
     def __len__(self):
-        return len(self.data)
+        return len(self._data)
+
+    def get_data(self):
+        return self._data.round(3)
+
+    def get_columns(self, simple=False, c_metric='all'):
+        if c_metric not in self.comparison_cols + [None, 'all']:
+            raise ValueError(f"c_metric {c_metric} not in comparison columns")
+
+        if simple:
+            # Get simple column subset
+            NIM_cols_t, NIM_cols_c = self.get_NIM_score_columns()
+            NRM_cols_t, NRM_cols_c = self.get_NRM_score_columns()
+            columns = self.info_columns + [NRM_cols_t, NRM_cols_c, NIM_cols_t, NIM_cols_c] + self.comparison_cols
+        elif not simple:
+            columns = self._data.columns.to_list()
+        else:
+            raise ValueError
+
+        if c_metric == "all":
+            return columns
+        else:
+            columns = [col for col in columns if col not in self.comparison_cols]
+            if c_metric:
+                columns.append(c_metric)
+            return columns
+
+    def insert_column(self, col_name, series):
+        self._data.insert(len(self._data.columns), col_name, series)
 
     def load_and_merge(self, control_data_path, test_data_path):
         """
-        Read input csv paths into pd.Dataframe, merge into dataframe
+        Read input csv paths into pd._Dataframe, merge into dataframe
         :param control_data_path:
         :param test_data_path:
         :return:
@@ -108,10 +171,11 @@ class PIMMSDataFrame:
         ref https://medium.com/@yzhong.cs/serialize-and-deserialize-complex-json-in-python-205ecc636caa
         :return: json
         """
-        self.data = self.data.to_json(date_format='iso', orient='split')
-        self.control_path = str(self.control_path)
-        self.test_path = str(self.test_path)
-        return json.dumps(self.__dict__)
+        serialisable_instance = copy.deepcopy(self)
+        serialisable_instance._data = serialisable_instance._data.to_json(date_format='iso', orient='split')
+        serialisable_instance.control_path = str(serialisable_instance.control_path)
+        serialisable_instance.test_path = str(serialisable_instance.test_path)
+        return json.dumps(serialisable_instance.__dict__)
 
     @classmethod
     def from_json(cls, json_data):
@@ -121,6 +185,7 @@ class PIMMSDataFrame:
         :return: PIMMSDataFrame class instance
         """
         deserialised_data = json.loads(json_data)
+        deserialised_data['data'] = deserialised_data.pop('_data')
         deserialised_data['data'] = pd.read_json(deserialised_data['data'], orient='split')
         deserialised_data['control_path'] = pathlib.Path(deserialised_data['control_path'])
         deserialised_data['test_path'] = pathlib.Path(deserialised_data['test_path'])
@@ -155,10 +220,10 @@ class PIMMSDataFrame:
         return df_m
 
     def get_control_data_cols(self):
-        return [col for col in self.data.columns if self.c_suffix in col]
+        return [col for col in self._data.columns if self.c_suffix in col]
 
     def get_test_data_cols(self):
-        return [col for col in self.data.columns if self.t_suffix in col]
+        return [col for col in self._data.columns if self.t_suffix in col]
 
     def test_control_cols_containing(self, substring):
         """ Extract the data columns (ending in suffix) that contain input substring """
@@ -185,23 +250,12 @@ class PIMMSDataFrame:
         :param col_name: Name for comparision metric column.
         :return:
         """
-        # Calc metric and insert as column
-        test_NIM_col, control_NIM_col = self.get_NIM_score_columns()
-        self.data[col_name] = comparison_func(self.data[test_NIM_col], self.data[control_NIM_col])
-        self.comparision_col = col_name
-
-    def get_df_simple(self):
-        """
-        Return dataframe with subset of simple columns for both test and control
-        :return:
-        """
-        # Get simple column subset
-        NIM_cols_t, NIM_cols_c = self.get_NIM_score_columns()
-        NRM_cols_t, NRM_cols_c = self.get_NRM_score_columns()
-        col_subset = self.info_columns + [NRM_cols_t, NRM_cols_c, NIM_cols_t, NIM_cols_c]
-        if self.comparision_col:
-            col_subset.append(self.comparision_col)
-        return self.data[col_subset]
+        if col_name not in self._data.columns:
+            # Calc metric and insert as column
+            test_NIM_col, control_NIM_col = self.get_NIM_score_columns()
+            self._data[col_name] = comparison_func(self._data[test_NIM_col], self._data[control_NIM_col])
+        if col_name not in self.comparison_cols:
+            self.comparison_cols.append(col_name)
 
 
 def log2_fold_change(a, b):
@@ -245,5 +299,5 @@ def parse_upload(contents, filename):
         print(e)
         return f'Error processing {filename}: {e}'
 
-
-
+def get_stored_csv_files():
+    return list(DATA_PATH.glob('*.csv'))
