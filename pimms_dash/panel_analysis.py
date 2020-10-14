@@ -8,7 +8,7 @@ from dash_table.Format import Format, Scheme
 import numpy as np
 
 from app import app
-from utils import PIMMSDataFrame, GffDataFrame
+from utils import PIMMSDataFrame, GffDataFrame, load_data
 from figures import main_datatable, histogram, histogram_type2, venn_diagram, genome_scatter
 from circos import pimms_circos
 
@@ -105,18 +105,19 @@ analysis_tabs = dbc.Tabs(
 
 @app.callback(
     Output("tab1-datatable-div", "children"),
-    [Input("pimms-store", "data")],
+    [Input("run-status", "data"),
+     State("session-id", "children")],
     prevent_initial_call=True
 )
-def create_table(data):
+def create_table(run_status, session_id):
     """
     Callback to create datatable when new data placed in dcc.Store. Creates simple table if option is checked.
-    :param ts: timestamp from dcc.store, Used to trigger callback when dcc.store updated.
-    :param checked_options: list of options checked in datatable checkbox
-    :param data: current data stored in dcc.Store component
+    :param run_status: dictionary containing run success information
+    :param session_id: uuid of session
     :return:
     """
-    if data:
+    if run_status['pimms']:
+        data = load_data("pimms_df", session_id)
         pimms_df = PIMMSDataFrame.from_json(data)
         return main_datatable(pimms_df.get_data(), id="main-datatable")
     else:
@@ -127,13 +128,14 @@ def create_table(data):
      Output("main-datatable", "filter_action"),
      Output("main-datatable", "page_size"),
      Output("main-datatable", "columns")],
-    [Input("pimms-store", "data"),
-     Input("main-datatable", "selected_columns"),
+    [Input("main-datatable", "selected_columns"),
      Input("comparison-metric-dropdown", "value"),
      Input("datatable-checklist", "value"),
-     Input("datatable-numrows", 'value')]
+     Input("datatable-numrows", 'value'),
+     State("run-status", "data"),
+     State("session-id", "children")]
 )
-def style_table(data, selected_columns, c_metric, checked_options, num_pages):
+def style_table(selected_columns, c_metric, checked_options, num_rows, run_status, session_id):
     """
     This Callback adds highlighting to datatable.
     1. Highlights the rows where one NIM score is 0 and other is >0.
@@ -141,14 +143,17 @@ def style_table(data, selected_columns, c_metric, checked_options, num_pages):
     :param selected_columns: list of columns selected in dataframe
     :param c_metric: selected comparison metric
     :param checked_options: list of check values from datatable checkbox
-    :param data: current data stored in dcc.Store component
+    :param num_rows: number of rows in table
+    :param run_status: dictionary containing run success information
+    :param session_id: uuid of session
     :return:
     """
-    # If no data stored, prevent update
-    if not data:
+    # Prevent Update if no data
+    if not run_status['pimms']:
         raise PreventUpdate
 
     # read data from data store
+    data = load_data("pimms_df", session_id)
     pimms_df = PIMMSDataFrame.from_json(data)
     NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
 
@@ -159,8 +164,8 @@ def style_table(data, selected_columns, c_metric, checked_options, num_pages):
         filter_action = "none"
 
     # Adjust rows per page
-    if num_pages > 0:
-        page_size = num_pages
+    if num_rows > 0:
+        page_size = num_rows
     else:
         page_size = 1
 
@@ -195,21 +200,25 @@ def style_table(data, selected_columns, c_metric, checked_options, num_pages):
 
 @app.callback(
     Output('tab2-hist-div', 'children'),
-    [Input('pimms-store', 'data'),
+    [Input('run-status', 'data'),
      Input('hist-dropdown-type', 'value'),
-     Input('hist-bin-size', 'value')],
+     Input('hist-bin-size', 'value'),
+     State('session-id', 'children')],
     prevent_initial_call=True
 )
-def create_hist(data, hist_type, bin_size):
+def create_hist(run_status, hist_type, bin_size, session_id):
     """
     Callback to create histogram.
     :param hist_type: str from dropdown, either type1 or type2
     :param bin_size: size of histogram bins
-    :param data: current data stored in dcc.Store component
+    :param run_status: dictionary containing run success information
+    :param session_id: uuid of session
     :return:
     """
-    if not data:
+    if not run_status["pimms"]:
         raise PreventUpdate
+
+    data = load_data('pimms_df', session_id)
 
     # Load data from store
     pimms_df = PIMMSDataFrame.from_json(data)
@@ -230,19 +239,20 @@ def create_hist(data, hist_type, bin_size):
     Output('hist-fig-t1', 'figure'),
     [Input('hist-fig-t1', 'relayoutData'),
      Input('hist-bin-size', 'value'),
-     State('pimms-store', 'data')],
+     State('session-id', 'children')],
     prevent_initial_call=True
 )
-def display_hist_type1(relayoutData, bin_size, data):
+def display_hist_type1(relayoutData, bin_size, session_id):
     """
     Callback to update type1 hist according to updated ranges. Used to keep interactivity in the type1 hist where
     multiple subplots are used with the lower hist flipped vertically.
     :param relayoutData: dict containing relayout data from histogram. see plotly docs.
     :param bin_size: histogram bin size
-    :param data: current data stored in dcc.Store component
+    :param session_id: uuid of session
     :return:
     """
     if relayoutData:
+        data = load_data("pimms_df", session_id)
         if 'autosize' in relayoutData:
             raise PreventUpdate
         # Load data from store
@@ -271,21 +281,26 @@ def display_hist_type1(relayoutData, bin_size, data):
 @app.callback(
     [Output("tab3-venn-div", "children"),
      Output("tab3-venn-label", "children")],
-    [Input('pimms-store', 'data'),
+    [Input("run-status", "data"),
      Input('venn-slider', 'value'),
-     Input('venn-inserts-slider', 'value')],
+     Input('venn-inserts-slider', 'value'),
+     State('session-id', 'children')],
     prevent_initial_call=True
 )
-def create_venn(data, thresh_c, slider_c):
+def create_venn(run_status, thresh_c, slider_c, session_id):
     """
     Callback to create/update venn diagram when new data in dcc.store or venn options are changed.
     :param thresh_c: NIM score threshold from slider
     :param slider_c: Inserts range from slider
-    :param data: current data stored in dcc.Store component
+    :param run_status: dictionary containing run success information
+    :param session_id: uuid of session
     :return:
     """
-    if not data:
+    if not run_status["pimms"]:
         raise PreventUpdate
+
+    data = load_data('pimms_df', session_id)
+
     # Load data from store
     pimms_df = PIMMSDataFrame.from_json(data)
     NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
@@ -316,20 +331,23 @@ def create_venn(data, thresh_c, slider_c):
 
 @app.callback(
     Output('tab4-scatter-div', 'children'),
-    [Input('gff-store', 'data'),
-     Input("scatter-checklist", 'value')],
+    [Input("run-status", "data"),
+     Input("scatter-checklist", 'value'),
+     State("session-id", "children")],
     prevent_initial_call=True
 )
-def create_genome_scatter(data, checkbox):
+def create_genome_scatter(run_status, checkbox, session_id):
     """
     Callback to create/update genome scatter plot.
-    :param data: current data in dcc store component
-    :param gff_filename:
+    :param run_status: dictionary containing run success information
+    :param session_id: uuid of session
     :param checkbox: scatter options checkbox
     :return:
     """
-    if not data:
+    if not run_status["gff"]:
         raise PreventUpdate
+
+    data = load_data("gff_df", session_id)
     gff_df = GffDataFrame.from_json(data)
     # Create figure
     fig = genome_scatter(gff_df)
@@ -340,22 +358,27 @@ def create_genome_scatter(data, checkbox):
 
 
 @app.callback(Output('tab5-circos-div', 'children'),
-              [Input('pimms-store', 'data'),
+              [Input("run-status", "data"),
                Input('circos-gen-slider', 'value'),
                Input("circos-checklist", 'value'),
-               Input("comparison-metric-dropdown", "value")],
+               Input("comparison-metric-dropdown", "value"),
+               State('session-id', 'children')],
               prevent_initial_call=True
 )
-def create_circos(data, g_len, checkbox, c_metric):
+def create_circos(run_status, g_len, checkbox, c_metric, session_id):
     """
     Callback to create/update circos plot
     :param g_len: int, length of genome to display from slider. 0 to 1
     :param checkbox: list of circos checked options
-    :param data: current data stored in dcc.Store component
+    :param run_status: dictionary containing run success information
+    :param session_id: uuid of session
+    :param c_metric: selected comparision metric
     :return:
     """
-    if not data:
+    if not run_status["pimms"]:
         raise PreventUpdate
+
+    data = load_data('pimms_df', session_id)
 
     hide_zeros = 'hide_zero' in checkbox
     # Load data from dcc.Store

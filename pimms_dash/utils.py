@@ -4,10 +4,12 @@ import math
 import copy
 import io
 import base64
+import time
+import shutil
 
 import pandas as pd
 
-from app import DATA_PATH
+from app import DATA_PATH, cache
 
 class GffDataFrame:
     """
@@ -299,5 +301,32 @@ def parse_upload(contents, filename):
         print(e)
         return f'Error processing {filename}: {e}'
 
+
 def get_stored_csv_files():
     return list(DATA_PATH.glob('*.csv'))
+
+
+def store_data(string, name, session_id):
+    session_dir = DATA_PATH.joinpath('session_data', session_id)
+    if not session_dir.exists():
+        session_dir.mkdir(parents=True, exist_ok=True)
+        with open(session_dir.joinpath("timestamp.txt"), "w") as text_file:
+            text_file.write(str(time.time()))
+    with open(session_dir.joinpath(f'{name}.json'), 'w') as f:
+        json.dump(string, f)
+
+@cache.memoize()
+def load_data(name, session_id):
+    session_dir = DATA_PATH.joinpath('session_data', session_id)
+    with open(session_dir.joinpath(f'{name}.json')) as f:
+        data = json.load(f)
+    return data
+
+def manage_session_data():
+    data_session_folder = DATA_PATH.joinpath('session_data')
+    for session_dir in data_session_folder.iterdir():
+        with open(session_dir.joinpath('timestamp.txt'), "r") as f:
+            ts = float(f.readlines()[0])
+        time_period = time.time() - float(ts)
+        if time_period < 60*20:
+            shutil.rmtree(session_dir)
