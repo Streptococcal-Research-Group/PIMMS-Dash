@@ -1,58 +1,56 @@
-# Standard Library
-import io
+# Standard library
 import base64
+import io
 
 # Package imports
 import numpy as np
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-import dash_table
-from dash_table.Format import Format, Scheme
-import matplotlib
 import matplotlib.pyplot as plt
+import dash_table
+import plotly.graph_objects as go
 from matplotlib_venn import venn2
+from dash_table.Format import Format, Scheme
+from plotly.subplots import make_subplots
 
 # Local imports
-from settings import plotly_template
-
-matplotlib.use('Agg')
+from app import plotly_template
 
 
-def create_datatable(df):
+def main_datatable(df, id=None):
     """Use dash_table package to create a datatable component from pandas dataframe"""
     return dash_table.DataTable(
-                id='main_table',
+                id=id,
                 columns=[{"name": i.replace("_", " "),
                           "id": i,
                           "selectable": True,
                           "format": Format(precision=2, scheme=Scheme.fixed)} for i in df.columns],
                 data=df.to_dict('records'),
-                merge_duplicate_headers=True,
-                sort_mode="multi",
-                column_selectable="multi",
+                # virtualization=True,
+                # merge_duplicate_headers=True,
+                # sort_mode="multi",
+                # column_selectable="multi",
                 tooltip_data=[{'product': {'type': 'text', 'value': f'{r}'}} for r in df['product'].values],
                 style_table={'overflowX': 'scroll', 'overflowY': 'auto', 'color': 'black'},
-                style_as_list_view=True,
-                style_header={'backgroundColor': 'white', 'fontWeight': 'bold'},
-
+                # style_as_list_view=True,
+                style_header={'fontWeight': 'bold', 'backgroundColor': 'white'},
+                #
                 style_cell={
-                    'minWidth': '50px', 'width': '180px', 'maxWidth': '180px',
-                    'whiteSpace': 'normal', 'padding': '5px', 'textAlign': 'left'
+                    'minWidth': '2vw', 'width': '4vw', 'maxWidth': '10vw',
+                    'whiteSpace': 'normal', 'textAlign': 'left'
                 },
                 style_cell_conditional=[
                     {'if': {'column_id': 'product'},
                         'overflow': 'hidden',
                         'text-overflow': 'ellipsis',
                         'white-space': 'nowrap'}],
-                style_data={
-                    'lineHeight': '15px'
-                },
-                page_size=12,
+                # style_data={
+                #     'lineHeight': '15px'
+                # },
+                page_size=15,
                 sort_action="native",
             )
 
 
-def create_histogram(series_control, series_test, range_x=None, range_y=None, bin_size=None):
+def histogram(series_control, series_test, range_x=None, range_y=None, bin_size=None):
     """
     Create plotly figure containing two histogram subplots. One above the other with the lower flipped in the y axis.
     In order to provide interactivity linked to both plots (always display the same axis range), this function takes
@@ -144,7 +142,7 @@ def create_histogram(series_control, series_test, range_x=None, range_y=None, bi
     return fig
 
 
-def create_histogram_type2(series_control, series_test, bin_size=None):
+def histogram_type2(series_control, series_test, bin_size=None):
     """
     Create a multi-bar histogram with plotly
     :param series_control: pandas series control values
@@ -185,7 +183,7 @@ def create_histogram_type2(series_control, series_test, bin_size=None):
     return fig
 
 
-def create_genome_scatter(gff_df):
+def genome_scatter(gff_df):
     """
     Create a scatter plot of genome insertions from a Gff dataframe object.
     :param gff_df: GffDataFrame object
@@ -213,7 +211,7 @@ def create_genome_scatter(gff_df):
     return fig
 
 
-def create_venn(set_a, set_b):
+def venn_diagram(set_a, set_b, backgroundcolor='white'):
     """
     Creates a venn diagram given two sets. As plotly venn diagrams are limited, uses matplotlib_venn package.
     The resulting matplotlib figure currently can not be directly converted to a plotly figure. As a work around the
@@ -228,7 +226,7 @@ def create_venn(set_a, set_b):
     AB = len(set(set_a) & set(set_b))
 
     # Create venn using matplotlib, encode to b64, pass to html.img
-    plt.figure(linewidth=10, edgecolor="black", facecolor="black")
+    plt.figure(linewidth=10, edgecolor=backgroundcolor, facecolor=backgroundcolor)
     mpl_fig = venn2(subsets=(Ab, aB, AB))
 
     # Style to plotly simple_white colours
@@ -240,7 +238,7 @@ def create_venn(set_a, set_b):
 
     # Convert to b64
     pic_IObytes = io.BytesIO()
-    plt.savefig(pic_IObytes, format='png')
+    plt.savefig(pic_IObytes, format='png', facecolor=backgroundcolor, edgecolor=backgroundcolor)
     pic_IObytes.seek(0)
     encoded_image = base64.b64encode(pic_IObytes.read())
     img = 'data:image/png;base64,{}'.format(encoded_image.decode())

@@ -51,7 +51,7 @@ def drop_both_zero(circos_df1, circos_df2, *args):
     return result
 
 
-def create_pimms_circos(inner_ring_df, outer_ring_df, hist_ring_df, start, end, hide_zeros=False, size=550):
+def pimms_circos(inner_ring_df, outer_ring_df, hist_ring_df, start, end, hide_zeros=False, size=550):
     """
     Create circos plot using dash_bio.Circos functionality. Generates figure with two circos rings and an additional
     histogram outer ring.
