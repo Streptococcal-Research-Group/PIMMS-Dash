@@ -1,9 +1,10 @@
 numpy==1.18.4
 pandas==1.0.4
 plotly==4.8.1
-dash>=1.16.2
-dash-table>=4.10.1
-dash-bio>=0.4.8
+dash==1.16.2
+dash-table==4.10.1
+dash-bio==0.4.8
 matplotlib==3.2.1
 matplotlib-venn==0.11.5
 dash-bootstrap-components==0.10.6
+Flask-Caching==1.9.0
