@@ -5,8 +5,8 @@ from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
 from dash import callback_context
 
-from utils import GffDataFrame, PIMMSDataFrame, parse_upload
-from app import app, DATA_PATH
+from utils import GffDataFrame, PIMMSDataFrame, parse_upload, store_data
+from app import app, UPLOAD_PATH
 
 tab1_content = dbc.Card(
     dbc.CardBody(
@@ -30,8 +30,6 @@ tab1_content = dbc.Card(
 tab2_content = dbc.Card(
     dbc.CardBody(
         [
-            dcc.Store(id='pimms-store'),
-            dcc.Store(id='gff-store'),
             dcc.Store(id='run-status'),
             html.P('Comparison Metric:'),
             dcc.Dropdown(
@@ -49,14 +47,14 @@ tab2_content = dbc.Card(
             html.Div(children='Select Control'),
             dbc.Select(
                 id="control-dropdown",
-                options=[{'label': i.name, 'value': i.name} for i in list(DATA_PATH.glob('*.csv'))],
+                options=[{'label': i.name, 'value': i.name} for i in list(UPLOAD_PATH.glob('*.csv'))],
                 value=0,
                 bs_size="sm"
             ),
             html.Div(children='Select Test'),
             dbc.Select(
                 id="test-dropdown",
-                options=[{'label': i.name, 'value': i.name} for i in list(DATA_PATH.glob('*.csv'))],
+                options=[{'label': i.name, 'value': i.name} for i in list(UPLOAD_PATH.glob('*.csv'))],
                 value=0,
                 bs_size="sm",
             ),
@@ -64,7 +62,7 @@ tab2_content = dbc.Card(
             html.Div("Select Gff file (Optional)"),
             dbc.Select(
                 id="gff-dropdown",
-                options=[{'label': i.name, 'value': i.name} for i in list(DATA_PATH.glob('*.gff'))],
+                options=[{'label': i.name, 'value': i.name} for i in list(UPLOAD_PATH.glob('*.gff'))],
                 value=0,
                 bs_size="sm"
             ),
@@ -195,45 +193,48 @@ control_tabs = dbc.Tabs(
 
 
 @app.callback(
-    [Output("pimms-store", "data"),
-     Output("gff-store", "data"),
-     Output("run-status", "data")],
+    Output("run-status", "data"),
     [Input("run-button", "n_clicks"),
      State("test-dropdown", "value"),
      State("control-dropdown", "value"),
-     State("gff-dropdown", "value")],
+     State("gff-dropdown", "value"),
+     State("session-id", "children")],
     prevent_initial_call=True
 )
-def run_selection(run_clicks, test_filename, control_filename, gff_filename):
+def run_selection(run_clicks, test_filename, control_filename, gff_filename, session_id):
+
+    # Create empty run status
     run_status = {'pimms': None, 'gff': None}
-    gff_df_json = None
-    pimms_df_json = None
+
+    # Prevent update if all dropdowns unselected.
     if ((test_filename in [0, None]) or (control_filename in [0, None])) and (gff_filename in [0, None]):
         raise PreventUpdate
 
+    # Read coordinate gff file and store
     if gff_filename not in [0, None]:
-        gff_path = [i for i in list(DATA_PATH.glob('*.gff')) if i.name == gff_filename][0]
+        gff_path = [i for i in list(UPLOAD_PATH.glob('*.gff')) if i.name == gff_filename][0]
         try:
             gff_df = GffDataFrame(gff_path)
-            gff_df_json = gff_df.to_json()
+            store_data(gff_df.to_json(), 'gff_df', session_id)
             run_status['gff'] = True
         except Exception as e:
             # Todo log exception
             run_status['gff'] = False
 
+    # Read pimms csv files and store
     if (test_filename not in [0, None]) and (control_filename not in [0, None]):
         # Get full filepaths from dropdown selection
         try:
-            test_path = [i for i in list(DATA_PATH.glob('*.csv')) if i.name == test_filename][0]
-            control_path = [i for i in list(DATA_PATH.glob('*.csv')) if i.name == control_filename][0]
+            test_path = [i for i in list(UPLOAD_PATH.glob('*.csv')) if i.name == test_filename][0]
+            control_path = [i for i in list(UPLOAD_PATH.glob('*.csv')) if i.name == control_filename][0]
             pimms_df = PIMMSDataFrame(control_path, test_path)
-            pimms_df_json = pimms_df.to_json()
+            store_data(pimms_df.to_json(), 'pimms_df', session_id)
             run_status['pimms'] = True
         except Exception as e:
             # Todo Log exception
             run_status['pimms'] = False
 
-    return pimms_df_json, gff_df_json, run_status
+    return run_status
 
 
 @app.callback(
@@ -288,9 +289,9 @@ def update_dropdowns(dropdown1, dropdown2, upload_message):
             raise PreventUpdate
 
     test_dropdown_options = [{'label': i.name, 'value': i.name, 'disabled': i.name == dropdown2}
-                             for i in list(DATA_PATH.glob('*.csv'))]
+                             for i in list(UPLOAD_PATH.glob('*.csv'))]
     control_dropdown_options = [{'label': i.name, 'value': i.name, 'disabled': i.name == dropdown1}
-                                for i in list(DATA_PATH.glob('*.csv'))]
+                                for i in list(UPLOAD_PATH.glob('*.csv'))]
     return test_dropdown_options, control_dropdown_options
 
 @app.callback(
