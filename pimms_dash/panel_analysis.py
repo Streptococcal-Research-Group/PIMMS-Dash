@@ -364,6 +364,7 @@ def create_genome_control_scatter(run_status, checkbox, session_id):
     # Change to log axis if checked
     if 'log' in checkbox:
         fig.update_layout(yaxis_type="log")
+    fig.update_layout(title='Insertions across the control genome')
     return dcc.Graph(id='gff-control-scatter-fig', figure=fig)
 
 
@@ -392,6 +393,7 @@ def create_genome_test_scatter(run_status, checkbox, session_id):
     # Change to log axis if checked
     if 'log' in checkbox:
         fig.update_layout(yaxis_type="log")
+    fig.update_layout(title='Insertions across the test genome')
     return dcc.Graph(id='gff-test-scatter-fig', figure=fig)
 
 
