@@ -15,39 +15,35 @@ from plotly.subplots import make_subplots
 from app import plotly_template
 
 
-def main_datatable(df, id=None):
-    """Use dash_table package to create a datatable component from pandas dataframe"""
-    return dash_table.DataTable(
-                id=id,
-                columns=[{"name": i.replace("_", " "),
-                          "id": i,
-                          "selectable": True,
-                          "format": Format(precision=2, scheme=Scheme.fixed)} for i in df.columns],
-                data=df.to_dict('records'),
-                # virtualization=True,
-                # merge_duplicate_headers=True,
-                # sort_mode="multi",
-                # column_selectable="multi",
-                tooltip_data=[{'product': {'type': 'text', 'value': f'{r}'}} for r in df['product'].values],
-                style_table={'overflowX': 'scroll', 'overflowY': 'auto', 'color': 'black'},
-                # style_as_list_view=True,
-                style_header={'fontWeight': 'bold', 'backgroundColor': 'white'},
-                #
-                style_cell={
-                    'minWidth': '2vw', 'width': '4vw', 'maxWidth': '10vw',
-                    'whiteSpace': 'normal', 'textAlign': 'left'
-                },
-                style_cell_conditional=[
-                    {'if': {'column_id': 'product'},
-                        'overflow': 'hidden',
-                        'text-overflow': 'ellipsis',
-                        'white-space': 'nowrap'}],
-                # style_data={
-                #     'lineHeight': '15px'
-                # },
-                page_size=15,
-                sort_action="native",
-            )
+def main_datatable(df, id, **kwargs):
+    """
+    Use dash_table package to create a datatable component from pandas dataframe.
+    Define default table args here, can be updated with kwargs.
+    """
+    default_args = dict(
+        id=id,
+        columns=[{"name": i.replace("_", " "),
+                  "id": i,
+                  "selectable": True,
+                  "format": Format(precision=2, scheme=Scheme.fixed)} for i in df.columns],
+        data=df.to_dict('records'),
+        tooltip_data=[{'product': {'type': 'text', 'value': f'{r}'}} for r in df['product'].values],
+        style_table={'overflowX': 'scroll', 'overflowY': 'auto', 'color': 'black'},
+        style_header={'fontWeight': 'bold', 'backgroundColor': 'white'},
+        style_cell={
+            'minWidth': '2vw', 'width': '4vw', 'maxWidth': '10vw',
+            'whiteSpace': 'normal', 'textAlign': 'left'
+        },
+        style_cell_conditional=[
+            {'if': {'column_id': 'product'},
+             'overflow': 'hidden',
+             'text-overflow': 'ellipsis',
+             'white-space': 'nowrap'}],
+        page_size=15,
+        sort_action="native",
+    )
+    default_args.update(kwargs)
+    return dash_table.DataTable(**default_args)
 
 
 def histogram(series_control, series_test, range_x=None, range_y=None, bin_size=None):
