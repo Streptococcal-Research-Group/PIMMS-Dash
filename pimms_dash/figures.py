@@ -187,13 +187,13 @@ def genome_scatter(gff_df):
     """
     # If gff has score values - assume these are insert counts
     if gff_df.empty_score():
-        insert_counts = gff_df.value_counts('start')
+        inserts_data = gff_df.value_counts('start').reset_index().rename(columns={"index": "position", "start": "count"})
     else:
-        insert_counts = gff_df['score']
+        inserts_data = gff_df[['start', 'score']].rename(columns={"start": "position", "score": "count"})
     # Create figure, Use scattergl for large datasets.
     fig = go.Figure()
     fig.add_trace(go.Scattergl(
-        x=insert_counts.index, y=insert_counts,
+        x=inserts_data["position"], y=inserts_data["count"],
         name='mutations',
         mode='markers',
     ))
