@@ -58,13 +58,22 @@ tab2_content = dbc.Card(
                 value=0,
                 bs_size="sm",
             ),
+            html.Hr(),
             html.Br(),
-            html.Div("Select Gff file (Optional)"),
+            html.Div("Select Control Coordinate-Gff"),
             dbc.Select(
-                id="gff-dropdown",
+                id="gff-dropdown-control",
                 options=[{'label': i.name, 'value': i.name} for i in list(UPLOAD_PATH.glob('*.gff'))],
                 value=0,
-                bs_size="sm"
+                bs_size="sm",
+            ),
+            html.Br(),
+            html.Div("Select Test Coordinate-Gff"),
+            dbc.Select(
+                id="gff-dropdown-test",
+                options=[{'label': i.name, 'value': i.name} for i in list(UPLOAD_PATH.glob('*.gff'))],
+                value=0,
+                bs_size="sm",
             ),
             html.Hr(),
             dbc.Button("Run Selection", id="run-button", color="info", className='mx-auto', block=True),
@@ -197,29 +206,43 @@ control_tabs = dbc.Tabs(
     [Input("run-button", "n_clicks"),
      State("test-dropdown", "value"),
      State("control-dropdown", "value"),
-     State("gff-dropdown", "value"),
+     State("gff-dropdown-control", "value"),
+     State("gff-dropdown-test", "value"),
      State("session-id", "children")],
     prevent_initial_call=True
 )
-def run_selection(run_clicks, test_filename, control_filename, gff_filename, session_id):
+def run_selection(run_clicks, test_filename, control_filename, control_gff_filename, test_gff_filename, session_id):
 
     # Create empty run status
-    run_status = {'pimms': None, 'gff': None}
+    run_status = {'pimms': None, 'gff_control': None, 'gff_test': None}
 
     # Prevent update if all dropdowns unselected.
-    if ((test_filename in [0, None]) or (control_filename in [0, None])) and (gff_filename in [0, None]):
+    if ((test_filename in [0, None]) or (control_filename in [0, None])) and \
+            (control_gff_filename in [0, None]) and \
+            (test_gff_filename in [0, None]):
         raise PreventUpdate
 
-    # Read coordinate gff file and store
-    if gff_filename not in [0, None]:
-        gff_path = [i for i in list(UPLOAD_PATH.glob('*.gff')) if i.name == gff_filename][0]
+    # Read control coordinate gff file and store
+    if control_gff_filename not in [0, None]:
+        control_gff_path = [i for i in list(UPLOAD_PATH.glob('*.gff')) if i.name == control_gff_filename][0]
         try:
-            gff_df = GffDataFrame(gff_path)
-            store_data(gff_df.to_json(), 'gff_df', session_id)
-            run_status['gff'] = True
+            gff_df_control = GffDataFrame(control_gff_path)
+            store_data(gff_df_control.to_json(), 'gff_df_control', session_id)
+            run_status['gff_control'] = True
         except Exception as e:
             # Todo log exception
-            run_status['gff'] = False
+            run_status['gff_control'] = False
+
+    # Read test coordinate gff file and store
+    if test_gff_filename not in [0, None]:
+        test_gff_path = [i for i in list(UPLOAD_PATH.glob('*.gff')) if i.name == test_gff_filename][0]
+        try:
+            gff_df_test = GffDataFrame(test_gff_path)
+            store_data(gff_df_test.to_json(), 'gff_df_test', session_id)
+            run_status['gff_test'] = True
+        except Exception as e:
+            # Todo log exception
+            run_status['gff_test'] = False
 
     # Read pimms csv files and store
     if (test_filename not in [0, None]) and (control_filename not in [0, None]):
@@ -242,14 +265,16 @@ def run_selection(run_clicks, test_filename, control_filename, gff_filename, ses
      Output("run-button", "children")],
     [Input("test-dropdown", "value"),
      Input("control-dropdown", "value"),
+     Input("gff-dropdown-control", "value"),
+     Input("gff-dropdown-test", "value"),
      Input("run-status", "data")],
     prevent_initial_call=True
 )
-def run_button_color(dropdown1, dropdown2, run_status):
+def run_button_color(dropdown1, dropdown2, dropdown3, dropdown4, run_status):
     ctx = callback_context
     if ctx.triggered[0]['prop_id'].split('.')[0] != "run-status":
         return "info", "Run Selection"
-    elif (run_status['pimms'] and run_status['gff']) or (run_status['pimms'] and run_status['gff'] is None):
+    elif run_status['pimms']:
         return "success", "Successful"
     elif not run_status['pimms']:
         return "danger", "Failed"
@@ -273,15 +298,20 @@ def upload_new_file(list_of_contents, list_of_names, list_of_dates):
 
 @app.callback(
     [Output('test-dropdown', 'options'),
-     Output('control-dropdown', 'options')],
+     Output('control-dropdown', 'options'),
+     Output('gff-dropdown-test', 'options'),
+     Output('gff-dropdown-control', 'options')],
     [Input('test-dropdown', "value"),
      Input('control-dropdown', "value"),
+     Input('gff-dropdown-test', "value"),
+     Input('gff-dropdown-control', "value"),
      Input('output-data-upload', 'children')],
     prevent_initial_call=True
 )
-def update_dropdowns(dropdown1, dropdown2, upload_message):
+def update_dropdowns(dropdown1, dropdown2, dropdown3, dropdown4, upload_message):
     """Callback to update the select data dropdowns"""
     callback_trigger = callback_context.triggered[0]['prop_id'].split('.')[0]
+    # Prevent update if a failed upload triggered callback
     if callback_trigger == 'output-data-upload':
         if not upload_message or not upload_message[0]:
             raise PreventUpdate
@@ -292,18 +322,44 @@ def update_dropdowns(dropdown1, dropdown2, upload_message):
                              for i in list(UPLOAD_PATH.glob('*.csv'))]
     control_dropdown_options = [{'label': i.name, 'value': i.name, 'disabled': i.name == dropdown1}
                                 for i in list(UPLOAD_PATH.glob('*.csv'))]
-    return test_dropdown_options, control_dropdown_options
+    test_gff_dropdown_options = [{'label': i.name, 'value': i.name, 'disabled': i.name == dropdown4}
+                                 for i in list(UPLOAD_PATH.glob('*.gff'))]
+    control_gff_dropdown_options = [{'label': i.name, 'value': i.name, 'disabled': i.name == dropdown3}
+                                    for i in list(UPLOAD_PATH.glob('*.gff'))]
+    return test_dropdown_options, control_dropdown_options, test_gff_dropdown_options, control_gff_dropdown_options
 
 @app.callback(
     [Output('test-dropdown', "valid"),
      Output('test-dropdown', "invalid"),
      Output('control-dropdown', "valid"),
      Output('control-dropdown', "invalid"),
-     Output('gff-dropdown', "valid"),
-     Output('gff-dropdown', "invalid")],
-    [Input("run-status", "data")],
+     Output('gff-dropdown-control', "valid"),
+     Output('gff-dropdown-control', "invalid"),
+     Output('gff-dropdown-test', "valid"),
+     Output('gff-dropdown-test', "invalid")],
+    [Input("run-status", "data"),
+     Input('test-dropdown', "value"),
+     Input('control-dropdown', "value"),
+     Input('gff-dropdown-test', "value"),
+     Input('gff-dropdown-control', "value"),],
     prevent_initial_call=True
 )
-def run_status_feedback(run_status):
-    return run_status['pimms'], not run_status['pimms'], run_status['pimms'], not run_status['pimms'],\
-           run_status['gff'], not run_status['gff']
+def run_status_feedback(run_status, dropdown1, dropdown2, dropdown3, dropdown4):
+    if run_status is None:
+        raise PreventUpdate
+    callback_trigger = callback_context.triggered[0]['prop_id'].split('.')[0]
+
+    output = [
+        run_status['pimms'],
+        not run_status['pimms'],
+        run_status['pimms'],
+        not run_status['pimms'],
+        run_status['gff_control'],
+        not run_status['gff_control'],
+        run_status['gff_test'],
+        not run_status['gff_test']
+    ]
+    # If this callback was triggered by change in dropdown not a run. Remove dropdown ticks.
+    if callback_trigger != 'run-status':
+        output = [None]*8
+    return tuple(output)
