@@ -9,7 +9,7 @@ import shutil
 
 import pandas as pd
 
-from app import DATA_PATH, cache
+from app import DATA_PATH
 
 class GffDataFrame:
     """
@@ -315,7 +315,6 @@ def store_data(string, name, session_id):
     with open(session_dir.joinpath(f'{name}.json'), 'w') as f:
         json.dump(string, f)
 
-@cache.memoize()
 def load_data(name, session_id):
     session_dir = DATA_PATH.joinpath('session_data', session_id)
     with open(session_dir.joinpath(f'{name}.json')) as f:
