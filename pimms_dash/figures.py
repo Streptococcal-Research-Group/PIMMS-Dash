@@ -29,10 +29,12 @@ def main_datatable(df, id, **kwargs):
         data=df.to_dict('records'),
         tooltip_data=[{'product': {'type': 'text', 'value': f'{r}'}} for r in df['product'].values],
         style_table={'overflowX': 'scroll', 'overflowY': 'auto', 'color': 'black'},
-        style_header={'fontWeight': 'bold', 'backgroundColor': 'white'},
+        style_header={'fontWeight': 'bold', 'backgroundColor': 'white','fontSize': 14},
         style_cell={
             'minWidth': '2vw', 'width': '4vw', 'maxWidth': '10vw',
-            'whiteSpace': 'normal', 'textAlign': 'left'
+            'whiteSpace': 'normal', 'textAlign': 'left',
+            'font-family': 'sans-serif',
+            'fontSize': 12
         },
         style_cell_conditional=[
             {'if': {'column_id': 'product'},

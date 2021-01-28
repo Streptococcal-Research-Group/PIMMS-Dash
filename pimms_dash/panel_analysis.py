@@ -395,7 +395,7 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, session_id):
     # Create Venn
     control_set = df[df["_control_set_"] == True]['unique']
     test_set = df[df["_test_set_"] == True]['unique']
-    venn_img = venn_diagram(control_set, test_set, '#4e5e6c')
+    venn_img = venn_diagram(control_set, test_set) #'#4e5e6c'
 
     # Create Venn Label
     label = dcc.Markdown(f"""

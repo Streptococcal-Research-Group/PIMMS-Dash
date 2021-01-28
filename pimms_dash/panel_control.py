@@ -25,6 +25,7 @@ tab1_content = dbc.Card(
         ]
     ),
     className="mt-3",
+    color="light"
 )
 
 tab2_content = dbc.Card(
@@ -89,6 +90,7 @@ tab2_content = dbc.Card(
         ]
     ),
     className="mt-3",
+    color="light"
 )
 
 tab3_content = dbc.Card(
@@ -189,6 +191,7 @@ tab3_content = dbc.Card(
         ]
     ),
     className="mt-3",
+    color="light"
 )
 
 control_tabs = dbc.Tabs(

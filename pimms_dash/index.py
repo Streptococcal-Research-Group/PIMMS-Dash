@@ -16,8 +16,9 @@ def create_header(title):
     return dbc.Row(
         [
             dbc.Col(
-                html.Div(html.H2(title), id='title'),
+                html.Div(html.H1(title), id='title'),
                 width=8,
+                className="mt-3"
             ),
             dbc.Col(
                 html.A(
