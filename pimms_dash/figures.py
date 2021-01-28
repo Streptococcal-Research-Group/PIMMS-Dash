@@ -200,7 +200,14 @@ def genome_scatter(gff_df):
     # Set options common to all traces with fig.update_traces
     fig.update_traces(mode='markers', marker_line_width=1, marker_size=4)
     fig.update_layout(title='Insertions across the genome',
-                      xaxis=dict(title_text="Position in the Genome"),
+                      xaxis=dict(
+                          title_text="Position in the Genome",
+                          rangeslider=dict(
+                              visible=True,
+                              bgcolor="#eee",
+                              thickness=0.05,
+                          ),
+                      ),
                       yaxis=dict(title_text="Number of Mutations / base"),
                       template=plotly_template,
                       )
