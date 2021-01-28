@@ -439,13 +439,14 @@ def toggle_collapse(n, is_open):
 
 
 @app.callback(
-    Output('tab4-scatter-control-div', 'children'),
+    [Output('tab4-scatter-control-div', 'children'),
+     Output('tab4-scatter-test-div', 'children')],
     [Input("run-status", "data"),
      Input("scatter-checklist", 'value'),
      State("session-id", "children")],
     prevent_initial_call=True
 )
-def create_genome_control_scatter(run_status, checkbox, session_id):
+def create_genome_scatter(run_status, checkbox, session_id):
     """
     Callback to create/update genome scatter plot.
     :param run_status: dictionary containing run success information
@@ -456,44 +457,21 @@ def create_genome_control_scatter(run_status, checkbox, session_id):
     if not run_status["gff_control"]:
         raise PreventUpdate
 
-    data = load_data("gff_df_control", session_id)
-    gff_df_control = GffDataFrame.from_json(data)
+    data_control = load_data("gff_df_control", session_id)
+    data_test = load_data("gff_df_test", session_id)
+    gff_df_control = GffDataFrame.from_json(data_control)
+    gff_df_test = GffDataFrame.from_json(data_test)
     # Create figure
-    fig = genome_scatter(gff_df_control)
+    fig_control = genome_scatter(gff_df_control)
+    fig_test = genome_scatter(gff_df_test)
     # Change to log axis if checked
     if 'log' in checkbox:
-        fig.update_layout(yaxis_type="log")
-    fig.update_layout(title='Insertions across the control genome')
-    return dcc.Graph(id='gff-control-scatter-fig', figure=fig)
-
-
-@app.callback(
-    Output('tab4-scatter-test-div', 'children'),
-    [Input("run-status", "data"),
-     Input("scatter-checklist", 'value'),
-     State("session-id", "children")],
-    prevent_initial_call=True
-)
-def create_genome_test_scatter(run_status, checkbox, session_id):
-    """
-    Callback to create/update genome scatter plot.
-    :param run_status: dictionary containing run success information
-    :param session_id: uuid of session
-    :param checkbox: scatter options checkbox
-    :return:
-    """
-    if not run_status["gff_test"]:
-        raise PreventUpdate
-
-    data = load_data("gff_df_test", session_id)
-    gff_df_test = GffDataFrame.from_json(data)
-    # Create figure
-    fig = genome_scatter(gff_df_test)
-    # Change to log axis if checked
-    if 'log' in checkbox:
-        fig.update_layout(yaxis_type="log")
-    fig.update_layout(title='Insertions across the test genome')
-    return dcc.Graph(id='gff-test-scatter-fig', figure=fig)
+        fig_control.update_layout(yaxis_type="log")
+        fig_test.update_layout(yaxis_type="log")
+    fig_control.update_layout(title='Insertions across the control phenotype')
+    fig_test.update_layout(title='Insertions across the test phenotype')
+    return dcc.Graph(id='gff-control-scatter-fig', figure=fig_control),\
+           dcc.Graph(id='gff-test-scatter-fig', figure=fig_test)
 
 
 @app.callback(Output('tab5-circos-div', 'children'),
