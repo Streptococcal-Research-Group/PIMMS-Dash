@@ -2,6 +2,8 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
+from dash import callback_context
+from dash.dash import no_update
 from dash.exceptions import PreventUpdate
 from dash_table.Format import Format, Scheme
 
@@ -473,6 +475,40 @@ def create_genome_scatter(run_status, checkbox, session_id):
     return dcc.Graph(id='gff-control-scatter-fig', figure=fig_control),\
            dcc.Graph(id='gff-test-scatter-fig', figure=fig_test)
 
+
+@app.callback(
+    [Output('gff-control-scatter-fig', 'figure'),
+     Output('gff-test-scatter-fig', 'figure')],
+    [Input('gff-control-scatter-fig', 'relayoutData'),
+     Input('gff-test-scatter-fig', 'relayoutData'),
+     State('gff-control-scatter-fig', 'figure'),
+     State('gff-test-scatter-fig', 'figure')
+     ],
+    prevent_initial_call=True
+)
+def link_genome_plots(relayoutData_control, relayoutData_test, control_fig, test_fig):
+    ctx = callback_context
+    trigger = ctx.triggered[0]['prop_id'].split('.')[0]
+    if relayoutData_test == {"autosize": True} and relayoutData_control == {"autosize": True}:
+        raise PreventUpdate
+    elif trigger == "gff-control-scatter-fig" and relayoutData_control is not None:
+        if "xaxis.range[0]" in relayoutData_control:
+            test_fig["layout"]["xaxis"]["range"][0] = relayoutData_control["xaxis.range[0]"]
+            test_fig["layout"]["xaxis"]["range"][1] = relayoutData_control["xaxis.range[1]"]
+            test_fig["layout"]["xaxis"]["autorange"] = False
+        elif "xaxis.autorange" in relayoutData_control:
+            test_fig["layout"]["xaxis"]["autorange"] = relayoutData_control["xaxis.autorange"]
+        return no_update, test_fig
+    elif trigger == "gff-test-scatter-fig" and relayoutData_test is not None:
+        if relayoutData_test is not None and "xaxis.range[0]" in relayoutData_test:
+            control_fig["layout"]["xaxis"]["range"][0] = relayoutData_test["xaxis.range[0]"]
+            control_fig["layout"]["xaxis"]["range"][1] = relayoutData_test["xaxis.range[1]"]
+            control_fig["layout"]["xaxis"]["autorange"] = False
+        elif "xaxis.autorange" in relayoutData_test:
+            control_fig["layout"]["xaxis"]["autorange"] = relayoutData_test["xaxis.autorange"]
+        return control_fig, no_update
+    else:
+        raise PreventUpdate
 
 @app.callback(Output('tab5-circos-div', 'children'),
               [Input("run-status", "data"),
