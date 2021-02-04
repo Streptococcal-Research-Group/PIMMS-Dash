@@ -324,8 +324,11 @@ def load_data(name, session_id):
 def manage_session_data():
     data_session_folder = DATA_PATH.joinpath('session_data')
     for session_dir in data_session_folder.iterdir():
-        with open(session_dir.joinpath('timestamp.txt'), "r") as f:
+        timestamp_path = session_dir.joinpath('timestamp.txt')
+        if not timestamp_path.exists():
+            continue
+        with open(timestamp_path, "r") as f:
             ts = float(f.readlines()[0])
         time_period = time.time() - float(ts)
-        if time_period < 60*20:
+        if time_period > 60*20:
             shutil.rmtree(session_dir)
