@@ -8,29 +8,36 @@ from panel_control import control_tabs
 from panel_analysis import analysis_tabs
 from utils import manage_session_data
 
-app_title = 'Pimms Dashboard'
+app_title = 'PIMMS | Dashboard'
 
 
 # Header
 def create_header(title):
-    return dbc.Row(
-        [
-            dbc.Col(
-                html.Div(html.H1(title), id='title'),
-                width=8,
-                className="mt-3"
-            ),
-            dbc.Col(
-                html.A(
-                    html.H2('DRS|UoN'),
-                    href="https://digitalresearch.nottingham.ac.uk/",
-                    id='drs_link', className="text-right"),
-                width=4,
-            )
-        ],
-        no_gutters=True,
-        align="center",
-        id="header"
+    return html.Div(
+        dbc.Row(
+            [
+                dbc.Col(
+                    dbc.CardImg(
+                        src="/assets/UoN_Primary_Logo_Rev_RGB_REV.png",
+                        top=True, style={"width": "18rem"},
+                        className="mb-3"
+                    ),
+                    width=6
+                ),
+                dbc.Col(
+                    html.H1(
+                        title,
+                        style={"color": "white"},
+                        className="text-right mr-3"
+                    ),
+                    width=6,
+                )
+            ],
+            no_gutters=True,
+            align="center",
+        ),
+    style={"backgroundColor": "#1b2b6b"},
+    className="mt-3"
     )
 
 
