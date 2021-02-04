@@ -424,7 +424,11 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, session_id):
                                  {'if': {"filter_query": f"{{_set_}} = aB"},
                                   "backgroundColor": "#ffbf87"},
                              ]
-    table = main_datatable(df[df_cols], id="venn-datatable", style_data_conditional=style_data_conditional)
+    table = main_datatable(df[df_cols], id="venn-datatable",
+                           style_data_conditional=style_data_conditional,
+                           style_table={'height': '100em', 'overflowY': 'auto'},
+                           fixed_rows={"headers":True},
+                           page_size=50)
 
     return html.Img(src=venn_img, id='venn-image'), label, table
 
