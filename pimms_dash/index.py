@@ -3,12 +3,10 @@ import uuid
 import dash_html_components as html
 import dash_bootstrap_components as dbc
 
-from app import app
+from app import app, app_title
 from panel_control import control_tabs
 from panel_analysis import analysis_tabs
 from utils import manage_session_data
-
-app_title = 'PIMMS | Dashboard'
 
 
 # Header

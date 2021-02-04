@@ -5,7 +5,8 @@ import dash_bootstrap_components as dbc
 import dash
 
 # Initialise App
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app_title = 'PIMMS | Dashboard'
+app = dash.Dash(__name__, title=app_title, external_stylesheets=[dbc.themes.BOOTSTRAP])
 app.config['suppress_callback_exceptions'] = True
 server = app.server
 
