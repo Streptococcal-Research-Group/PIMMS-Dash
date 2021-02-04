@@ -11,7 +11,7 @@ import numpy as np
 
 from app import app
 from utils import PIMMSDataFrame, GffDataFrame, load_data
-from figures import main_datatable, histogram, histogram_type2, venn_diagram, genome_scatter
+from figures import main_datatable, histogram, histogram_type2, venn_diagram, genome_comparison_scatter
 from circos import pimms_circos
 
 tab1_content = dbc.Card(
@@ -98,13 +98,7 @@ tab4_content = dbc.Card(
         [
             dbc.Row(
                 [
-                    dbc.Col(html.Div("No Control Coordinate-Gff Loaded", id="tab4-scatter-control-div"))
-                ]
-            ),
-            html.Br(),
-            dbc.Row(
-                [
-                    dbc.Col(html.Div("No Test Coordinate-Gff Loaded", id="tab4-scatter-test-div"))
+                    dbc.Col(html.Div("No Coordinate-Gffs Loaded", id="tab4-scatter-div"))
                 ]
             ),
         ]
@@ -445,8 +439,7 @@ def toggle_collapse(n, is_open):
 
 
 @app.callback(
-    [Output('tab4-scatter-control-div', 'children'),
-     Output('tab4-scatter-test-div', 'children')],
+    Output('tab4-scatter-div', 'children'),
     [Input("run-status", "data"),
      Input("scatter-checklist", 'value'),
      State("session-id", "children")],
@@ -468,51 +461,14 @@ def create_genome_scatter(run_status, checkbox, session_id):
     gff_df_control = GffDataFrame.from_json(data_control)
     gff_df_test = GffDataFrame.from_json(data_test)
     # Create figure
-    fig_control = genome_scatter(gff_df_control)
-    fig_test = genome_scatter(gff_df_test)
+    fig = genome_comparison_scatter(gff_df_control, gff_df_test)
     # Change to log axis if checked
     if 'log' in checkbox:
-        fig_control.update_layout(yaxis_type="log")
-        fig_test.update_layout(yaxis_type="log")
-    fig_control.update_layout(title='Insertions across the control phenotype')
-    fig_test.update_layout(title='Insertions across the test phenotype')
-    return dcc.Graph(id='gff-control-scatter-fig', figure=fig_control),\
-           dcc.Graph(id='gff-test-scatter-fig', figure=fig_test)
+        fig.update_yaxes(type="log")
 
+    fig.update_layout(height=700)
+    return dcc.Graph(id='gff-scatter-fig', figure=fig)
 
-@app.callback(
-    [Output('gff-control-scatter-fig', 'figure'),
-     Output('gff-test-scatter-fig', 'figure')],
-    [Input('gff-control-scatter-fig', 'relayoutData'),
-     Input('gff-test-scatter-fig', 'relayoutData'),
-     State('gff-control-scatter-fig', 'figure'),
-     State('gff-test-scatter-fig', 'figure')
-     ],
-    prevent_initial_call=True
-)
-def link_genome_plots(relayoutData_control, relayoutData_test, control_fig, test_fig):
-    ctx = callback_context
-    trigger = ctx.triggered[0]['prop_id'].split('.')[0]
-    if relayoutData_test == {"autosize": True} and relayoutData_control == {"autosize": True}:
-        raise PreventUpdate
-    elif trigger == "gff-control-scatter-fig" and relayoutData_control is not None:
-        if "xaxis.range[0]" in relayoutData_control:
-            test_fig["layout"]["xaxis"]["range"][0] = relayoutData_control["xaxis.range[0]"]
-            test_fig["layout"]["xaxis"]["range"][1] = relayoutData_control["xaxis.range[1]"]
-            test_fig["layout"]["xaxis"]["autorange"] = False
-        elif "xaxis.autorange" in relayoutData_control:
-            test_fig["layout"]["xaxis"]["autorange"] = relayoutData_control["xaxis.autorange"]
-        return no_update, test_fig
-    elif trigger == "gff-test-scatter-fig" and relayoutData_test is not None:
-        if relayoutData_test is not None and "xaxis.range[0]" in relayoutData_test:
-            control_fig["layout"]["xaxis"]["range"][0] = relayoutData_test["xaxis.range[0]"]
-            control_fig["layout"]["xaxis"]["range"][1] = relayoutData_test["xaxis.range[1]"]
-            control_fig["layout"]["xaxis"]["autorange"] = False
-        elif "xaxis.autorange" in relayoutData_test:
-            control_fig["layout"]["xaxis"]["autorange"] = relayoutData_test["xaxis.autorange"]
-        return control_fig, no_update
-    else:
-        raise PreventUpdate
 
 @app.callback(Output('tab5-circos-div', 'children'),
               [Input("run-status", "data"),
