@@ -216,6 +216,49 @@ def genome_scatter(gff_df):
     return fig
 
 
+def genome_comparison_scatter(gff_df_control, gff_df_test):
+    """
+    Create a subplot of two scatter plots of genome insertions from Gff dataframe objects.
+    :param gff_df_control: GffDataFrame object
+    :param gff_df_test: GffDataFrame object
+    :return: plotly fig
+    """
+    fig = make_subplots(rows=2, cols=1,
+                        shared_xaxes=True,
+                        vertical_spacing=0.15,
+                        subplot_titles=["Insertions Across Control Phenotype", "Insertions Across Test Phenotype"],
+                        y_title="Number of Mutations / base")
+    for row, gff_df in enumerate([gff_df_control, gff_df_test]):
+        # If gff has score values - assume these are insert counts
+        if gff_df.empty_score():
+            inserts_data = gff_df.value_counts('start').reset_index().rename(
+                columns={"index": "position", "start": "count"})
+        else:
+            inserts_data = gff_df[['start', 'score']].rename(columns={"start": "position", "score": "count"})
+        # Add trace
+        fig.add_trace(
+            go.Scattergl(
+                x=inserts_data["position"], y=inserts_data["count"],
+                name='mutations',
+                mode='markers',
+            ),
+            row=row + 1,
+            col=1
+        )
+    # Set options common to all traces with fig.update_traces
+    fig.update_traces(mode='markers', marker_line_width=1, marker_size=4)
+    fig.update_layout(
+        showlegend=False, title_x=0.5, template=plotly_template,
+        xaxis2=dict(
+            title="Position in the Genome",
+            rangeslider=dict(
+                visible=True, bgcolor="#eee", thickness=0.05
+            ),
+        )
+    )
+    return fig
+
+
 def venn_diagram(set_a, set_b, backgroundcolor='white'):
     """
     Creates a venn diagram given two sets. As plotly venn diagrams are limited, uses matplotlib_venn package.
