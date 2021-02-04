@@ -3,6 +3,10 @@
 
 }
 
+.btn-info, .btn-info:hover, .btn-info:active, .btn-info:visited {
+    background-color: #1b2b6b !important;
+}
+
 .dash-table-container .row {
   margin: 0;
 }
