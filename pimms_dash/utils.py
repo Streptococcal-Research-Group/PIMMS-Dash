@@ -36,6 +36,9 @@ class GffDataFrame:
     def read_gff(self, path):
         return pd.read_csv(path, sep="\t", comment="#", names=self.gff3_cols)
 
+    def get_data(self):
+        return self._data.round(3)
+
     def _read_header(self):
         if not self._data.empty:
             header = ""
@@ -62,6 +65,20 @@ class GffDataFrame:
 
     def empty_score(self):
         return (self._data["score"] == ".").all()
+
+    def parse_attributes(self):
+        """ Method to parse the attributes column into new dataframe"""
+        def str_parser(att_str):
+            out = {}
+            for att in att_str.split(";"):
+                if "=" in att:
+                    out[att.split("=")[0]] = att.split("=")[1]
+                else:
+                    continue
+            return out
+        att_series = self._data["attributes"].apply(str_parser)
+        attribute_df = pd.DataFrame.from_records(att_series.to_list())
+        return attribute_df
 
     def to_json(self):
         """
