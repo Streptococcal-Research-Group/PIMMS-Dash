@@ -6,8 +6,10 @@ from dash import callback_context
 from dash.dash import no_update
 from dash.exceptions import PreventUpdate
 from dash_table.Format import Format, Scheme
+import dash_bio as dashbio
 
 import numpy as np
+from math import log
 
 from app import app
 from utils import PIMMSDataFrame, GffDataFrame, load_data
@@ -138,6 +140,19 @@ tab5_content = dbc.Card(
     className="mt-3",
 )
 
+tab6_content = dbc.Card(
+    dbc.CardBody(
+        [
+            dbc.Row(
+                [
+                    dbc.Col(html.Div("Select a gene in the DataTable tab", id="tab6-geneviewer-div"))
+                ],
+                justify="center"
+            ),
+        ]
+    ),
+    className="mt-3",
+)
 
 analysis_tabs = dbc.Tabs(
     [
@@ -146,6 +161,7 @@ analysis_tabs = dbc.Tabs(
         dbc.Tab(tab3_content, label="Venn Diagram"),
         dbc.Tab(tab4_content, label="Genome Scatter"),
         dbc.Tab(tab5_content, label="Circos"),
+        dbc.Tab(tab6_content, label="GeneViewer"),
     ]
 )
 
@@ -166,7 +182,7 @@ def create_table(run_status, session_id):
     if run_status['pimms']:
         data = load_data("pimms_df", session_id)
         pimms_df = PIMMSDataFrame.from_json(data)
-        return main_datatable(pimms_df.get_data(), id="main-datatable")
+        return main_datatable(pimms_df.get_data(), id="main-datatable", row_selectable='single')
     else:
         return "No Input Data Found"
 
@@ -175,14 +191,14 @@ def create_table(run_status, session_id):
      Output("main-datatable", "filter_action"),
      Output("main-datatable", "page_size"),
      Output("main-datatable", "columns")],
-    [Input("main-datatable", "selected_columns"),
+    [Input("main-datatable", "selected_rows"),
      Input("comparison-metric-dropdown", "value"),
      Input("datatable-checklist", "value"),
      Input("datatable-numrows", 'value'),
      State("run-status", "data"),
      State("session-id", "children")]
 )
-def style_table(selected_columns, c_metric, checked_options, num_rows, run_status, session_id):
+def style_table(selected_rows, c_metric, checked_options, num_rows, run_status, session_id):
     """
     This Callback adds highlighting to datatable.
     1. Highlights the rows where one NIM score is 0 and other is >0.
@@ -236,11 +252,13 @@ def style_table(selected_columns, c_metric, checked_options, num_rows, run_statu
                     "if": {"filter_query": f"({{{NIM_control_col}}} = 0 and {{{NIM_test_col}}} > 0) or \
                                              ({{{NIM_control_col}}} > 0 and {{{NIM_test_col}}} = 0)"},
                     "backgroundColor": "#EDFFEC"})
-    if selected_columns != None:
-        for col in selected_columns:
+    if selected_rows != None:
+        for row_i in selected_rows:
+            locus_tag = pimms_df.get_data().at[row_i, "locus_tag"]
             style_data_conditional.append({
-                    "if": {"column_id": col},
-                    "background_color": "#D2F3FF"
+                    'if': {'filter_query': f'{{locus_tag}} eq "{locus_tag}"'},
+                    "background_color": "#D2F3FF",
+                    'fontWeight': 'bold',
                 })
     return style_data_conditional, filter_action, page_size, columns
 
@@ -546,3 +564,95 @@ def circos_hover_description(event_datum):
     else:
         contents = ['Hover over circos plot to', html.Br(), 'display locus information.']
     return contents
+
+
+@app.callback(
+    Output("tab6-geneviewer-div", "children"),
+    [Input("main-datatable", "selected_rows")],
+    [State("run-status", "data"),
+     State("session-id", "children")],
+)
+def create_needleplot(selected_rows, run_status, session_id):
+    """
+    Callback to display intragenic mutations when row is selected
+    """
+    if not (run_status["gff_control"] and run_status["gff_test"]):
+        return "Load control and test coordinate gffs.\n" \
+               "Select a gene in the DataTable tab"
+    elif selected_rows:
+        # Selected row can only be single value - extract from list
+        row_index = selected_rows[0]
+
+        # Load pimms gff
+        data = load_data('pimms_df', session_id)
+        pimms_df = PIMMSDataFrame.from_json(data)
+
+        # Load test coordinate gff
+        data_test = load_data("gff_df_test", session_id)
+        gff_df_test = GffDataFrame.from_json(data_test)
+
+        # Load control coordinate gff
+        data_control = load_data("gff_df_control", session_id)
+        gff_df_control = GffDataFrame.from_json(data_control)
+
+        # Get gene label
+        gene_start = pimms_df.get_data().at[row_index, "start"]
+        gene_end = pimms_df.get_data().at[row_index, "end"]
+
+        gene_id = pimms_df.get_data().at[row_index, "locus_tag"]
+        gene_name = pimms_df.get_data().at[row_index, "gene"]
+        if gene_name and gene_name is not np.nan:
+            gene_label = f"{gene_id} - {gene_name}"
+        else:
+            gene_label = gene_id
+
+        gene_interval = f"{gene_start}-{gene_end}"
+
+        if gff_df_test.empty_score():
+            inserts_data_t = gff_df_test.value_counts('start').reset_index().rename(
+                columns={"index": "position", "start": "count"})
+        else:
+            inserts_data_t = gff_df_test[['start', 'score']].rename(columns={"start": "position", "score": "count"})
+
+        if gff_df_control.empty_score():
+            inserts_data_c = gff_df_control.value_counts('start').reset_index().rename(
+                columns={"index": "position", "start": "count"})
+        else:
+            inserts_data_c = gff_df_control[['start', 'score']].rename(columns={"start": "position", "score": "count"})
+
+        buffer = 0.1
+        inserts_data_c = inserts_data_c[
+            (inserts_data_c["position"] > (gene_start - buffer)) & (inserts_data_c["position"] < (gene_end + buffer))]
+        inserts_data_t = inserts_data_t[
+            (inserts_data_t["position"] > (gene_start - buffer)) & (inserts_data_t["position"] < (gene_end + buffer))]
+
+        mutations = [str(x) for x in inserts_data_t["position"].values]
+        counts = [str(x) for x in inserts_data_t["count"].values]
+        groups = ["Test Mutation"]*len(inserts_data_t)
+
+        mutations = mutations + [str(x) for x in inserts_data_c["position"].values]
+        counts = counts + [str(x) for x in inserts_data_c["count"].values]
+        groups = groups + ["Control Mutation"]*len(inserts_data_c)
+
+
+        needledata = dict(
+            x=mutations,
+            y=counts,
+            mutationGroups=groups,
+            domains=[dict(name=gene_label, coord=gene_interval)]
+        )
+        if len(mutations) == 0:
+            return f"No Mutations to plot within {gene_label}"
+        else:
+            return dashbio.NeedlePlot(
+                id="needleplot",
+                mutationData=needledata,
+                domainStyle={
+                    'displayMinorDomains': True,
+                    'domainColor': ['#FFDD00']
+                },
+                xlabel="Position",
+                ylabel="Mutation Count"
+            )
+    else:
+        raise PreventUpdate
