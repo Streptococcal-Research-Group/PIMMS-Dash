@@ -280,9 +280,9 @@ def percentile_rank_comparision(series_a, series_b):
     return df['percentile_a'] - df['percentile_b']
 
 
-def parse_upload(contents, filename):
+def parse_upload(contents, filename, upload_dir):
     content_type, content_string = contents.split(',')
-    save_path = DATA_PATH.joinpath(filename)
+    save_path = upload_dir.joinpath(filename)
     decoded = base64.b64decode(content_string)
     try:
         if save_path.is_file():

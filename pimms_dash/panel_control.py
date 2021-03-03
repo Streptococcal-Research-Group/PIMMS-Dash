@@ -6,7 +6,7 @@ from dash.exceptions import PreventUpdate
 from dash import callback_context
 
 from utils import GffDataFrame, PIMMSDataFrame, parse_upload, store_data
-from app import app, UPLOAD_PATH
+from app import app, DATA_PATH, TESTDATA_PATH
 
 tab1_content = dbc.Card(
     dbc.CardBody(
@@ -48,14 +48,14 @@ tab2_content = dbc.Card(
             html.Div(children='Select Control'),
             dbc.Select(
                 id="control-dropdown",
-                options=[{'label': i.name, 'value': i.name} for i in list(UPLOAD_PATH.glob('*.csv'))],
+                options=[{'label': i.name, 'value': i.name} for i in list(TESTDATA_PATH.glob('*.csv'))],
                 value=0,
                 bs_size="sm"
             ),
             html.Div(children='Select Test'),
             dbc.Select(
                 id="test-dropdown",
-                options=[{'label': i.name, 'value': i.name} for i in list(UPLOAD_PATH.glob('*.csv'))],
+                options=[{'label': i.name, 'value': i.name} for i in list(TESTDATA_PATH.glob('*.csv'))],
                 value=0,
                 bs_size="sm",
             ),
@@ -64,7 +64,7 @@ tab2_content = dbc.Card(
             html.Div("Select Control Coordinate-Gff"),
             dbc.Select(
                 id="gff-dropdown-control",
-                options=[{'label': i.name, 'value': i.name} for i in list(UPLOAD_PATH.glob('*.gff'))],
+                options=[{'label': i.name, 'value': i.name} for i in list(TESTDATA_PATH.glob('*.gff'))],
                 value=0,
                 bs_size="sm",
             ),
@@ -72,7 +72,7 @@ tab2_content = dbc.Card(
             html.Div("Select Test Coordinate-Gff"),
             dbc.Select(
                 id="gff-dropdown-test",
-                options=[{'label': i.name, 'value': i.name} for i in list(UPLOAD_PATH.glob('*.gff'))],
+                options=[{'label': i.name, 'value': i.name} for i in list(TESTDATA_PATH.glob('*.gff'))],
                 value=0,
                 bs_size="sm",
             ),
@@ -225,9 +225,14 @@ def run_selection(run_clicks, test_filename, control_filename, control_gff_filen
             (test_gff_filename in [0, None]):
         raise PreventUpdate
 
+    # List all available .csv and .gff files
+    session_upload_dir = DATA_PATH.joinpath('session_data', session_id, "uploaded")
+    all_csvs = list(TESTDATA_PATH.glob('*.csv')) + list(session_upload_dir.glob('*.csv'))
+    all_gffs = list(TESTDATA_PATH.glob('*.gff')) + list(session_upload_dir.glob('*.gff'))
+
     # Read control coordinate gff file and store
     if control_gff_filename not in [0, None]:
-        control_gff_path = [i for i in list(UPLOAD_PATH.glob('*.gff')) if i.name == control_gff_filename][0]
+        control_gff_path = [i for i in all_gffs if i.name == control_gff_filename][0]
         try:
             gff_df_control = GffDataFrame(control_gff_path)
             store_data(gff_df_control.to_json(), 'gff_df_control', session_id)
@@ -238,7 +243,7 @@ def run_selection(run_clicks, test_filename, control_filename, control_gff_filen
 
     # Read test coordinate gff file and store
     if test_gff_filename not in [0, None]:
-        test_gff_path = [i for i in list(UPLOAD_PATH.glob('*.gff')) if i.name == test_gff_filename][0]
+        test_gff_path = [i for i in all_gffs if i.name == test_gff_filename][0]
         try:
             gff_df_test = GffDataFrame(test_gff_path)
             store_data(gff_df_test.to_json(), 'gff_df_test', session_id)
@@ -251,8 +256,8 @@ def run_selection(run_clicks, test_filename, control_filename, control_gff_filen
     if (test_filename not in [0, None]) and (control_filename not in [0, None]):
         # Get full filepaths from dropdown selection
         try:
-            test_path = [i for i in list(UPLOAD_PATH.glob('*.csv')) if i.name == test_filename][0]
-            control_path = [i for i in list(UPLOAD_PATH.glob('*.csv')) if i.name == control_filename][0]
+            test_path = [i for i in all_csvs if i.name == test_filename][0]
+            control_path = [i for i in all_csvs if i.name == control_filename][0]
             pimms_df = PIMMSDataFrame(control_path, test_path)
             store_data(pimms_df.to_json(), 'pimms_df', session_id)
             run_status['pimms'] = True
@@ -289,13 +294,17 @@ def run_button_color(dropdown1, dropdown2, dropdown3, dropdown4, run_status):
     Output('output-data-upload', 'children'),
     [Input('upload-data', 'contents'),
      State('upload-data', 'filename'),
-     State('upload-data', 'last_modified')],
+     State('upload-data', 'last_modified'),
+     State("session-id", "children")],
     prevent_initial_call=True
 )
-def upload_new_file(list_of_contents, list_of_names, list_of_dates):
+def upload_new_file(list_of_contents, list_of_names, list_of_dates, session_id):
     """ Callback to parse and save uploaded data"""
+    session_upload_dir = DATA_PATH.joinpath('session_data', session_id, "uploaded")
+    if not session_upload_dir.exists():
+        session_upload_dir.mkdir(parents=True, exist_ok=True)
     if list_of_contents is not None:
-        children = [parse_upload(c, n) for c, n in zip(list_of_contents, list_of_names)]
+        children = [parse_upload(c, n, session_upload_dir) for c, n in zip(list_of_contents, list_of_names)]
         return children
 
 
@@ -308,10 +317,11 @@ def upload_new_file(list_of_contents, list_of_names, list_of_dates):
      Input('control-dropdown', "value"),
      Input('gff-dropdown-test', "value"),
      Input('gff-dropdown-control', "value"),
-     Input('output-data-upload', 'children')],
+     Input('output-data-upload', 'children'),
+     State("session-id", "children")],
     prevent_initial_call=True
 )
-def update_dropdowns(dropdown1, dropdown2, dropdown3, dropdown4, upload_message):
+def update_dropdowns(dropdown1, dropdown2, dropdown3, dropdown4, upload_message, session_id):
     """Callback to update the select data dropdowns"""
     callback_trigger = callback_context.triggered[0]['prop_id'].split('.')[0]
     # Prevent update if a failed upload triggered callback
@@ -321,14 +331,18 @@ def update_dropdowns(dropdown1, dropdown2, dropdown3, dropdown4, upload_message)
         elif not upload_message[0].startswith('Uploaded'):
             raise PreventUpdate
 
+    session_upload_dir = DATA_PATH.joinpath('session_data', session_id, "uploaded")
+    all_csvs = list(TESTDATA_PATH.glob('*.csv')) + list(session_upload_dir.glob('*.csv'))
+    all_gffs = list(TESTDATA_PATH.glob('*.gff')) + list(session_upload_dir.glob('*.gff'))
+
     test_dropdown_options = [{'label': i.name, 'value': i.name, 'disabled': i.name == dropdown2}
-                             for i in list(UPLOAD_PATH.glob('*.csv'))]
+                             for i in all_csvs]
     control_dropdown_options = [{'label': i.name, 'value': i.name, 'disabled': i.name == dropdown1}
-                                for i in list(UPLOAD_PATH.glob('*.csv'))]
+                                for i in all_csvs]
     test_gff_dropdown_options = [{'label': i.name, 'value': i.name, 'disabled': i.name == dropdown4}
-                                 for i in list(UPLOAD_PATH.glob('*.gff'))]
+                                 for i in all_gffs]
     control_gff_dropdown_options = [{'label': i.name, 'value': i.name, 'disabled': i.name == dropdown3}
-                                    for i in list(UPLOAD_PATH.glob('*.gff'))]
+                                    for i in all_gffs]
     return test_dropdown_options, control_dropdown_options, test_gff_dropdown_options, control_gff_dropdown_options
 
 @app.callback(
