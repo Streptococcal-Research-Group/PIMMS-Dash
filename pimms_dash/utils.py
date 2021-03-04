@@ -42,11 +42,18 @@ class GffDataFrame:
     def _read_header(self):
         if not self._data.empty:
             header = ""
-            for line in open(self.path):
-                if line.startswith("#"):
-                    header += line
-                else:
-                    break
+            if isinstance(self.path, io.StringIO):
+                for line in self.path.readlines():
+                    if line.startswith("#"):
+                        header += line
+                    else:
+                        break
+            else:
+                for line in open(self.path):
+                    if line.startswith("#"):
+                        header += line
+                    else:
+                        break
             return header
         else:
             return None
@@ -297,9 +304,9 @@ def percentile_rank_comparision(series_a, series_b):
     return df['percentile_a'] - df['percentile_b']
 
 
-def parse_upload(contents, filename):
+def parse_upload(contents, filename, upload_dir):
     content_type, content_string = contents.split(',')
-    save_path = DATA_PATH.joinpath(filename)
+    save_path = upload_dir.joinpath(filename)
     decoded = base64.b64decode(content_string)
     try:
         if save_path.is_file():
@@ -310,7 +317,11 @@ def parse_upload(contents, filename):
             return f'Uploaded {filename}'
         elif '.xls' in filename:
             df = pd.read_excel(io.BytesIO(decoded))
-            df.to_excel(DATA_PATH.joinpath(filename), index=False)
+            df.to_excel(save_path, index=False)
+            return f'Uploaded {filename}'
+        elif ".gff" in filename:
+            gff_df = GffDataFrame(io.StringIO(decoded.decode('utf-8')))
+            gff_df.to_gff3(save_path)
             return f'Uploaded {filename}'
         else:
             raise TypeError('Unexpected file format')
