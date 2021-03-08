@@ -27,7 +27,6 @@ def main_datatable(df, id, **kwargs):
                   "selectable": True,
                   "format": Format(precision=2, scheme=Scheme.fixed)} for i in df.columns],
         data=df.to_dict('records'),
-        tooltip_data=[{'product': {'type': 'text', 'value': f'{r}'}} for r in df['product'].values],
         style_table={'overflowX': 'scroll', 'overflowY': 'auto', 'color': 'black'},
         style_header={'fontWeight': 'bold', 'backgroundColor': 'white','fontSize': 14},
         style_cell={
@@ -44,6 +43,9 @@ def main_datatable(df, id, **kwargs):
         page_size=15,
         sort_action="native",
     )
+    if 'product' in df.columns:
+        default_args["tooltip_data"] = [{'product': {'type': 'text', 'value': f'{r}'}} for r in df['product'].values]
+
     default_args.update(kwargs)
     return dash_table.DataTable(**default_args)
 
