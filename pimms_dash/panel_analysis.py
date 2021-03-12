@@ -2,18 +2,15 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
-from dash import callback_context
 from dash.dash import no_update
 from dash.exceptions import PreventUpdate
 from dash_table.Format import Format, Scheme
-import dash_bio as dashbio
 
 import numpy as np
-from math import log
 
 from app import app
 from utils import PIMMSDataFrame, GffDataFrame, load_data
-from figures import main_datatable, histogram, histogram_type2, venn_diagram, genome_comparison_scatter
+from figures import main_datatable, histogram, histogram_type2, venn_diagram, genome_comparison_scatter, mpl_needleplot
 from circos import pimms_circos
 
 tab7_content = dbc.Card(
@@ -200,6 +197,13 @@ tab6_content = dbc.Card(
                     dbc.Col(html.Div("Select a gene in the DataTable tab", id="tab6-geneviewer-div"))
                 ],
                 justify="center"
+            ),
+            html.Hr(),
+            dbc.Row(
+                [
+                    dcc.Markdown(id="geneviewer-markdown")
+                ],
+                className="ml-1"
             ),
         ]
     ),
@@ -620,7 +624,8 @@ def circos_hover_description(event_datum):
 
 
 @app.callback(
-    Output("tab6-geneviewer-div", "children"),
+    [Output("tab6-geneviewer-div", "children"),
+     Output("geneviewer-markdown", "children")],
     [Input("main-datatable", "selected_rows")],
     [State("run-status", "data"),
      State("session-id", "children")],
@@ -648,10 +653,11 @@ def create_needleplot(selected_rows, run_status, session_id):
         data_control = load_data("gff_df_control", session_id)
         gff_df_control = GffDataFrame.from_json(data_control)
 
-        # Get gene label
+        # Get gene start and end
         gene_start = pimms_df.get_data().at[row_index, "start"]
         gene_end = pimms_df.get_data().at[row_index, "end"]
 
+        # Get gene label
         gene_id = pimms_df.get_data().at[row_index, "locus_tag"]
         gene_name = pimms_df.get_data().at[row_index, "gene"]
         if gene_name and gene_name is not np.nan:
@@ -659,53 +665,48 @@ def create_needleplot(selected_rows, run_status, session_id):
         else:
             gene_label = gene_id
 
-        gene_interval = f"{gene_start}-{gene_end}"
-
+        # get mutations in test from gff df
         if gff_df_test.empty_score():
             inserts_data_t = gff_df_test.value_counts('start').reset_index().rename(
                 columns={"index": "position", "start": "count"})
         else:
             inserts_data_t = gff_df_test[['start', 'score']].rename(columns={"start": "position", "score": "count"})
-
+        # get mutations in control from gff df
         if gff_df_control.empty_score():
             inserts_data_c = gff_df_control.value_counts('start').reset_index().rename(
                 columns={"index": "position", "start": "count"})
         else:
             inserts_data_c = gff_df_control[['start', 'score']].rename(columns={"start": "position", "score": "count"})
 
-        buffer = 0.1
+        # Get number of mutations within control and test genes
+        control_mutations = ((inserts_data_c["position"] >= gene_start) & (inserts_data_c["position"] <= gene_end)).sum()
+        test_mutations = ((inserts_data_t["position"] >= gene_start) & (inserts_data_t["position"] <= gene_end)).sum()
+
+        # Restrict mutations to gene plus a percentage buffer
+        buffer_prc = 0
+        buffer = buffer_prc * (gene_end - gene_start)
         inserts_data_c = inserts_data_c[
             (inserts_data_c["position"] > (gene_start - buffer)) & (inserts_data_c["position"] < (gene_end + buffer))]
         inserts_data_t = inserts_data_t[
             (inserts_data_t["position"] > (gene_start - buffer)) & (inserts_data_t["position"] < (gene_end + buffer))]
 
-        mutations = [str(x) for x in inserts_data_t["position"].values]
-        counts = [str(x) for x in inserts_data_t["count"].values]
-        groups = ["Test Mutation"]*len(inserts_data_t)
+        # Create mutation_data df - Assign group column and append control and test
+        inserts_data_c["group"] = "Control"
+        inserts_data_t["group"] = "Test"
+        mutation_data = inserts_data_t.append(inserts_data_c)
 
-        mutations = mutations + [str(x) for x in inserts_data_c["position"].values]
-        counts = counts + [str(x) for x in inserts_data_c["count"].values]
-        groups = groups + ["Control Mutation"]*len(inserts_data_c)
+        # Format markdown with mutation counts
+        md_text = f"""
+        Mutations in Control Phenotype Gene: {control_mutations}
 
+        Mutations in Test Phenotype Gene: {test_mutations}
+        """
 
-        needledata = dict(
-            x=mutations,
-            y=counts,
-            mutationGroups=groups,
-            domains=[dict(name=gene_label, coord=gene_interval)]
-        )
-        if len(mutations) == 0:
-            return f"No Mutations to plot within {gene_label}"
+        # Return objects to div children
+        if mutation_data.empty:
+            return f"No Mutations to plot within {gene_label}", no_update
         else:
-            return dashbio.NeedlePlot(
-                id="needleplot",
-                mutationData=needledata,
-                domainStyle={
-                    'displayMinorDomains': True,
-                    'domainColor': ['#FFDD00']
-                },
-                xlabel="Position",
-                ylabel="Mutation Count"
-            )
+            needleplot_img = mpl_needleplot(mutation_data, gene_label, gene_start, gene_end)
+            return html.Img(src=needleplot_img, id='geneviewer-image'), md_text
     else:
         raise PreventUpdate
