@@ -131,7 +131,7 @@ tab3_content = dbc.Card(
                                     switch=True,
                                     inline=True,
                                 ),
-                                html.Div("No Input Data Loaded", id="tab3-venn-datatable-div"),
+                                html.Div("No Input Data Loaded", id="tab3-venn-datatable-div", className="mt-3"),
                             ],
                             id="venn-datatable-collapse"
                         )
@@ -223,7 +223,7 @@ tab6_content = dbc.Card(
                     dbc.Col(
                         dbc.Collapse(
                             [
-                                html.Div("No Input Data Loaded", id="tab6-geneviewer-datatable-div")
+                                html.Div("No Input Data Loaded", id="tab6-geneviewer-datatable-div",className="mt-3")
                             ],
                             id="geneviewer-datatable-collapse"
                         )
@@ -513,17 +513,18 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, session_id):
     df_cols.pop(0)
     style_data_conditional = [
                                  {'if': {"filter_query": f"{{_set_}} = AB"},
-                                  "backgroundColor": "#b599c7"},
+                                  "backgroundColor": "rgba(181, 153, 199, 0.5)"},
                                  {'if': {"filter_query": f"{{_set_}} = Ab"},
-                                  "backgroundColor": "#8ebbda"},
+                                  "backgroundColor": "rgba(143, 189, 219, 0.5)"},
                                  {'if': {"filter_query": f"{{_set_}} = aB"},
-                                  "backgroundColor": "#ffbf87"},
+                                  "backgroundColor": "rgba(255, 190, 133, 0.5)"},
                              ]
     table = main_datatable(df[df_cols], id="venn-datatable",
                            style_data_conditional=style_data_conditional,
                            style_table={'height': '100em', 'overflowY': 'auto'},
                            fixed_rows={"headers":True},
-                           page_size=50)
+                           page_size=50,
+                           export_format="xlsx")
 
     return html.Img(src=venn_img, id='venn-image'), label, table
 
@@ -752,7 +753,8 @@ def create_needleplot(selected_rows, run_status, session_id):
                            style_data_conditional=style_data_conditional,
                            style_table={'height': '100em', 'overflowY': 'auto'},
                            fixed_rows={"headers":True},
-                           page_size=50)
+                           page_size=50,
+                           export_format="xlsx")
             return html.Img(src=needleplot_img, id='geneviewer-image'), md_text, mutation_table
     else:
         raise PreventUpdate
