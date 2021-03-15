@@ -2,18 +2,15 @@ import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
-from dash import callback_context
 from dash.dash import no_update
 from dash.exceptions import PreventUpdate
 from dash_table.Format import Format, Scheme
-import dash_bio as dashbio
 
 import numpy as np
-from math import log
 
 from app import app
 from utils import PIMMSDataFrame, GffDataFrame, load_data
-from figures import main_datatable, histogram, histogram_type2, venn_diagram, genome_comparison_scatter
+from figures import main_datatable, histogram, histogram_type2, venn_diagram, genome_comparison_scatter, mpl_needleplot
 from circos import pimms_circos
 
 tab7_content = dbc.Card(
@@ -201,6 +198,39 @@ tab6_content = dbc.Card(
                 ],
                 justify="center"
             ),
+            html.Hr(),
+            dbc.Row(
+                [
+                    dcc.Markdown(id="geneviewer-markdown")
+                ],
+                className="ml-1"
+            ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dbc.Button(
+                            "Show Insert Data Table",
+                            id="geneviewer-collapse-button",
+                            color="info",
+                        ),
+                    ),
+                ],
+                className="mt-3",
+                justify="center"
+            ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dbc.Collapse(
+                            [
+                                html.Div("No Input Data Loaded", id="tab6-geneviewer-datatable-div")
+                            ],
+                            id="geneviewer-datatable-collapse"
+                        )
+                    )
+                ],
+                className="mt-3"
+            )
         ]
     ),
     className="mt-3",
@@ -503,7 +533,7 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, session_id):
     [Input("venn-collapse-button", "n_clicks")],
     [State("venn-datatable-collapse", "is_open")],
 )
-def toggle_collapse(n, is_open):
+def toggle_collapse_venn(n, is_open):
     if n:
         return not is_open
     return is_open
@@ -620,18 +650,22 @@ def circos_hover_description(event_datum):
 
 
 @app.callback(
-    Output("tab6-geneviewer-div", "children"),
+    [Output("tab6-geneviewer-div", "children"),
+     Output("geneviewer-markdown", "children"),
+     Output("tab6-geneviewer-datatable-div", "children")],
     [Input("main-datatable", "selected_rows")],
     [State("run-status", "data"),
      State("session-id", "children")],
 )
 def create_needleplot(selected_rows, run_status, session_id):
     """
-    Callback to display intragenic mutations when row is selected
+    Callback to display intragenic mutations when row is selected.
+    Also returns markdown of information on needleplot.
+    Also returns Datatable object of mutations from coord gff.
     """
     if not (run_status["gff_control"] and run_status["gff_test"]):
         return "Load control and test coordinate gffs.\n" \
-               "Select a gene in the DataTable tab"
+               "Select a gene in the DataTable tab", no_update, no_update
     elif selected_rows:
         # Selected row can only be single value - extract from list
         row_index = selected_rows[0]
@@ -648,10 +682,11 @@ def create_needleplot(selected_rows, run_status, session_id):
         data_control = load_data("gff_df_control", session_id)
         gff_df_control = GffDataFrame.from_json(data_control)
 
-        # Get gene label
+        # Get gene start and end
         gene_start = pimms_df.get_data().at[row_index, "start"]
         gene_end = pimms_df.get_data().at[row_index, "end"]
 
+        # Get gene label
         gene_id = pimms_df.get_data().at[row_index, "locus_tag"]
         gene_name = pimms_df.get_data().at[row_index, "gene"]
         if gene_name and gene_name is not np.nan:
@@ -659,53 +694,76 @@ def create_needleplot(selected_rows, run_status, session_id):
         else:
             gene_label = gene_id
 
-        gene_interval = f"{gene_start}-{gene_end}"
-
+        # get mutations in test from gff df
         if gff_df_test.empty_score():
             inserts_data_t = gff_df_test.value_counts('start').reset_index().rename(
                 columns={"index": "position", "start": "count"})
         else:
             inserts_data_t = gff_df_test[['start', 'score']].rename(columns={"start": "position", "score": "count"})
-
+        # get mutations in control from gff df
         if gff_df_control.empty_score():
             inserts_data_c = gff_df_control.value_counts('start').reset_index().rename(
                 columns={"index": "position", "start": "count"})
         else:
             inserts_data_c = gff_df_control[['start', 'score']].rename(columns={"start": "position", "score": "count"})
 
-        buffer = 0.1
+        # Restrict mutations to gene plus a percentage buffer
+        buffer_prc = 0 #Todo control intergenic buffer with slider.
+        buffer = buffer_prc * (gene_end - gene_start)
         inserts_data_c = inserts_data_c[
             (inserts_data_c["position"] > (gene_start - buffer)) & (inserts_data_c["position"] < (gene_end + buffer))]
         inserts_data_t = inserts_data_t[
             (inserts_data_t["position"] > (gene_start - buffer)) & (inserts_data_t["position"] < (gene_end + buffer))]
 
-        mutations = [str(x) for x in inserts_data_t["position"].values]
-        counts = [str(x) for x in inserts_data_t["count"].values]
-        groups = ["Test Mutation"]*len(inserts_data_t)
+        # Create intragenic column to highlight mutations that occur within gene and not buffer.
+        inserts_data_c["intragenic"] = ((inserts_data_c["position"] >= gene_start) & (inserts_data_c["position"] <= gene_end))
+        inserts_data_t["intragenic"] = ((inserts_data_t["position"] >= gene_start) & (inserts_data_t["position"] <= gene_end))
 
-        mutations = mutations + [str(x) for x in inserts_data_c["position"].values]
-        counts = counts + [str(x) for x in inserts_data_c["count"].values]
-        groups = groups + ["Control Mutation"]*len(inserts_data_c)
+        # Create mutation_data df - Assign group column and append control and test
+        inserts_data_c["group"] = "Control"
+        inserts_data_t["group"] = "Test"
+        mutation_data = inserts_data_t.append(inserts_data_c).sort_values(by="position")
 
+        # Format markdown with mutation counts
+        md_text = f"""
+        Start Position: **{gene_start}**    End Position: **{gene_end}**
 
-        needledata = dict(
-            x=mutations,
-            y=counts,
-            mutationGroups=groups,
-            domains=[dict(name=gene_label, coord=gene_interval)]
-        )
-        if len(mutations) == 0:
-            return f"No Mutations to plot within {gene_label}"
+        * Control Phenotype Total Inserts: **{inserts_data_c[inserts_data_c["intragenic"]==True]["count"].sum()}**
+
+        * Control Phenotype Unique insert sites: **{len(inserts_data_c[inserts_data_c["intragenic"]==True])}**
+
+        * Test Phenotype Total Inserts: **{inserts_data_t[inserts_data_t["intragenic"]==True]["count"].sum()}**
+
+        * Test Phenotype Unique insert sites: **{len(inserts_data_t[inserts_data_t["intragenic"]==True])}**
+        """
+
+        # Return objects to div children
+        if mutation_data.empty:
+            return f"No Mutations to plot within {gene_label}", no_update, no_update
         else:
-            return dashbio.NeedlePlot(
-                id="needleplot",
-                mutationData=needledata,
-                domainStyle={
-                    'displayMinorDomains': True,
-                    'domainColor': ['#FFDD00']
-                },
-                xlabel="Position",
-                ylabel="Mutation Count"
-            )
+            needleplot_img = mpl_needleplot(mutation_data, gene_label, gene_start, gene_end)
+            style_data_conditional = [
+                {'if': {"filter_query": f"{{group}} = Control"},
+                 "backgroundColor": "rgba(30, 117, 179, 0.5)"},
+                {'if': {"filter_query": f"{{group}} = Test"},
+                 "backgroundColor": "rgba(255, 157, 82, 0.5)"},
+            ]
+            mutation_table = main_datatable(mutation_data, id="venn-datatable",
+                           style_data_conditional=style_data_conditional,
+                           style_table={'height': '100em', 'overflowY': 'auto'},
+                           fixed_rows={"headers":True},
+                           page_size=50)
+            return html.Img(src=needleplot_img, id='geneviewer-image'), md_text, mutation_table
     else:
         raise PreventUpdate
+
+
+@app.callback(
+    Output("geneviewer-datatable-collapse", "is_open"),
+    [Input("geneviewer-collapse-button", "n_clicks")],
+    [State("geneviewer-datatable-collapse", "is_open")],
+)
+def toggle_collapse_geneviewer(n, is_open):
+    if n:
+        return not is_open
+    return is_open

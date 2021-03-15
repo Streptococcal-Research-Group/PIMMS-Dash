@@ -4,6 +4,10 @@ import io
 
 # Package imports
 import numpy as np
+import pandas as pd
+from matplotlib.patches import Patch
+from matplotlib.lines import Line2D
+import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 import dash_table
 import plotly.graph_objects as go
@@ -289,6 +293,92 @@ def venn_diagram(set_a, set_b, backgroundcolor='white'):
     # Convert to b64
     pic_IObytes = io.BytesIO()
     plt.savefig(pic_IObytes, format='png', facecolor=backgroundcolor, edgecolor=backgroundcolor)
+    pic_IObytes.seek(0)
+    encoded_image = base64.b64encode(pic_IObytes.read())
+    img = 'data:image/png;base64,{}'.format(encoded_image.decode())
+    # plotly_fig = mpl_to_plotly(mpl_fig) # Not working for venn
+    plt.close()
+    return img
+
+
+
+def mpl_needleplot(mutation_data: pd.DataFrame, gene_name: str, gene_start: int, gene_end: int, log=True):
+    """
+    Create a needleplot of gene mutations using matplotlib stem.
+    :param mutation_data: dataframe holding mutation information
+    :param gene_name:
+    :param gene_start: coord of start
+    :param gene_end: coord of end
+    :param log: Bool
+
+    Example mutation_data  input dataframe:
+    df = pd.DataFrame(
+        {
+            "position": list(np.random.randint(low=1309354, high=1312965, size=10)),
+            "group": list(np.random.choice(["test", "control"], 10)),
+            "count": list(np.random.poisson(3, 10))
+        }
+    )
+    """
+    def myLogFormat(y, pos):
+        """ Utility function to format log ticks - hides ticks <1"""
+        if y < 1:
+            return ""
+        # Find the number of decimal places required
+        decimalplaces = int(np.maximum(-np.log10(y), 0))  # =0 for numbers >=1
+        # Insert that number into a format string
+        formatstring = '{{:.{:1d}f}}'.format(decimalplaces)
+        # Return the formatted tick label
+        return formatstring.format(y)
+
+    # List to hold legend objects
+    legend_elements = []
+    # Loop through groups
+    for i, group in enumerate(mutation_data["group"].unique()):
+        # Get only the rows belonging to group
+        subset_df = mutation_data[mutation_data["group"] == group]
+        # Create matplotlib stem plot, baseline is white to hide, colour changes through loop
+        markerline, stemlines, baseline = plt.stem(subset_df["position"], subset_df['count'], f"C{i}", basefmt="w",
+                                                   markerfmt=f"C{i}o", label=group, use_line_collection=True)
+        # Set the line width, markersize and baseline width. Baseline to 0 will hide.
+        plt.setp(stemlines, "linewidth", 1)
+        plt.setp(markerline, markersize=6)
+        plt.setp(baseline, "linewidth", 0)
+
+        # Create the legend icon using line2D object and append to legend elements list
+        legend_elements.append(
+            Line2D([0], [0], marker='o', color="w", label=group, markerfacecolor=f"C{i}", markersize=10))
+
+    if log is True:
+        plt.yscale("log")
+        plt.gca().yaxis.set_major_formatter(ticker.FuncFormatter(myLogFormat))
+        #plt.gca().yaxis.set_minor_formatter(ticker.FuncFormatter(myLogFormat))
+
+    # Set genelabel y position. Set >0 to work with log yscale.
+    label_y = 0.8
+
+    # Use another call to stem to create the gene rectangle with its baseline.
+    markerline, stemlines, baseline = plt.stem([gene_start, gene_end], [0, 0], "w", markerfmt="r", basefmt="r-",
+                                               use_line_collection=True, bottom=label_y)
+    # Define the height of the gene label
+    plt.setp(baseline, "linewidth", 15)
+    # Add a patch to the legend to label gene
+    legend_elements.append(Patch(facecolor='r', edgecolor='r', label=gene_name))
+
+    plt.text(gene_start + (gene_end - gene_start) / 2, label_y, gene_name, horizontalalignment='center',
+             verticalalignment='center')
+
+    # Create custom legend with legend elements
+    plt.legend(handles=legend_elements, bbox_to_anchor=(1, 1), loc='lower right', ncol=3)
+    # General plot formating
+    plt.ylabel("Mutations", fontsize=14)
+    plt.xlabel("Position", fontsize=14)
+
+    # At this point a call to plt.show would display needleplot
+    # For the purposes of the dash board we covert to img b64 string
+    # Convert to b64
+    pic_IObytes = io.BytesIO()
+    plt.savefig(pic_IObytes, format='png', facecolor="w", edgecolor="w")
     pic_IObytes.seek(0)
     encoded_image = base64.b64encode(pic_IObytes.read())
     img = 'data:image/png;base64,{}'.format(encoded_image.decode())
