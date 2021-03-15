@@ -205,6 +205,32 @@ tab6_content = dbc.Card(
                 ],
                 className="ml-1"
             ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dbc.Button(
+                            "Show Insert Data Table",
+                            id="geneviewer-collapse-button",
+                            color="info",
+                        ),
+                    ),
+                ],
+                className="mt-3",
+                justify="center"
+            ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dbc.Collapse(
+                            [
+                                html.Div("No Input Data Loaded", id="tab6-geneviewer-datatable-div")
+                            ],
+                            id="geneviewer-datatable-collapse"
+                        )
+                    )
+                ],
+                className="mt-3"
+            )
         ]
     ),
     className="mt-3",
@@ -507,7 +533,7 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, session_id):
     [Input("venn-collapse-button", "n_clicks")],
     [State("venn-datatable-collapse", "is_open")],
 )
-def toggle_collapse(n, is_open):
+def toggle_collapse_venn(n, is_open):
     if n:
         return not is_open
     return is_open
@@ -625,18 +651,21 @@ def circos_hover_description(event_datum):
 
 @app.callback(
     [Output("tab6-geneviewer-div", "children"),
-     Output("geneviewer-markdown", "children")],
+     Output("geneviewer-markdown", "children"),
+     Output("tab6-geneviewer-datatable-div", "children")],
     [Input("main-datatable", "selected_rows")],
     [State("run-status", "data"),
      State("session-id", "children")],
 )
 def create_needleplot(selected_rows, run_status, session_id):
     """
-    Callback to display intragenic mutations when row is selected
+    Callback to display intragenic mutations when row is selected.
+    Also returns markdown of information on needleplot.
+    Also returns Datatable object of mutations from coord gff.
     """
     if not (run_status["gff_control"] and run_status["gff_test"]):
         return "Load control and test coordinate gffs.\n" \
-               "Select a gene in the DataTable tab"
+               "Select a gene in the DataTable tab", no_update, no_update
     elif selected_rows:
         # Selected row can only be single value - extract from list
         row_index = selected_rows[0]
@@ -678,35 +707,63 @@ def create_needleplot(selected_rows, run_status, session_id):
         else:
             inserts_data_c = gff_df_control[['start', 'score']].rename(columns={"start": "position", "score": "count"})
 
-        # Get number of mutations within control and test genes
-        control_mutations = ((inserts_data_c["position"] >= gene_start) & (inserts_data_c["position"] <= gene_end)).sum()
-        test_mutations = ((inserts_data_t["position"] >= gene_start) & (inserts_data_t["position"] <= gene_end)).sum()
-
         # Restrict mutations to gene plus a percentage buffer
-        buffer_prc = 0
+        buffer_prc = 0 #Todo control intergenic buffer with slider.
         buffer = buffer_prc * (gene_end - gene_start)
         inserts_data_c = inserts_data_c[
             (inserts_data_c["position"] > (gene_start - buffer)) & (inserts_data_c["position"] < (gene_end + buffer))]
         inserts_data_t = inserts_data_t[
             (inserts_data_t["position"] > (gene_start - buffer)) & (inserts_data_t["position"] < (gene_end + buffer))]
 
+        # Create intragenic column to highlight mutations that occur within gene and not buffer.
+        inserts_data_c["intragenic"] = ((inserts_data_c["position"] >= gene_start) & (inserts_data_c["position"] <= gene_end))
+        inserts_data_t["intragenic"] = ((inserts_data_t["position"] >= gene_start) & (inserts_data_t["position"] <= gene_end))
+
         # Create mutation_data df - Assign group column and append control and test
         inserts_data_c["group"] = "Control"
         inserts_data_t["group"] = "Test"
-        mutation_data = inserts_data_t.append(inserts_data_c)
+        mutation_data = inserts_data_t.append(inserts_data_c).sort_values(by="position")
 
         # Format markdown with mutation counts
         md_text = f"""
-        Mutations in Control Phenotype Gene: {control_mutations}
+        Start Position: **{gene_start}**    End Position: **{gene_end}**
 
-        Mutations in Test Phenotype Gene: {test_mutations}
+        * Control Phenotype Total Inserts: **{inserts_data_c[inserts_data_c["intragenic"]==True]["count"].sum()}**
+
+        * Control Phenotype Unique insert sites: **{len(inserts_data_c[inserts_data_c["intragenic"]==True])}**
+
+        * Test Phenotype Total Inserts: **{inserts_data_t[inserts_data_t["intragenic"]==True]["count"].sum()}**
+
+        * Test Phenotype Unique insert sites: **{len(inserts_data_t[inserts_data_t["intragenic"]==True])}**
         """
 
         # Return objects to div children
         if mutation_data.empty:
-            return f"No Mutations to plot within {gene_label}", no_update
+            return f"No Mutations to plot within {gene_label}", no_update, no_update
         else:
             needleplot_img = mpl_needleplot(mutation_data, gene_label, gene_start, gene_end)
-            return html.Img(src=needleplot_img, id='geneviewer-image'), md_text
+            style_data_conditional = [
+                {'if': {"filter_query": f"{{group}} = Control"},
+                 "backgroundColor": "rgba(30, 117, 179, 0.5)"},
+                {'if': {"filter_query": f"{{group}} = Test"},
+                 "backgroundColor": "rgba(255, 157, 82, 0.5)"},
+            ]
+            mutation_table = main_datatable(mutation_data, id="venn-datatable",
+                           style_data_conditional=style_data_conditional,
+                           style_table={'height': '100em', 'overflowY': 'auto'},
+                           fixed_rows={"headers":True},
+                           page_size=50)
+            return html.Img(src=needleplot_img, id='geneviewer-image'), md_text, mutation_table
     else:
         raise PreventUpdate
+
+
+@app.callback(
+    Output("geneviewer-datatable-collapse", "is_open"),
+    [Input("geneviewer-collapse-button", "n_clicks")],
+    [State("geneviewer-datatable-collapse", "is_open")],
+)
+def toggle_collapse_geneviewer(n, is_open):
+    if n:
+        return not is_open
+    return is_open
