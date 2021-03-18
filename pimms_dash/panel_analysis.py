@@ -666,7 +666,7 @@ def create_needleplot(selected_rows, run_status, session_id):
     """
     if not (run_status["gff_control"] and run_status["gff_test"]):
         return "Load control and test coordinate gffs.\n" \
-               "Select a gene in the DataTable tab", no_update, no_update
+               "Select a gene in the DataTable tab", "", ""
     elif selected_rows:
         # Selected row can only be single value - extract from list
         row_index = selected_rows[0]
@@ -731,16 +731,16 @@ def create_needleplot(selected_rows, run_status, session_id):
 
         * Control Phenotype Total Inserts: **{inserts_data_c[inserts_data_c["intragenic"]==True]["count"].sum()}**
 
-        * Control Phenotype Unique insert sites: **{len(inserts_data_c[inserts_data_c["intragenic"]==True])}**
+        * Control Phenotype Unique Insert Sites: **{len(inserts_data_c[inserts_data_c["intragenic"]==True])}**
 
         * Test Phenotype Total Inserts: **{inserts_data_t[inserts_data_t["intragenic"]==True]["count"].sum()}**
 
-        * Test Phenotype Unique insert sites: **{len(inserts_data_t[inserts_data_t["intragenic"]==True])}**
+        * Test Phenotype Unique Insert Sites: **{len(inserts_data_t[inserts_data_t["intragenic"]==True])}**
         """
 
         # Return objects to div children
         if mutation_data.empty:
-            return f"No Mutations to plot within {gene_label}", no_update, no_update
+            return f"No Mutations to plot within {gene_label}", "", ""
         else:
             needleplot_img = mpl_needleplot(mutation_data, gene_label, gene_start, gene_end)
             style_data_conditional = [
