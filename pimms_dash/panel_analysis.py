@@ -660,7 +660,7 @@ def circos_hover_description(event_datum):
 )
 def create_needleplot(selected_rows, run_status, session_id):
     """
-    Callback to display intragenic mutations when row is selected.
+    Callback to display intergenic mutations when row is selected.
     Also returns markdown of information on needleplot.
     Also returns Datatable object of mutations from coord gff.
     """
@@ -716,9 +716,9 @@ def create_needleplot(selected_rows, run_status, session_id):
         inserts_data_t = inserts_data_t[
             (inserts_data_t["position"] > (gene_start - buffer)) & (inserts_data_t["position"] < (gene_end + buffer))]
 
-        # Create intragenic column to highlight mutations that occur within gene and not buffer.
-        inserts_data_c["intragenic"] = ((inserts_data_c["position"] >= gene_start) & (inserts_data_c["position"] <= gene_end))
-        inserts_data_t["intragenic"] = ((inserts_data_t["position"] >= gene_start) & (inserts_data_t["position"] <= gene_end))
+        # Create intergenic column to highlight mutations that occur within gene and not buffer.
+        inserts_data_c["within CDS"] = ((inserts_data_c["position"] >= gene_start) & (inserts_data_c["position"] <= gene_end))
+        inserts_data_t["within CDS"] = ((inserts_data_t["position"] >= gene_start) & (inserts_data_t["position"] <= gene_end))
 
         # Create mutation_data df - Assign group column and append control and test
         inserts_data_c["group"] = "Control"
@@ -729,13 +729,13 @@ def create_needleplot(selected_rows, run_status, session_id):
         md_text = f"""
         Start Position: **{gene_start}**    End Position: **{gene_end}**
 
-        * Control Phenotype Total Inserts: **{inserts_data_c[inserts_data_c["intragenic"]==True]["count"].sum()}**
+        * Control Phenotype Total Inserts: **{inserts_data_c[inserts_data_c["within CDS"]==True]["count"].sum()}**
 
-        * Control Phenotype Unique Insert Sites: **{len(inserts_data_c[inserts_data_c["intragenic"]==True])}**
+        * Control Phenotype Unique Insert Sites: **{len(inserts_data_c[inserts_data_c["within CDS"]==True])}**
 
-        * Test Phenotype Total Inserts: **{inserts_data_t[inserts_data_t["intragenic"]==True]["count"].sum()}**
+        * Test Phenotype Total Inserts: **{inserts_data_t[inserts_data_t["within CDS"]==True]["count"].sum()}**
 
-        * Test Phenotype Unique Insert Sites: **{len(inserts_data_t[inserts_data_t["intragenic"]==True])}**
+        * Test Phenotype Unique Insert Sites: **{len(inserts_data_t[inserts_data_t["within CDS"]==True])}**
         """
 
         # Return objects to div children
