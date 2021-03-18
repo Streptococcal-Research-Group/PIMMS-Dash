@@ -295,7 +295,7 @@ def style_table(selected_rows, c_metric, checked_options, num_rows, run_status, 
     :return:
     """
     # Prevent Update if no data
-    if not run_status['pimms']:
+    if not run_status or not run_status['pimms']:
         raise PreventUpdate
 
     # read data from data store
@@ -363,7 +363,7 @@ def create_hist(run_status, hist_type, bin_size, session_id):
     :param session_id: uuid of session
     :return:
     """
-    if not run_status["pimms"]:
+    if not run_status or not run_status["pimms"]:
         raise PreventUpdate
 
     data = load_data('pimms_df', session_id)
@@ -459,7 +459,7 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, session_id):
         else:
             return np.nan
 
-    if not run_status["pimms"]:
+    if not run_status or not run_status["pimms"]:
         raise PreventUpdate
 
     data = load_data('pimms_df', session_id)
@@ -555,7 +555,7 @@ def create_genome_scatter(run_status, checkbox, session_id):
     :param checkbox: scatter options checkbox
     :return:
     """
-    if not run_status["gff_control"]:
+    if not run_status or not run_status["gff_control"]:
         raise PreventUpdate
 
     data_control = load_data("gff_df_control", session_id)
@@ -590,7 +590,7 @@ def create_circos(run_status, g_len, checkbox, c_metric, session_id):
     :param c_metric: selected comparision metric
     :return:
     """
-    if not run_status["pimms"]:
+    if not run_status or not run_status["pimms"]:
         raise PreventUpdate
 
     data = load_data('pimms_df', session_id)
