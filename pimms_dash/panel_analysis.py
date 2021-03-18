@@ -108,36 +108,46 @@ tab3_content = dbc.Card(
                             color="info",
                         ),
                     ),
-                    dbc.Col(
-
-                    ),
                 ],
                 justify="center"
             ),
-            dbc.Row(
+            dbc.Collapse(
                 [
-                    dbc.Col(
-                        dbc.Collapse(
-                            [
-                                dbc.RadioItems(
-                                    options=[
-                                        {"label": "Set Ab Only", "value": "Ab"},
-                                        {"label": "Set aB Only", "value": "aB"},
-                                        {"label": "Intersection Only", "value": "AB"},
-                                        {"label": "All", "value": "all"},
-                                    ],
-                                    value="all",
-                                    id="venn-table-radioitems",
-                                    switch=True,
-                                    inline=True,
-                                ),
-                                html.Div("No Input Data Loaded", id="tab3-venn-datatable-div", className="mt-3"),
+                    dbc.Row(
+                        dbc.RadioItems(
+                            options=[
+                                {"label": "Set Ab Only", "value": "Ab"},
+                                {"label": "Set aB Only", "value": "aB"},
+                                {"label": "Intersection Only", "value": "AB"},
+                                {"label": "All", "value": "all"},
                             ],
-                            id="venn-datatable-collapse"
-                        )
-                    )
+                            value="all",
+                            id="venn-table-radioitems",
+                            switch=True,
+                            inline=True,
+                        ),
+                        className="mt-3"
+                    ),
+                    dbc.Row(
+                        dbc.Checklist(
+                            options=[
+                                {"label": "Highlight Truncated <10th", "value": "<10"},
+                                {"label": "Highlight Truncated >90th", "value": ">90"},
+                            ],
+                            value=[],
+                            id="venn-table-checklist",
+                            switch=True,
+                            inline=True,
+                        ),
+                        className="mt-3"
+                    ),
+                    dbc.Row(
+                        html.Div("No Input Data Loaded", id="tab3-venn-datatable-div", className="mt-3"),
+                        className="mt-3"
+                    ),
                 ],
-                className="mt-3"
+                id="venn-datatable-collapse",
+                className="ml-3"
             ),
         ],
     ),
@@ -434,10 +444,11 @@ def display_hist_type1(relayoutData, bin_size, session_id):
      Input('venn-slider', 'value'),
      Input('venn-inserts-slider', 'value'),
      Input("venn-table-radioitems", "value"),
+     Input("venn-table-checklist", "value"),
      State('session-id', 'children')],
     prevent_initial_call=True
 )
-def create_venn(run_status, thresh_c, slider_c, radioitems, session_id):
+def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, session_id):
     """
     Callback to create/update venn diagram when new data in dcc.store or venn options are changed.
     Also creates the venn datatable below the diagram.
@@ -511,14 +522,42 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, session_id):
     # Create Venn datatable
     df_cols = pimms_df.info_columns + perc_test_cols + perc_control_cols + [NIM_test_col, NIM_control_col, "_set_"]
     df_cols.pop(0)
+
+    style_data_conditional = []
+    # If displaying all sets style by set
+
     style_data_conditional = [
-                                 {'if': {"filter_query": f"{{_set_}} = AB"},
+                                 {'if': {"filter_query": f"{{_set_}} = AB", "column_id": "_set_"},
                                   "backgroundColor": "rgba(181, 153, 199, 0.5)"},
-                                 {'if': {"filter_query": f"{{_set_}} = Ab"},
+                                 {'if': {"filter_query": f"{{_set_}} = Ab", "column_id": "_set_"},
                                   "backgroundColor": "rgba(143, 189, 219, 0.5)"},
-                                 {'if': {"filter_query": f"{{_set_}} = aB"},
+                                 {'if': {"filter_query": f"{{_set_}} = aB", "column_id": "_set_"},
                                   "backgroundColor": "rgba(255, 190, 133, 0.5)"},
                              ]
+    if checklist and "<10" in checklist:
+        style_data_conditional.append(
+            {'if': {"filter_query": f"{{{perc_test_cols[1]}}} < 10 && {{{perc_test_cols[1]}}} > 0",
+                    "column_id": [f'{perc_test_cols[0]}', f'{perc_test_cols[1]}']},
+             "backgroundColor": "rgba(151, 2, 2, 0.4)"}
+        )
+        style_data_conditional.append(
+            {'if': {"filter_query": f"{{{perc_control_cols[1]}}} < 10 && {{{perc_control_cols[1]}}} > 0",
+                    "column_id": [f'{perc_control_cols[0]}', f'{perc_control_cols[1]}']},
+             "backgroundColor": "rgba(151, 2, 2, 0.4)"}
+        )
+    if checklist and ">90" in checklist:
+        style_data_conditional.append(
+            {'if': {"filter_query": f"{{{perc_test_cols[0]}}} > 90",
+                    "column_id": [f'{perc_test_cols[0]}', f'{perc_test_cols[1]}']},
+             "backgroundColor": "rgba(1, 152, 16, 0.4)"}
+        )
+        style_data_conditional.append(
+            {'if': {"filter_query": f"{{{perc_control_cols[0]}}} > 90",
+                    "column_id": [f'{perc_control_cols[0]}', f'{perc_control_cols[1]}']},
+             "backgroundColor": "rgba(1, 152, 16, 0.4)"}
+        )
+
+
     table = main_datatable(df[df_cols], id="venn-datatable",
                            style_data_conditional=style_data_conditional,
                            style_table={'height': '100em', 'overflowY': 'auto'},
