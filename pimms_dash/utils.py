@@ -354,9 +354,14 @@ def manage_session_data():
     for session_dir in data_session_folder.iterdir():
         timestamp_path = session_dir.joinpath('timestamp.txt')
         if not timestamp_path.exists():
-            continue
+            try:
+                with open(timestamp_path, "w") as text_file:
+                    text_file.write(str(time.time()))
+                continue
+            except:
+                continue
         with open(timestamp_path, "r") as f:
             ts = float(f.readlines()[0])
         time_period = time.time() - float(ts)
-        if time_period > 60*20:
+        if time_period > 60*60:
             shutil.rmtree(session_dir)
