@@ -184,9 +184,22 @@ class PIMMSDataFrame:
         :param test_data_path:
         :return:
         """
-        # Read csvs into pandas dataframe
-        df_control = pd.read_csv(control_data_path)
-        df_test = pd.read_csv(test_data_path)
+        # Read input control file into pandas dataframe
+        if ".csv" in control_data_path.suffix:
+            df_control = pd.read_csv(control_data_path)
+        elif ".xls" in control_data_path.suffix:
+            df_control = pd.read_excel(control_data_path)
+        else:
+            raise ValueError("Unaccepted file type")
+
+        # Read input test file into pandas dataframe
+        if ".csv" in test_data_path.suffix:
+            df_test = pd.read_csv(test_data_path)
+        elif ".xls" in test_data_path.suffix:
+            df_test = pd.read_excel(test_data_path)
+        else:
+            raise ValueError("Unaccepted file type")
+
         # Merge_control_test
         df_merged = self.merge_add_suffix(df_control, df_test, self.info_columns, self.c_suffix, self.t_suffix)
         return df_merged
@@ -313,10 +326,12 @@ def parse_upload(contents, filename, upload_dir):
             raise IOError('File Already Exists')
         if '.csv' in filename:
             df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
+            df = df.dropna()
             df.to_csv(save_path, index=False)
             return f'Uploaded {filename}'
         elif '.xls' in filename:
             df = pd.read_excel(io.BytesIO(decoded))
+            df = df.dropna()
             df.to_excel(save_path, index=False)
             return f'Uploaded {filename}'
         elif ".gff" in filename:

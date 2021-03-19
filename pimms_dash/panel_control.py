@@ -48,14 +48,16 @@ tab2_content = dbc.Card(
             html.Div(children='Select Control'),
             dbc.Select(
                 id="control-dropdown",
-                options=[{'label': i.name, 'value': i.name} for i in list(TESTDATA_PATH.glob('*.csv'))],
+                options=[{'label': i.name, 'value': i.name}
+                         for i in list(TESTDATA_PATH.glob('*.csv')) + list(TESTDATA_PATH.glob('*.xls*'))],
                 value=0,
                 bs_size="sm"
             ),
             html.Div(children='Select Test'),
             dbc.Select(
                 id="test-dropdown",
-                options=[{'label': i.name, 'value': i.name} for i in list(TESTDATA_PATH.glob('*.csv'))],
+                options=[{'label': i.name, 'value': i.name}
+                         for i in list(TESTDATA_PATH.glob('*.csv')) + list(TESTDATA_PATH.glob('*.xls*'))],
                 value=0,
                 bs_size="sm",
             ),
@@ -86,7 +88,9 @@ tab2_content = dbc.Card(
                     color="primary", outline=True, inverse=True, className='text-center')
             ]
                        ),
-            html.Div(id='output-data-upload')
+            dcc.Loading(
+                html.Div(id='output-data-upload')
+            )
         ]
     ),
     className="mt-3",
@@ -228,6 +232,7 @@ def run_selection(run_clicks, test_filename, control_filename, control_gff_filen
     # List all available .csv and .gff files
     session_upload_dir = DATA_PATH.joinpath('session_data', session_id, "uploaded")
     all_csvs = list(TESTDATA_PATH.glob('*.csv')) + list(session_upload_dir.glob('*.csv'))
+    all_csvs.extend(list(TESTDATA_PATH.glob('*.xls*')) + list(session_upload_dir.glob('*.xls*')))
     all_gffs = list(TESTDATA_PATH.glob('*.gff')) + list(session_upload_dir.glob('*.gff'))
 
     # Read control coordinate gff file and store
@@ -319,7 +324,6 @@ def upload_new_file(list_of_contents, list_of_names, list_of_dates, session_id):
      Input('gff-dropdown-control', "value"),
      Input('output-data-upload', 'children'),
      State("session-id", "children")],
-    prevent_initial_call=True
 )
 def update_dropdowns(dropdown1, dropdown2, dropdown3, dropdown4, upload_message, session_id):
     """Callback to update the select data dropdowns"""
@@ -333,6 +337,7 @@ def update_dropdowns(dropdown1, dropdown2, dropdown3, dropdown4, upload_message,
 
     session_upload_dir = DATA_PATH.joinpath('session_data', session_id, "uploaded")
     all_csvs = list(TESTDATA_PATH.glob('*.csv')) + list(session_upload_dir.glob('*.csv'))
+    all_csvs.extend(list(TESTDATA_PATH.glob('*.xls*')) + list(session_upload_dir.glob('*.xls*')))
     all_gffs = list(TESTDATA_PATH.glob('*.gff')) + list(session_upload_dir.glob('*.gff'))
 
     test_dropdown_options = [{'label': i.name, 'value': i.name, 'disabled': i.name == dropdown2}
