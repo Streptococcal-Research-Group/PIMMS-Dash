@@ -197,8 +197,8 @@ tab3_content = dbc.Card(
 control_tabs = dbc.Tabs(
     [
         #dbc.Tab(tab1_content, label="About"), # About tab has been moved to analysis tabs
-        dbc.Tab(tab2_content, label="Data"),
-        dbc.Tab(tab3_content, label="Options"),
+        dbc.Tab(tab2_content, label="Data", labelClassName="text-dark"),
+        dbc.Tab(tab3_content, label="Options", labelClassName="text-dark"),
     ],
     active_tab="tab-0"
 )

@@ -248,14 +248,14 @@ tab6_content = dbc.Card(
 
 analysis_tabs = dbc.Tabs(
     [
-        dbc.Tab(tab7_content, label="About"),
-        dbc.Tab(tab1_content, label="DataTable"),
-        dbc.Tab(tab2_content, label="Histogram"),
-        dbc.Tab(tab3_content, label="Venn"),
-        dbc.Tab(tab4_content, label="Genome Scatter"),
-        dbc.Tab(tab5_content, label="Circos"),
-        dbc.Tab(tab6_content, label="GeneViewer"),
-    ]
+        dbc.Tab(tab7_content, label="About", labelClassName="text-dark"),
+        dbc.Tab(tab1_content, label="DataTable", labelClassName="text-dark"),
+        dbc.Tab(tab2_content, label="Histogram", labelClassName="text-dark"),
+        dbc.Tab(tab3_content, label="Venn", labelClassName="text-dark"),
+        dbc.Tab(tab4_content, label="Genome Scatter", labelClassName="text-dark"),
+        dbc.Tab(tab5_content, label="Circos", labelClassName="text-dark"),
+        dbc.Tab(tab6_content, label="GeneViewer", labelClassName="text-dark"),
+    ],
 )
 
 
