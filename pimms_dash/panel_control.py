@@ -100,6 +100,21 @@ tab2_content = dbc.Card(
 tab3_content = dbc.Card(
     dbc.CardBody(
         [
+            html.H5("Data Input Options"),
+            dbc.FormGroup(
+                [
+                    dbc.Label("Run selection:", html_for="scatter-checklist"),
+                    dbc.Checklist(
+                        options=[
+                            {'label': 'DESeq on run', 'value': 'deseq'},
+                        ],
+                        value=['deseq'],
+                        id="data-input-checklist",
+                        switch=True,
+                    ),
+                ]
+            ),
+            html.Hr(),
             html.H5("Datatable Options"),
             dbc.FormGroup(
                 [
