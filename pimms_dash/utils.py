@@ -8,6 +8,9 @@ import time
 import shutil
 
 import pandas as pd
+import rpy2.robjects as ro
+from rpy2.robjects import pandas2ri
+from rpy2.robjects.conversion import localconverter
 
 from app import DATA_PATH
 
@@ -128,7 +131,7 @@ class PIMMSDataFrame:
     c_suffix = '_control'
     t_suffix = '_test'
 
-    def __init__(self, control_path, test_path, data=None, comparison_cols=None):
+    def __init__(self, control_path, test_path, data=None, comparison_cols=None, run_deseq=False):
         self.control_path = control_path
         self.test_path = test_path
 
@@ -145,6 +148,10 @@ class PIMMSDataFrame:
         # Calculate comparison columns
         self.calc_NIM_comparision_metric(fold_change_comparision, 'fold_change')
         self.calc_NIM_comparision_metric(percentile_rank_comparision, 'pctl_rank')
+
+        # Pass pools to deseq
+        if run_deseq:
+            self.run_DESeq()
 
     def __len__(self):
         return len(self._data)
@@ -299,6 +306,66 @@ class PIMMSDataFrame:
             self._data[col_name] = comparison_func(self._data[test_NIM_col], self._data[control_NIM_col])
         if col_name not in self.comparison_cols:
             self.comparison_cols.append(col_name)
+
+    def run_DESeq(self):
+        """
+        Passes MutantPool columns to R based DESeq script with rpy2
+        Merges results into self._data and makes available in comparison columns
+        """
+        # Check for pools in current pimms dataframe (assuming MP standard naming)
+        MP_cols = [x for x in self._data.columns.to_list() if "_MP" in x]
+
+        # Create required dataframe of pools columns and id
+        countsdata = self._data[["locus_tag"]+MP_cols].copy()
+        countsdata = countsdata.rename(columns={"locus_tag":"id"})
+
+        # Create required metadata
+        metadata = pd.DataFrame(MP_cols, columns=["id"])
+        metadata["dex"] = metadata["id"].apply(lambda x: x.split("_")[-1])
+
+        # Drop duplicate ids in rare cases they exist
+        countsdata = countsdata.drop_duplicates(subset=["id"])
+
+        # Pass pools to deseq process
+        deseq_results = run_deseq_r_script(countsdata, metadata)
+
+        # Add prefix to column names for reference
+        deseq_results = deseq_results.add_prefix("deseq_")
+
+        # Add columns to available comparision columns
+        for col_name in deseq_results:
+            if col_name not in self.comparison_cols:
+                self.comparison_cols.append(col_name)
+
+        # Reset index and rename back to locus tag
+        deseq_results = deseq_results.reset_index(drop=False)
+        deseq_results = deseq_results.rename(columns={"index":"locus_tag"})
+
+        # Merge columns into pimms dataframe
+        self._data = pd.merge(self._data, deseq_results, on="locus_tag", how="left")
+
+
+def run_deseq_r_script(countsdata, metadata):
+    # Defining the R script and loading the instance in Python
+    r = ro.r
+    r['source']('DESeq2_process.R')
+
+    # Loading the function we have defined in R.
+    run_deseq_r = ro.globalenv['run_deseq']
+
+    # Convert pandas df to R df
+    with localconverter(ro.default_converter + pandas2ri.converter):
+        r_countsdata = ro.conversion.py2rpy(countsdata)
+        r_metadata = ro.conversion.py2rpy(metadata)
+
+    # Invoking the R function and getting the result
+    df_result_r = run_deseq_r(r_countsdata, r_metadata)
+
+    # results to pandas DataFrame
+    with localconverter(ro.default_converter + pandas2ri.converter):
+        results = ro.conversion.rpy2py(df_result_r)
+
+    return results
 
 
 def log2_fold_change(a, b):
