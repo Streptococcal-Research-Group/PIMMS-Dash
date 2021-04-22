@@ -166,6 +166,10 @@ class PIMMSDataFrame:
         else:
             raise ValueError
 
+        # Drop seq_id from columns - not utilised in pimms
+        if "seq_id" in columns:
+            columns.remove("seq_id")
+
         if c_metric == "all":
             return columns
         else:
