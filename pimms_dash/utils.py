@@ -461,6 +461,8 @@ def load_data(name, session_id):
 
 def manage_session_data():
     data_session_folder = DATA_PATH.joinpath('session_data')
+    if not data_session_folder.exists():
+        data_session_folder.mkdir(parents=True, exist_ok=True)
     for session_dir in data_session_folder.iterdir():
         timestamp_path = session_dir.joinpath('timestamp.txt')
         if not timestamp_path.exists():
