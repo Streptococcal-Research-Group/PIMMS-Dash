@@ -32,7 +32,7 @@ tab2_content = dbc.Card(
     dbc.CardBody(
         [
             dcc.Store(id='run-status'),
-            html.P('Comparison Metric:'),
+            html.P('Comparison Metrics:'),
             dcc.Dropdown(
                 id='comparison-metric-dropdown',
                 options=[
@@ -40,7 +40,6 @@ tab2_content = dbc.Card(
                     {'label': 'Percentile Rank', 'value': 'pctl_rank'},
                     {'label': 'All', 'value': 'all'}
                 ],
-                value='fold_change',
                 className='text-secondary'
             ),
             html.Hr(),
@@ -100,6 +99,21 @@ tab2_content = dbc.Card(
 tab3_content = dbc.Card(
     dbc.CardBody(
         [
+            html.H5("Data Input Options"),
+            dbc.FormGroup(
+                [
+                    dbc.Label("Run selection:", html_for="scatter-checklist"),
+                    dbc.Checklist(
+                        options=[
+                            {'label': 'DESeq on run', 'value': 'deseq'},
+                        ],
+                        value=['deseq'],
+                        id="data-input-checklist",
+                        switch=True,
+                    ),
+                ]
+            ),
+            html.Hr(),
             html.H5("Datatable Options"),
             dbc.FormGroup(
                 [
@@ -215,13 +229,14 @@ control_tabs = dbc.Tabs(
      State("control-dropdown", "value"),
      State("gff-dropdown-control", "value"),
      State("gff-dropdown-test", "value"),
+     State("data-input-checklist", "value"),
      State("session-id", "children")],
     prevent_initial_call=True
 )
-def run_selection(run_clicks, test_filename, control_filename, control_gff_filename, test_gff_filename, session_id):
+def run_selection(run_clicks, test_filename, control_filename, control_gff_filename, test_gff_filename, deseq, session_id):
 
     # Create empty run status
-    run_status = {'pimms': None, 'gff_control': None, 'gff_test': None}
+    run_status = {'pimms': None, 'gff_control': None, 'gff_test': None, 'deseq': None}
 
     # Prevent update if all dropdowns unselected.
     if ((test_filename in [0, None]) or (control_filename in [0, None])) and \
@@ -263,9 +278,11 @@ def run_selection(run_clicks, test_filename, control_filename, control_gff_filen
         try:
             test_path = [i for i in all_csvs if i.name == test_filename][0]
             control_path = [i for i in all_csvs if i.name == control_filename][0]
-            pimms_df = PIMMSDataFrame(control_path, test_path)
+            run_deseq = "deseq" in deseq
+            pimms_df = PIMMSDataFrame(control_path, test_path, run_deseq=run_deseq)
             store_data(pimms_df.to_json(), 'pimms_df', session_id)
             run_status['pimms'] = True
+            run_status['deseq'] = pimms_df.deseq_run_logs
         except Exception as e:
             # Todo Log exception
             run_status['pimms'] = False
@@ -385,3 +402,32 @@ def run_status_feedback(run_status, dropdown1, dropdown2, dropdown3, dropdown4):
     if callback_trigger != 'run-status':
         output = [None]*8
     return tuple(output)
+
+@app.callback(
+    [Output("comparison-metric-dropdown", "options"),
+     Output("comparison-metric-dropdown", "value")],
+    Input("run-status", "data")
+)
+def update_c_metric_dropdown(run_status):
+    """
+    Callback to change options availabe in c_metric dropdown based on run_status
+    """
+
+    if (run_status is None) or ("deseq" not in run_status) or\
+            (not run_status["deseq"]) or (run_status["deseq"]["success"] is False):
+        deseq_disabled = True
+    else:
+        deseq_disabled = False
+
+    new_options = [
+        {'label': 'All', 'value': 'all'},
+        {'label': 'Log2 Fold Change', 'value': 'fold_change'},
+        {'label': 'Percentile Rank', 'value': 'pctl_rank'},
+        {'label': 'DESeq baseMean', 'value': 'deseq_baseMean', 'disabled': deseq_disabled},
+        {'label': 'DESeq Log2 Fold Change', 'value': 'deseq_log2FoldChange', 'disabled': deseq_disabled},
+        {'label': 'DESeq lfcSE', 'value': 'deseq_lfcSE', 'disabled': deseq_disabled},
+        {'label': 'DESeq stat', 'value': 'deseq_stat', 'disabled': deseq_disabled},
+        {'label': 'DESeq pvalue', 'value': 'deseq_pvalue', 'disabled': deseq_disabled},
+    ]
+    selected_option = None
+    return new_options, selected_option
