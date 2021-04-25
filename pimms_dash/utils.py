@@ -215,6 +215,10 @@ class PIMMSDataFrame:
         else:
             raise ValueError("Unaccepted file type")
 
+        # Drop rows that are all na
+        df_control = df_control.dropna(how="all")
+        df_test = df_test.dropna(how="all")
+
         # Merge_control_test
         df_merged = self.merge_add_suffix(df_control, df_test, self.info_columns, self.c_suffix, self.t_suffix)
         return df_merged
