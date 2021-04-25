@@ -5,7 +5,13 @@ import dash_bootstrap_components as dbc
 
 from app import app, app_title
 from panel_control import control_tabs
-from panel_analysis import analysis_tabs
+from tab_about import about_tab_layout
+from tab_datatable import datatable_tab_layout
+from tab_histogram import histogram_tab_layout
+from tab_venn import venn_tab_layout
+from tab_genome_scatter import genome_scatter_tab_layout
+from tab_circos import circos_tab_layout
+from tab_geneviewer import geneviewer_tab_layout
 from utils import manage_session_data
 
 
@@ -51,7 +57,17 @@ app.layout = dbc.Container(
                     width=3,
                 ),
                 dbc.Col(
-                    analysis_tabs,
+                    dbc.Tabs(
+                        [
+                            dbc.Tab(about_tab_layout, label="About", labelClassName="text-dark"),
+                            dbc.Tab(datatable_tab_layout, label="DataTable", labelClassName="text-dark"),
+                            dbc.Tab(histogram_tab_layout, label="Histogram", labelClassName="text-dark"),
+                            dbc.Tab(venn_tab_layout, label="Venn", labelClassName="text-dark"),
+                            dbc.Tab(genome_scatter_tab_layout, label="Genome Scatter", labelClassName="text-dark"),
+                            dbc.Tab(circos_tab_layout, label="Circos", labelClassName="text-dark"),
+                            dbc.Tab(geneviewer_tab_layout, label="GeneViewer", labelClassName="text-dark"),
+                        ],
+                    ),
                     width=9
                 )
             ]
