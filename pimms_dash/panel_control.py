@@ -31,7 +31,6 @@ tab1_content = dbc.Card(
 tab2_content = dbc.Card(
     dbc.CardBody(
         [
-            dcc.Store(id='run-status'),
             html.P('Comparison Metrics:'),
             dcc.Dropdown(
                 id='comparison-metric-dropdown',
@@ -61,6 +60,10 @@ tab2_content = dbc.Card(
                 bs_size="sm",
             ),
             html.Hr(),
+            dcc.Loading(
+                dcc.Store(id='run-status'),
+                type="dot",
+            ),
             html.Br(),
             html.Div("Select Control Coordinate-Gff"),
             dbc.Select(
