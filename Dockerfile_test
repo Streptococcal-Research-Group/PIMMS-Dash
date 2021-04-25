@@ -1,0 +1,28 @@
+# Use base R image (easier than using Python then installing R images)
+FROM r-base:4.0.4
+# Set to noninteractive - makes  the  default  answers  be used for all questions
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential libssl-dev libxml2-dev libcurl4-openssl-dev \
+        python3.9 python3-pip python3-setuptools python3-dev
+
+RUN pip3 install --upgrade pip
+
+ENV PYTHONPATH "${PYTHONPATH}:/pimms_dash"
+WORKDIR /pimms_dash
+
+COPY requirements.txt .
+COPY install_R_deps.R .
+
+RUN Rscript install_R_deps.R
+
+RUN set -ex && \
+    pip install -r requirements.txt
+
+EXPOSE 8050
+
+COPY pimms_dash .
+
+CMD ["python3", "index.py"]

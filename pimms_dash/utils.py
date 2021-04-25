@@ -331,8 +331,9 @@ class PIMMSDataFrame:
 
         if MP_cols:
             # Create required dataframe of pools columns and id
-            countsdata = self._data[["locus_tag"]+MP_cols].copy()
-            countsdata = countsdata.rename(columns={"locus_tag": "id"})
+            countsdata = self._data[MP_cols].copy()
+            countsdata = countsdata.reset_index(drop=False)
+            countsdata = countsdata.rename(columns={"index": "id"})
 
             # Create required metadata
             metadata = pd.DataFrame(MP_cols, columns=["id"])
@@ -340,6 +341,9 @@ class PIMMSDataFrame:
 
             # Drop duplicate ids in rare cases they exist
             countsdata = countsdata.drop_duplicates(subset=["id"])
+
+            #dropna rows from count data
+            countsdata = countsdata.dropna()
 
             try:
                 # Pass pools to deseq process
@@ -353,12 +357,13 @@ class PIMMSDataFrame:
                     if col_name not in self.comparison_cols:
                         self.comparison_cols.append(col_name)
 
-                # Reset index and rename back to locus tag
+                # Reset index and revert to int64
                 deseq_results = deseq_results.reset_index(drop=False)
-                deseq_results = deseq_results.rename(columns={"index": "locus_tag"})
+                deseq_results["index"] = deseq_results["index"].astype(int)
+                deseq_results = deseq_results.set_index("index")
 
                 # Merge columns into pimms dataframe
-                self._data = pd.merge(self._data, deseq_results, on="locus_tag", how="left")
+                self._data = pd.merge(self._data, deseq_results, left_index=True, right_index=True, how="left")
 
                 deseqlog["run"] = True
                 deseqlog["success"] = True
