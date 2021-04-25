@@ -4,7 +4,7 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 
 from app import app, app_title
-from panel_control import control_tabs
+from panel_control import control_panel_layout
 from tab_about import about_tab_layout
 from tab_datatable import datatable_tab_layout
 from tab_histogram import histogram_tab_layout
@@ -53,7 +53,7 @@ app.layout = dbc.Container(
         dbc.Row(
             [
                 dbc.Col(
-                    control_tabs,
+                    control_panel_layout,
                     width=3,
                 ),
                 dbc.Col(

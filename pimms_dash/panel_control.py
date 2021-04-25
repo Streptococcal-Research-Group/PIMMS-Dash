@@ -8,27 +8,8 @@ from dash import callback_context
 from utils import GffDataFrame, PIMMSDataFrame, parse_upload, store_data
 from app import app, DATA_PATH, TESTDATA_PATH
 
-tab1_content = dbc.Card(
-    dbc.CardBody(
-        [
-            html.H4("PIMMS"),
-            html.P("""The PIMMS (Pragmatic Insertional Mutation Mapping System) pipeline has been
-                    developed for simple conditionally essential genome discovery experiments in bacteria.
-                    Capable of using raw sequence data files alongside a FASTA sequence of the
-                    reference genome and GFF file, PIMMS will generate a tabulated output of each coding
-                    sequence with corresponding mapped insertions accompanied with normalized results
-                    enabling streamlined analysis. This allows for a quick assay of the genome to identify
-                    conditionally essential genes on a standard desktop computer prioritizing results for
-                    further investigation.""", className="card-text"),
-            dbc.Button("PIMMS Paper", color="info", external_link=True, target='_blank', className="text-center",
-                       href='https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4391243/pdf/fgene-06-00139.pdf'),
-        ]
-    ),
-    className="mt-3",
-    color="light"
-)
 
-tab2_content = dbc.Card(
+panel_data_tab_layout = dbc.Card(
     dbc.CardBody(
         [
             html.P('Comparison Metrics:'),
@@ -99,7 +80,7 @@ tab2_content = dbc.Card(
     color="light"
 )
 
-tab3_content = dbc.Card(
+panel_options_tab_layout = dbc.Card(
     dbc.CardBody(
         [
             html.H5("Data Input Options"),
@@ -215,11 +196,10 @@ tab3_content = dbc.Card(
     color="light"
 )
 
-control_tabs = dbc.Tabs(
+control_panel_layout = dbc.Tabs(
     [
-        #dbc.Tab(tab1_content, label="About"), # About tab has been moved to analysis tabs
-        dbc.Tab(tab2_content, label="Data", labelClassName="text-dark"),
-        dbc.Tab(tab3_content, label="Options", labelClassName="text-dark"),
+        dbc.Tab(panel_data_tab_layout, label="Data", labelClassName="text-dark"),
+        dbc.Tab(panel_options_tab_layout, label="Options", labelClassName="text-dark"),
     ],
     active_tab="tab-0"
 )
