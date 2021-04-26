@@ -385,3 +385,173 @@ def mpl_needleplot(mutation_data: pd.DataFrame, gene_name: str, gene_start: int,
     # plotly_fig = mpl_to_plotly(mpl_fig) # Not working for venn
     plt.close()
     return img
+
+def NIM_comparison_bar(series_control, series_test, start_positions, end_positions, get_trace=False):
+    """ Create plotly bar chart to compare NIM/NRM scores between conditions
+    May have poor performance for large datasets"""
+    # Use start and end positions to define bar positions
+    bar_centers = ((end_positions - start_positions) / 2) + start_positions
+    bar_widths = end_positions - start_positions
+
+    # Create fig object
+    fig = go.Figure()
+    t1 = go.Bar(
+        x=bar_centers,
+        y=series_test,
+        width=bar_widths,
+        name='Test Condition',
+        opacity=0.75
+    )
+    t2 = go.Bar(
+        x=bar_centers,
+        y=series_control,
+        width=bar_widths,
+        name='Control Condition',
+        opacity=0.75
+    )
+    if get_trace:
+        return [t1, t2]
+    else:
+        fig.add_trace(t1)
+        fig.add_trace(t2)
+
+        # Log y axis and y title
+        fig.update_yaxes(type="log",
+                         title="NIM Score")
+
+        # add slider to x axis
+        full_range = end_positions.max() - start_positions.min()
+        initial_slider_width = full_range * 0.2
+        fig.update_xaxes(rangeslider=dict(visible=True),
+                         range=[full_range / 2 - initial_slider_width / 2, full_range / 2 + initial_slider_width / 2])
+
+        # General layout
+        fig.update_layout(template=plotly_template,
+                          title='NIM Score Across Genome',
+                          legend=dict(
+                              x=0,
+                              y=1.0,
+                          ))
+        return fig
+
+def NIM_comparison_bar_gl(series_control, series_test, start_positions, end_positions, get_trace=False):
+    """
+    To address performance issues in standard plotly bar with large datasets. Hack scattergl (better performance)
+    to produce a bar-like chart using fill.
+    """
+    # Create scatter points to build bar.
+    x_points = [item for x in zip(start_positions, end_positions) for item in [x[0], x[0], x[1], x[1]]]
+    y_points_test = [item for x in series_test.to_list() for item in [0, x, x, 0]]
+    y_points_control = [item for x in series_control.to_list() for item in [0, -x, -x, 0]]
+    # Create figure
+    fig = go.Figure()
+    t1 = go.Scattergl(x=x_points, y=y_points_test, fill='tozeroy',name='Test Condition',
+                      hovertext=["NIM Score:" + str(abs(x)) for x in y_points_control],)
+    t2 = go.Scattergl(x=x_points, y=y_points_control, fill='tozeroy',name='Control Condition',
+                      hovertext=["NIM Score:" + str(abs(x)) for x in y_points_control],)
+
+    if get_trace:
+        return [t1, t2]
+    else:
+        fig.add_trace(t1)  # fill to trace0 y
+        fig.add_trace(t2)  # fill to trace0 y
+
+        fig.update_yaxes(title="NIM Score")
+        # General layout
+        fig.update_layout(template=plotly_template,
+                          title='NIM Score Across Genome',
+                          legend=dict(
+                              x=0,
+                              y=1.0,
+                          ))
+        return fig
+
+def NIM_comparison_heatmap(series_control, series_test,  start_positions, end_positions, locus_tags, get_trace=False):
+    """ Create a heatmap comparison between the two conditions"""
+    conditions = ["test", "control"]
+    # Zip start and end positions into one list
+    x_points = [item for x in zip(start_positions.to_list(), end_positions.to_list()) for item in x]
+    # Create z values array - insert 0 between elements for sections inbetween loci
+    z_values = np.array([series_test.to_list(), series_control.to_list()])
+    z_values = np.dstack((z_values, np.zeros_like(z_values))).reshape(z_values.shape[0], -1)[:, :-1]
+    # Create locus tag labels - insert empty string between elements for sections inbetween loci
+    labels = [j for i in zip(locus_tags, [""] * len(locus_tags)) for j in i][:-1]
+    # As both conditions have same labels concat in np array
+    labels = np.array([labels, labels])
+    fig = make_subplots(rows=2, cols=1, vertical_spacing=0.01)
+    t1 = go.Heatmap(
+        z=z_values,
+        x=x_points,
+        y=[conditions[0]],
+        colorscale=[
+            [0, 'rgb(255,255,255)'],  # 0
+            [1. / 10000, 'rgb(201, 234, 237)'],  # 10
+            [1. / 1000, 'rgb(142, 188, 204)'],  # 100
+            [1. / 100, 'rgb(94, 141, 173)'],  # 1000
+            [1. / 10, 'rgb(63, 94, 140)'],  # 10000
+            [1., 'rgb(50, 48, 100)'],  # 100000
+        ],
+        customdata=labels,
+        hovertemplate="Locus Tag: %{customdata}<br>NIM: %{z}<br><extra></extra>",
+        showscale=False
+    )
+    t2 = go.Heatmap(
+        z=z_values[::-1],
+        x=x_points,
+        y=[conditions[1]],
+        colorscale=[
+            [0, 'rgb(255,255,255)'],  # 0
+            [1. / 10000, 'rgb(201, 234, 237)'],  # 10
+            [1. / 1000, 'rgb(142, 188, 204)'],  # 100
+            [1. / 100, 'rgb(94, 141, 173)'],  # 1000
+            [1. / 10, 'rgb(63, 94, 140)'],  # 10000
+            [1., 'rgb(50, 48, 100)'],  # 100000
+        ],
+        customdata=labels,
+        hovertemplate="Locus Tag: %{customdata}<br>NIM: %{z}<br><extra></extra>",
+        showscale=False
+    )
+    if get_trace:
+        return [t1, t2]
+    else:
+        fig.add_trace(t1, 1, 1)
+        fig.add_trace(t2, 2, 1)
+        fig.update_layout(margin=dict(l=80, r=80, t=0, b=80),
+                          xaxis2_rangeslider_visible=True,
+                          xaxis1_visible=False)
+        fig.update_xaxes(matches='x')
+        return fig
+
+def NIM_comparison_linked(series_control, series_test, start_positions, end_positions, locus_tags):
+    """Create both the bar chart and heatmap but with linked xaxes"""
+    fig = make_subplots(rows=3, cols=1,
+                        subplot_titles=['NIM Score Across Genome'])
+    traces = []
+    traces += NIM_comparison_bar_gl(series_control, series_test, start_positions,end_positions, get_trace=True)
+    traces += NIM_comparison_heatmap(series_control, series_test, start_positions, end_positions, locus_tags, get_trace=True)
+
+    fig.append_trace(traces[0], 1, 1)
+    fig.append_trace(traces[1], 1, 1)
+    fig.append_trace(traces[2], 2, 1)
+    fig.append_trace(traces[3], 3, 1)
+
+    fig.update_xaxes(matches='x')
+    fig['layout']['xaxis1'].update(visible=False)
+    fig['layout']['xaxis2'].update(visible=False)
+    fig['layout']['xaxis3'].update(rangeslider=dict(visible=True, thickness=0.05))
+
+    fig['layout']['yaxis1'].update(title="NIM Score", domain=[0.5, 1.0],
+                                   tickmode="array", tickvals=[-150, -100, -50, -10, 0, 10, 50, 100, 150],
+                                   ticktext=["150", "100", "50", "10", "0", "10", "50", "100", "150"])
+    fig['layout']['yaxis2'].update(domain=[0.230, 0.45])
+    fig['layout']['yaxis3'].update(domain=[0, 0.220])
+
+    # General layout
+    fig.update_layout(template=plotly_template,
+                      legend=dict(
+                          x=0,
+                          y=1.0,
+                      ),
+                      height=800)
+
+    return fig

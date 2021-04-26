@@ -12,6 +12,7 @@ from tab_venn import venn_tab_layout
 from tab_genome_scatter import genome_scatter_tab_layout
 from tab_circos import circos_tab_layout
 from tab_geneviewer import geneviewer_tab_layout
+from tab_NIM_comparison import NIM_comparison_tab_layout
 from utils import manage_session_data
 
 
@@ -66,6 +67,7 @@ app.layout = dbc.Container(
                             dbc.Tab(genome_scatter_tab_layout, label="Genome Scatter", labelClassName="text-dark"),
                             dbc.Tab(circos_tab_layout, label="Circos", labelClassName="text-dark"),
                             dbc.Tab(geneviewer_tab_layout, label="GeneViewer", labelClassName="text-dark"),
+                            dbc.Tab(NIM_comparison_tab_layout, label="NIM Comparison", labelClassName="text-dark")
                         ],
                     ),
                     width=9
