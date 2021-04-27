@@ -16,7 +16,7 @@ datatable_tab_layout = dbc.Card(
             html.Div("No Input Data Loaded", id="tab1-datatable-div")
         ]
     ),
-    className="mt-3",
+    className="mt-1",
 )
 
 
@@ -36,7 +36,7 @@ def create_table(run_status, session_id):
     if run_status['pimms']:
         data = load_data("pimms_df", session_id)
         pimms_df = PIMMSDataFrame.from_json(data)
-        return main_datatable(pimms_df.get_data(), id="main-datatable", row_selectable='single')
+        return main_datatable(pimms_df.get_data(), id="main-datatable", row_selectable='single', export_format="xlsx")
     else:
         return "No Input Data Found"
 
