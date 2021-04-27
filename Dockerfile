@@ -9,6 +9,15 @@ RUN apt-get update \
         gdb libxml2-dev libssh-4 libssh-dev libcurl4-openssl-dev \
         python3.9 python3-pip python3-setuptools python3-dev
 
+# ssh
+ENV SSH_PASSWD "root:Docker!"
+RUN apt-get update \
+        && apt-get install -y --no-install-recommends dialog \
+        && apt-get update \
+	&& apt-get install -y --no-install-recommends openssh-server \
+	&& echo "$SSH_PASSWD" | chpasswd
+COPY sshd_config /etc/ssh/
+
 # Cleanup
 RUN apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
@@ -31,8 +40,11 @@ COPY requirements.txt .
 RUN set -ex && \
     pip install -r requirements.txt
 
-EXPOSE 8050
+COPY init.sh /usr/local/bin/
+RUN chmod u+x /usr/local/bin/init.sh
+EXPOSE 2222 8050
 
 COPY pimms_dash .
 
-CMD ["python3", "index.py"]
+#CMD ["python3", "index.py"]
+ENTRYPOINT ["init.sh"]
