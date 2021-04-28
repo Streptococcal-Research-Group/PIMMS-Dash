@@ -65,7 +65,7 @@ geneviewer_tab_layout = dbc.Card(
      Output("tab6-geneviewer-datatable-div", "children")],
     [Input("main-datatable", "selected_rows")],
     [State("run-status", "data"),
-     State("session-id", "children")],
+     State("session-id", "data")],
 )
 def create_needleplot(selected_rows, run_status, session_id):
     """

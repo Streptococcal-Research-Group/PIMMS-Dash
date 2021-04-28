@@ -47,7 +47,7 @@ circos_tab_layout = dbc.Card(
                Input('circos-gen-slider', 'value'),
                Input("circos-checklist", 'value'),
                Input("comparison-metric-dropdown", "value"),
-               State('session-id', 'children')],
+               State('session-id', 'data')],
               prevent_initial_call=True
 )
 def create_circos(run_status, g_len, checkbox, c_metric, session_id):

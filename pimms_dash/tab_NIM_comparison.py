@@ -22,7 +22,7 @@ NIM_comparison_tab_layout = dbc.Card(
 @app.callback(
     Output('NIM-comparison-div', 'children'),
     [Input('run-status', 'data'),
-     State('session-id', 'children')],
+     State('session-id', 'data')],
     prevent_initial_call=True
 )
 def create_comparison_subplot(run_status, session_id):

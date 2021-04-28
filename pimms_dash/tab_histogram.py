@@ -24,7 +24,7 @@ histogram_tab_layout = dbc.Card(
     [Input('run-status', 'data'),
      Input('hist-dropdown-type', 'value'),
      Input('hist-bin-size', 'value'),
-     State('session-id', 'children')],
+     State('session-id', 'data')],
     prevent_initial_call=True
 )
 def create_hist(run_status, hist_type, bin_size, session_id):
@@ -60,7 +60,7 @@ def create_hist(run_status, hist_type, bin_size, session_id):
     Output('hist-fig-t1', 'figure'),
     [Input('hist-fig-t1', 'relayoutData'),
      Input('hist-bin-size', 'value'),
-     State('session-id', 'children')],
+     State('session-id', 'data')],
     prevent_initial_call=True
 )
 def display_hist_type1(relayoutData, bin_size, session_id):

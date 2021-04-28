@@ -190,6 +190,7 @@ panel_options_tab_layout = dbc.Card(
                     ),
                 ]
             ),
+            html.Div(id="session-display")
         ]
     ),
     className="mt-3",
@@ -213,7 +214,7 @@ control_panel_layout = dbc.Tabs(
      State("gff-dropdown-control", "value"),
      State("gff-dropdown-test", "value"),
      State("data-input-checklist", "value"),
-     State("session-id", "children")],
+     State("session-id", "data")],
     prevent_initial_call=True
 )
 def run_selection(run_clicks, test_filename, control_filename, control_gff_filename, test_gff_filename, deseq, session_id):
@@ -300,7 +301,7 @@ def run_button_color(dropdown1, dropdown2, dropdown3, dropdown4, run_status):
     [Input('upload-data', 'contents'),
      State('upload-data', 'filename'),
      State('upload-data', 'last_modified'),
-     State("session-id", "children")],
+     State("session-id", "data")],
     prevent_initial_call=True
 )
 def upload_new_file(list_of_contents, list_of_names, list_of_dates, session_id):
@@ -323,7 +324,7 @@ def upload_new_file(list_of_contents, list_of_names, list_of_dates, session_id):
      Input('gff-dropdown-test', "value"),
      Input('gff-dropdown-control', "value"),
      Input('output-data-upload', 'children'),
-     State("session-id", "children")],
+     State("session-id", "data")],
 )
 def update_dropdowns(dropdown1, dropdown2, dropdown3, dropdown4, upload_message, session_id):
     """Callback to update the select data dropdowns"""
@@ -414,3 +415,10 @@ def update_c_metric_dropdown(run_status):
     ]
     selected_option = None
     return new_options, selected_option
+
+@app.callback(Output('session-display', 'children'),
+              Input('session-id', 'data'))
+def display_value_1(session_id):
+    return html.Div([
+        html.Div(session_id, style={"color": "#f8f9fa"})
+    ])

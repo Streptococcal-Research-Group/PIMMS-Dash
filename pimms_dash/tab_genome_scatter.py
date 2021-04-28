@@ -27,7 +27,7 @@ genome_scatter_tab_layout = dbc.Card(
     Output('tab4-scatter-div', 'children'),
     [Input("run-status", "data"),
      Input("scatter-checklist", 'value'),
-     State("session-id", "children")],
+     State("session-id", "data")],
     prevent_initial_call=True
 )
 def create_genome_scatter(run_status, checkbox, session_id):

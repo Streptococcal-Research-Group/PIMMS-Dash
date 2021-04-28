@@ -23,7 +23,7 @@ datatable_tab_layout = dbc.Card(
 @app.callback(
     Output("tab1-datatable-div", "children"),
     [Input("run-status", "data"),
-     State("session-id", "children")],
+     State("session-id", "data")],
     prevent_initial_call=True
 )
 def create_table(run_status, session_id):
@@ -51,7 +51,7 @@ def create_table(run_status, session_id):
      Input("datatable-checklist", "value"),
      Input("datatable-numrows", 'value'),
      State("run-status", "data"),
-     State("session-id", "children")]
+     State("session-id", "data")]
 )
 def style_table(selected_rows, c_metric, checked_options, num_rows, run_status, session_id):
     """

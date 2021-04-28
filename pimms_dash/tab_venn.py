@@ -92,7 +92,7 @@ venn_tab_layout = dbc.Card(
      Input('venn-inserts-slider', 'value'),
      Input("venn-table-radioitems", "value"),
      Input("venn-table-checklist", "value"),
-     State('session-id', 'children')],
+     State('session-id', 'data')],
     prevent_initial_call=True
 )
 def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, session_id):

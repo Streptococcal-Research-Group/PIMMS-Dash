@@ -2,6 +2,7 @@ import uuid
 
 import dash_html_components as html
 import dash_bootstrap_components as dbc
+import dash_core_components as dcc
 
 from app import app, app_title
 from panel_control import control_panel_layout
@@ -45,39 +46,41 @@ def create_header(title):
     className="mt-3"
     )
 
-
-app.layout = dbc.Container(
-    [
-        html.Div(str(uuid.uuid4()), id='session-id', style={'display': 'none'}),
-        create_header(app_title),
-        html.Hr(),
-        dbc.Row(
-            [
-                dbc.Col(
-                    control_panel_layout,
-                    width=3,
-                ),
-                dbc.Col(
-                    dbc.Tabs(
-                        [
-                            dbc.Tab(about_tab_layout, label="About", labelClassName="text-dark"),
-                            dbc.Tab(datatable_tab_layout, label="DataTable", labelClassName="text-dark"),
-                            dbc.Tab(histogram_tab_layout, label="Histogram", labelClassName="text-dark"),
-                            dbc.Tab(venn_tab_layout, label="Venn", labelClassName="text-dark"),
-                            dbc.Tab(genome_scatter_tab_layout, label="Genome Scatter", labelClassName="text-dark"),
-                            dbc.Tab(circos_tab_layout, label="Circos", labelClassName="text-dark"),
-                            dbc.Tab(geneviewer_tab_layout, label="GeneViewer", labelClassName="text-dark"),
-                            dbc.Tab(NIM_comparison_tab_layout, label="NIM Comparison", labelClassName="text-dark")
-                        ],
+def serve_layout():
+    session_id = str(uuid.uuid4())
+    return dbc.Container(
+        [
+            dcc.Store(data=session_id, id='session-id', storage_type='session'),
+            create_header(app_title),
+            html.Hr(),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        control_panel_layout,
+                        width=3,
                     ),
-                    width=9
-                )
-            ]
-        )
-    ],
-    fluid=True
-)
+                    dbc.Col(
+                        dbc.Tabs(
+                            [
+                                dbc.Tab(about_tab_layout, label="About", labelClassName="text-dark"),
+                                dbc.Tab(datatable_tab_layout, label="DataTable", labelClassName="text-dark"),
+                                dbc.Tab(NIM_comparison_tab_layout, label="NIM Comparison", labelClassName="text-dark"),
+                                dbc.Tab(histogram_tab_layout, label="Histogram", labelClassName="text-dark"),
+                                dbc.Tab(venn_tab_layout, label="Venn", labelClassName="text-dark"),
+                                dbc.Tab(genome_scatter_tab_layout, label="Genome Scatter", labelClassName="text-dark"),
+                                dbc.Tab(circos_tab_layout, label="Circos", labelClassName="text-dark"),
+                                dbc.Tab(geneviewer_tab_layout, label="GeneViewer", labelClassName="text-dark"),
+                            ],
+                        ),
+                        width=9
+                    )
+                ]
+            )
+        ],
+        fluid=True
+    )
 
+app.layout = serve_layout
 
 def run_app():
     manage_session_data()
