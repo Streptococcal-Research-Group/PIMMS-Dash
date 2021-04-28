@@ -123,31 +123,32 @@ panel_options_tab_layout = dbc.Card(
                 ],
                 row=False,
             ),
-            html.Hr(),
-            html.H5("Histogram Options"),
-            dbc.FormGroup(
-                [
-                    dbc.Label("Figure type:", html_for="hist-dropdown-type"),
-                    dcc.Dropdown(
-                        id="hist-dropdown-type",
-                        options=[
-                            {'label': 'Type 1', 'value': 'type1'},
-                            {'label': 'Type 2', 'value': 'type2'},
-                        ],
-                        value='type1',
-                        className='text-secondary',
-                    ),
-                    dbc.Label("Bin Size:", html_for='hist-bin-size'),
-                    dbc.Input(
-                        id='hist-bin-size',
-                        type='number',
-                        placeholder="Number of bins",
-                        value=1,
-                        bs_size="sm"
-                    ),
-                ],
-                row=False
-            ),
+            # html.Hr(),
+            # # Histogram options hidden as histogram tab now hidden
+            # html.H5("Histogram Options"),
+            # dbc.FormGroup(
+            #     [
+            #         dbc.Label("Figure type:", html_for="hist-dropdown-type"),
+            #         dcc.Dropdown(
+            #             id="hist-dropdown-type",
+            #             options=[
+            #                 {'label': 'Type 1', 'value': 'type1'},
+            #                 {'label': 'Type 2', 'value': 'type2'},
+            #             ],
+            #             value='type1',
+            #             className='text-secondary',
+            #         ),
+            #         dbc.Label("Bin Size:", html_for='hist-bin-size'),
+            #         dbc.Input(
+            #             id='hist-bin-size',
+            #             type='number',
+            #             placeholder="Number of bins",
+            #             value=1,
+            #             bs_size="sm"
+            #         ),
+            #     ],
+            #     row=False
+            # ),
             html.Hr(),
             html.H5("Venn Options"),
             dbc.FormGroup(
@@ -175,21 +176,22 @@ panel_options_tab_layout = dbc.Card(
                     ),
                 ]
             ),
-            html.Hr(),
-            html.H5("Circos Options"),
-            dbc.FormGroup(
-                [
-                    dbc.Label("Toggle display:", html_for="circos-checklist"),
-                    dbc.Checklist(
-                        options=[
-                            {'label': 'Hide values where both scores = 0', 'value': 'hide_zero'},
-                        ],
-                        value=['hide_zero'],
-                        id="circos-checklist",
-                        switch=True,
-                    ),
-                ]
-            ),
+            # # Histogram options hidden as histogram tab now hidden
+            # html.Hr(),
+            # html.H5("Circos Options"),
+            # dbc.FormGroup(
+            #     [
+            #         dbc.Label("Toggle display:", html_for="circos-checklist"),
+            #         dbc.Checklist(
+            #             options=[
+            #                 {'label': 'Hide values where both scores = 0', 'value': 'hide_zero'},
+            #             ],
+            #             value=['hide_zero'],
+            #             id="circos-checklist",
+            #             switch=True,
+            #         ),
+            #     ]
+            # ),
             html.Div(id="session-display")
         ]
     ),
