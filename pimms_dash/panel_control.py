@@ -150,6 +150,22 @@ panel_options_tab_layout = dbc.Card(
             #     row=False
             # ),
             html.Hr(),
+            html.H5("NIM/NRM Options"),
+            dbc.FormGroup(
+                [
+                    #dbc.Label("Mode"),
+                    dbc.RadioItems(
+                        options=[
+                            {"label": "NIM", "value": "nim"},
+                            {"label": "NRM", "value": "nrm"},
+                        ],
+                        value="nim",
+                        id="nim-comp-radio",
+                        inline=True,
+                    ),
+                ]
+            ),
+            html.Hr(),
             html.H5("Venn Options"),
             dbc.FormGroup(
                 [

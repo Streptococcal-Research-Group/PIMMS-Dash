@@ -447,14 +447,14 @@ def NIM_comparison_bar_gl(series_control, series_test, start_positions, end_posi
     # Create figure
     fig = go.Figure()
     t1 = go.Scattergl(x=x_points, y=y_points_test, fill='tozeroy', name='Test Condition',
-                      hovertemplate='<b>NIM Score</b>: %{text}' +
+                      hovertemplate='<b>Score</b>: %{text}' +
                                     '<br><b>Position</b>: %{x}' +
                                     '<br><b>Locus Tag</b>: %{customdata}<br>',
                       text=[str(abs(y)) for y in y_points_test],
                       customdata=locus_labels
                       )
     t2 = go.Scattergl(x=x_points, y=y_points_control, fill='tozeroy', name='Control Condition',
-                      hovertemplate='<b>NIM Score</b>: %{text}' +
+                      hovertemplate='<b>Score</b>: %{text}' +
                                     '<br><b>Position</b>: %{x}' +
                                     '<br><b>Locus Tag</b>: %{customdata}<br>',
                       text=[str(abs(y)) for y in y_points_control],
@@ -467,15 +467,14 @@ def NIM_comparison_bar_gl(series_control, series_test, start_positions, end_posi
         fig.add_trace(t1)  # fill to trace0 y
         fig.add_trace(t2)  # fill to trace0 y
 
-        fig.update_yaxes(title="NIM Score")
+        fig.update_yaxes(title="Score")
         # General layout
         fig.update_layout(template=plotly_template,
-                          title='NIM Score Across Genome',
+                          title='Score Across Genome',
                           legend=dict(
                               x=0,
                               y=1.0,
                           ))
-        fig.update_layout(hovermode="x unified")
         return fig
 
 def NIM_comparison_heatmap(series_control, series_test,  start_positions, end_positions, locus_tags, get_trace=False):
@@ -534,10 +533,10 @@ def NIM_comparison_heatmap(series_control, series_test,  start_positions, end_po
         fig.update_xaxes(matches='x')
         return fig
 
-def NIM_comparison_linked(series_control, series_test, start_positions, end_positions, locus_tags):
+def NIM_comparison_linked(series_control, series_test, start_positions, end_positions, locus_tags, title):
     """Create both the bar chart and heatmap but with linked xaxes"""
     fig = make_subplots(rows=3, cols=1,
-                        subplot_titles=['NIM Score Across Genome'])
+                        subplot_titles=[title])
     traces = []
     traces += NIM_comparison_bar_gl(series_control, series_test, start_positions,end_positions, locus_tags, get_trace=True)
     traces += NIM_comparison_heatmap(series_control, series_test, start_positions, end_positions, locus_tags, get_trace=True)
@@ -552,10 +551,8 @@ def NIM_comparison_linked(series_control, series_test, start_positions, end_posi
     fig['layout']['xaxis2'].update(visible=False)
     fig['layout']['xaxis3'].update(rangeslider=dict(visible=True, thickness=0.05))
 
-    fig['layout']['yaxis1'].update(title="NIM Score", domain=[0.5, 1.0],
-                                   tickmode="array",
-                                   #tickvals=[-150, -100, -50, -10, 0, 10, 50, 100, 150],
-                                   ticktext=["150", "100", "50", "10", "0", "10", "50", "100", "150"])
+    fig['layout']['yaxis1'].update(domain=[0.5, 1.0],
+                                   tickmode="array")
     fig['layout']['yaxis2'].update(domain=[0.230, 0.45])
     fig['layout']['yaxis3'].update(domain=[0, 0.220])
 
