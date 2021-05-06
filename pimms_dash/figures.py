@@ -434,7 +434,7 @@ def NIM_comparison_bar(series_control, series_test, start_positions, end_positio
                           ))
         return fig
 
-def NIM_comparison_bar_gl(series_control, series_test, start_positions, end_positions, get_trace=False):
+def NIM_comparison_bar_gl(series_control, series_test, start_positions, end_positions, locus_tags, get_trace=False):
     """
     To address performance issues in standard plotly bar with large datasets. Hack scattergl (better performance)
     to produce a bar-like chart using fill.
@@ -443,12 +443,23 @@ def NIM_comparison_bar_gl(series_control, series_test, start_positions, end_posi
     x_points = [item for x in zip(start_positions, end_positions) for item in [x[0], x[0], x[1], x[1]]]
     y_points_test = [item for x in series_test.to_list() for item in [0, x, x, 0]]
     y_points_control = [item for x in series_control.to_list() for item in [0, -x, -x, 0]]
+    locus_labels = [item for x in locus_tags.to_list() for item in ["", x, x, ""]]
     # Create figure
     fig = go.Figure()
-    t1 = go.Scattergl(x=x_points, y=y_points_test, fill='tozeroy',name='Test Condition',
-                      hovertext=["NIM Score:" + str(abs(x)) for x in y_points_control],)
-    t2 = go.Scattergl(x=x_points, y=y_points_control, fill='tozeroy',name='Control Condition',
-                      hovertext=["NIM Score:" + str(abs(x)) for x in y_points_control],)
+    t1 = go.Scattergl(x=x_points, y=y_points_test, fill='tozeroy', name='Test Condition',
+                      hovertemplate='<b>NIM Score</b>: %{text}' +
+                                    '<br><b>Position</b>: %{x}' +
+                                    '<br><b>Locus Tag</b>: %{customdata}<br>',
+                      text=[str(abs(y)) for y in y_points_test],
+                      customdata=locus_labels
+                      )
+    t2 = go.Scattergl(x=x_points, y=y_points_control, fill='tozeroy', name='Control Condition',
+                      hovertemplate='<b>NIM Score</b>: %{text}' +
+                                    '<br><b>Position</b>: %{x}' +
+                                    '<br><b>Locus Tag</b>: %{customdata}<br>',
+                      text=[str(abs(y)) for y in y_points_control],
+                      customdata=locus_labels
+                      )
 
     if get_trace:
         return [t1, t2]
@@ -464,6 +475,7 @@ def NIM_comparison_bar_gl(series_control, series_test, start_positions, end_posi
                               x=0,
                               y=1.0,
                           ))
+        fig.update_layout(hovermode="x unified")
         return fig
 
 def NIM_comparison_heatmap(series_control, series_test,  start_positions, end_positions, locus_tags, get_trace=False):
@@ -527,7 +539,7 @@ def NIM_comparison_linked(series_control, series_test, start_positions, end_posi
     fig = make_subplots(rows=3, cols=1,
                         subplot_titles=['NIM Score Across Genome'])
     traces = []
-    traces += NIM_comparison_bar_gl(series_control, series_test, start_positions,end_positions, get_trace=True)
+    traces += NIM_comparison_bar_gl(series_control, series_test, start_positions,end_positions, locus_tags, get_trace=True)
     traces += NIM_comparison_heatmap(series_control, series_test, start_positions, end_positions, locus_tags, get_trace=True)
 
     fig.append_trace(traces[0], 1, 1)
@@ -541,7 +553,8 @@ def NIM_comparison_linked(series_control, series_test, start_positions, end_posi
     fig['layout']['xaxis3'].update(rangeslider=dict(visible=True, thickness=0.05))
 
     fig['layout']['yaxis1'].update(title="NIM Score", domain=[0.5, 1.0],
-                                   tickmode="array", tickvals=[-150, -100, -50, -10, 0, 10, 50, 100, 150],
+                                   tickmode="array",
+                                   #tickvals=[-150, -100, -50, -10, 0, 10, 50, 100, 150],
                                    ticktext=["150", "100", "50", "10", "0", "10", "50", "100", "150"])
     fig['layout']['yaxis2'].update(domain=[0.230, 0.45])
     fig['layout']['yaxis3'].update(domain=[0, 0.220])
