@@ -44,8 +44,8 @@ venn_tab_layout = dbc.Card(
                     dbc.Row(
                         dbc.RadioItems(
                             options=[
-                                {"label": "Set Ab Only", "value": "Ab"},
-                                {"label": "Set aB Only", "value": "aB"},
+                                {"label": "Control Only", "value": "Ab"},
+                                {"label": "Test Only", "value": "aB"},
                                 {"label": "Intersection Only", "value": "AB"},
                                 {"label": "All", "value": "all"},
                             ],
@@ -120,12 +120,14 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, session_i
     if not run_status or not run_status["pimms"]:
         raise PreventUpdate
 
-    data = load_data('pimms_df', session_id)
-
     # Load data from store
+    data = load_data('pimms_df', session_id)
     pimms_df = PIMMSDataFrame.from_json(data)
+
+    # Get appropriate column names
     NIM_test_col, NIM_control_col = pimms_df.get_NIM_score_columns()
     perc_test_cols, perc_control_cols = pimms_df.test_control_cols_containing('insert_posn_as_percentile')
+
     # Create an unique identifier column
     pimms_df.insert_column('unique', np.arange(len(pimms_df)).astype(str))
 
@@ -145,24 +147,27 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, session_i
         True,
         False
     )
-    df["_set_"] = df.apply(lambda row: assign_set(row["_control_set_"],row["_test_set_"]), axis=1)
+    df["_set_"] = df.apply(lambda row: assign_set(row["_control_set_"], row["_test_set_"]), axis=1)
 
     # Create Venn
     control_set = df[df["_control_set_"] == True]['unique']
     test_set = df[df["_test_set_"] == True]['unique']
-    venn_img = venn_diagram(control_set, test_set) #'#4e5e6c'
+    venn_img = venn_diagram(control_set, test_set, set_labels=('Control', 'Test'))
 
     # Create Venn Label
     label = dcc.Markdown(f"""
-    * **Set A**: 
+    **Control Condition**:\n
     {NIM_control_col.replace("_"," ")}
 
-    * **Set B**:
+    **Test Condition**:\n
     {NIM_test_col.replace("_"," ")}
 
+    **Set Constraints**:\n
+    * NIM Score &lt;= {thresh_c}\n
+    * All Inserts within {slider_c[0]}th to {slider_c[1]}th percentile range
     """)
 
-    # Filter rows. Move prior to creating venn_img to change diagram using radioitems.
+    # Filter rows. Currently only adjusts table, Move prior to creating venn_img to change diagram using radioitems.
     if radioitems != "all":
         df = df[df["_set_"] == radioitems]
 

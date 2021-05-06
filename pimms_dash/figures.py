@@ -265,7 +265,7 @@ def genome_comparison_scatter(gff_df_control, gff_df_test):
     return fig
 
 
-def venn_diagram(set_a, set_b, backgroundcolor='white'):
+def venn_diagram(set_a, set_b, backgroundcolor='white', set_labels=('Group A', 'Group B')):
     """
     Creates a venn diagram given two sets. As plotly venn diagrams are limited, uses matplotlib_venn package.
     The resulting matplotlib figure currently can not be directly converted to a plotly figure. As a work around the
@@ -281,7 +281,7 @@ def venn_diagram(set_a, set_b, backgroundcolor='white'):
 
     # Create venn using matplotlib, encode to b64, pass to html.img
     plt.figure(linewidth=10, edgecolor=backgroundcolor, facecolor=backgroundcolor)
-    mpl_fig = venn2(subsets=(Ab, aB, AB))
+    mpl_fig = venn2(subsets=(Ab, aB, AB), set_labels=set_labels)
 
     # Style to plotly simple_white colours
     for ven_id, color in [('10', '#8FBBDA'), ('01', '#FFBF87'), ('11', '#B599C7')]:
