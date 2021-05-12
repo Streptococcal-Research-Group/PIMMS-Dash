@@ -11,6 +11,7 @@ import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 import dash_table
 import plotly.graph_objects as go
+import plotly.express as px
 from matplotlib_venn import venn2
 from dash_table.Format import Format, Scheme
 from plotly.subplots import make_subplots
@@ -563,5 +564,61 @@ def NIM_comparison_linked(series_control, series_test, start_positions, end_posi
                           y=1.0,
                       ),
                       height=800)
+
+    return fig
+
+def pca_plot(pca_df):
+    fig = go.Figure()
+    fig.add_trace(
+        go.Scatter(
+            mode='markers',
+            name="Control",
+            x=pca_df[pca_df["group"] == "control"]["PC1"],
+            y=pca_df[pca_df["group"] == "control"]["PC2"],
+            text=pca_df.index,
+            hovertemplate=
+            "<b>%{text}</b><br><br>" +
+            "PC1: %{x}<br>" +
+            "PC2: %{y}<br>" +
+            "<extra></extra>",
+            marker=dict(
+                size=12,
+                line=dict(
+                    color='black',
+                    width=1
+                )
+            ),
+            showlegend=True
+        )
+    )
+    # Add trace with large marker
+    fig.add_trace(
+        go.Scatter(
+            mode='markers',
+            name="Test",
+            x=pca_df[pca_df["group"] == "test"]["PC1"],
+            y=pca_df[pca_df["group"] == "test"]["PC2"],
+            text=pca_df.index,
+            hovertemplate=
+            "<b>%{text}</b><br><br>" +
+            "PC1: %{x}<br>" +
+            "PC2: %{y}<br>" +
+            "<extra></extra>",
+            marker=dict(
+                size=12,
+                line=dict(
+                    color='black',
+                    width=1
+                )
+            ),
+            showlegend=True
+        )
+    )
+    fig.update_layout(
+        template=plotly_template,
+        height=600,
+    )
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='LightGrey')
 
     return fig
