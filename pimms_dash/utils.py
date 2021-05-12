@@ -151,6 +151,8 @@ class PIMMSDataFrame:
 
         # Pass pools to deseq
         self.deseq_run_logs = {}
+        self.pca_dict = {}
+        self.pca_labels = {}
         if run_deseq:
             self.deseq_run_logs = self.run_DESeq()
 
@@ -347,7 +349,11 @@ class PIMMSDataFrame:
 
             try:
                 # Pass pools to deseq process
-                deseq_results = run_deseq_r_script(countsdata, metadata)
+                deseq_results, pca_dict, pca_labels = run_deseq_r_script(countsdata, metadata)
+
+                # Save pca_dict and labels as class attribute
+                self.pca_dict = pca_dict
+                self.pca_labels = pca_labels
 
                 # Add prefix to column names for reference
                 deseq_results = deseq_results.add_prefix("deseq_")
@@ -392,13 +398,20 @@ def run_deseq_r_script(countsdata, metadata):
         r_metadata = ro.conversion.py2rpy(metadata)
 
     # Invoking the R function and getting the result
-    df_result_r = run_deseq_r(r_countsdata, r_metadata)
+    df_result_r, pca_r = run_deseq_r(r_countsdata, r_metadata)
+    df_pca_r = pca_r[0]
 
     # results to pandas DataFrame
     with localconverter(ro.default_converter + pandas2ri.converter):
         results = ro.conversion.rpy2py(df_result_r)
+        pca = ro.conversion.rpy2py(df_pca_r)
 
-    return results
+    # Index pca df and store components in dict
+    pca.index = metadata["id"]
+    pca_dict = pca[["PC1", "PC2"]].to_dict(orient="index")
+    pca_labels = {"y_label": pca_r[-1][0][0], "x_label": pca_r[-1][1][0]}
+
+    return results, pca_dict, pca_labels
 
 
 def log2_fold_change(a, b):
