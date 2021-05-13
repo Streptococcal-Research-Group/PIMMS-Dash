@@ -27,6 +27,7 @@ venn_tab_layout = dbc.Card(
                 ],
                 justify="between", align="center",
             ),
+            html.Hr(),
             dbc.Row(
                 [
                     dbc.Col(

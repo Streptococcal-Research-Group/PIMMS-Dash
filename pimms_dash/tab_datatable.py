@@ -16,7 +16,7 @@ datatable_tab_layout = dbc.Card(
             html.Div("No Input Data Loaded", id="tab1-datatable-div")
         ]
     ),
-    className="mt-1",
+    className="mt-3",
 )
 
 
