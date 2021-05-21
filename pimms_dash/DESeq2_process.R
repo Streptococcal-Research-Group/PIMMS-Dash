@@ -7,7 +7,11 @@ run_deseq <- function(countsdata, metadata) {
   res <- results(pimms2)
   
   # Get PCA plot dataframe
-  vsdata <- vst(pimms2, blind = FALSE)
+  if (nrow(pimms2) < 1000) {
+    vsdata <- varianceStabilizingTransformation(pimms2, blind = FALSE)
+  } else {
+    vsdata <- vst(pimms2, blind = FALSE)
+  }
   pca <- plotPCA(vsdata, intgroup="dex")
   
   # Create output dataframes
