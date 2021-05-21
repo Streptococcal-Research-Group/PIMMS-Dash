@@ -51,7 +51,7 @@ def create_pca_scatter(run_status, session_id):
     pimms_df = PIMMSDataFrame.from_json(data)
 
     pca_df = pd.DataFrame.from_dict(pimms_df.pca_dict, orient="index")
-    pca_df["group"] = pd.Series(pca_df.index).apply(lambda x: x.split("_")[2]).to_list()
+    pca_df["group"] = pd.Series(pca_df.index).apply(lambda x: x.split("_")[-1]).to_list()
     labels = pimms_df.pca_labels
 
     fig = pca_plot(pca_df)

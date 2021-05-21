@@ -575,7 +575,7 @@ def pca_plot(pca_df):
             name="Control",
             x=pca_df[pca_df["group"] == "control"]["PC1"],
             y=pca_df[pca_df["group"] == "control"]["PC2"],
-            text=pca_df.index,
+            text=pca_df[pca_df["group"] == "control"].index,
             hovertemplate=
             "<b>%{text}</b><br><br>" +
             "PC1: %{x}<br>" +
@@ -598,7 +598,7 @@ def pca_plot(pca_df):
             name="Test",
             x=pca_df[pca_df["group"] == "test"]["PC1"],
             y=pca_df[pca_df["group"] == "test"]["PC2"],
-            text=pca_df.index,
+            text=pca_df[pca_df["group"] == "test"].index,
             hovertemplate=
             "<b>%{text}</b><br><br>" +
             "PC1: %{x}<br>" +
