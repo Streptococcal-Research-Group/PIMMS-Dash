@@ -443,12 +443,12 @@ def parse_upload(contents, filename, upload_dir):
             raise IOError('File Already Exists')
         if '.csv' in filename:
             df = pd.read_csv(io.StringIO(decoded.decode('utf-8')))
-            df = df.dropna()
+            df = df.dropna(subset=["locus_tag"])
             df.to_csv(save_path, index=False)
             return f'Uploaded {filename}'
         elif '.xls' in filename:
             df = pd.read_excel(io.BytesIO(decoded))
-            df = df.dropna()
+            df = df.dropna(subset=["locus_tag"])
             df.to_excel(save_path, index=False)
             return f'Uploaded {filename}'
         elif ".gff" in filename:
