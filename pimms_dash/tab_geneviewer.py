@@ -125,9 +125,18 @@ def create_needleplot(selected_rows, run_status, session_id):
         inserts_data_t = inserts_data_t[
             (inserts_data_t["position"] > (gene_start - buffer)) & (inserts_data_t["position"] < (gene_end + buffer))]
 
+        # Create wide data view for table
+        wide_table = inserts_data_c.merge(inserts_data_t, how="outer", on="position")
+        wide_table = (wide_table
+                      .fillna(0.0)
+                      .sort_values(by="position")
+                      .rename(columns={"count_x": "control count", "count_y": "test count"})
+                      .reset_index(drop=True))
+
         # Create intergenic column to highlight mutations that occur within gene and not buffer.
         inserts_data_c["within CDS"] = ((inserts_data_c["position"] >= gene_start) & (inserts_data_c["position"] <= gene_end))
         inserts_data_t["within CDS"] = ((inserts_data_t["position"] >= gene_start) & (inserts_data_t["position"] <= gene_end))
+        wide_table["within CDS"] = ((wide_table["position"] >= gene_start) & (wide_table["position"] <= gene_end))
 
         # Create mutation_data df - Assign group column and append control and test
         inserts_data_c["group"] = "Control"
@@ -152,14 +161,7 @@ def create_needleplot(selected_rows, run_status, session_id):
             return f"No Mutations to plot within {gene_label}", "", ""
         else:
             needleplot_img = mpl_needleplot(mutation_data, gene_label, gene_start, gene_end)
-            style_data_conditional = [
-                {'if': {"filter_query": f"{{group}} = Control"},
-                 "backgroundColor": "rgba(30, 117, 179, 0.5)"},
-                {'if': {"filter_query": f"{{group}} = Test"},
-                 "backgroundColor": "rgba(255, 157, 82, 0.5)"},
-            ]
-            mutation_table = main_datatable(mutation_data, id="venn-datatable",
-                           style_data_conditional=style_data_conditional,
+            mutation_table = main_datatable(wide_table, id="venn-datatable",
                            style_table={'height': '100em', 'overflowY': 'auto'},
                            fixed_rows={"headers":True},
                            page_size=50,
