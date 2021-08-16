@@ -102,6 +102,40 @@ panel_options_tab_layout = dbc.Card(
                        className="text-center",
                        href='https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#how-can-i-get-unfiltered-deseq2-results'),
             html.Hr(),
+            dcc.Store(id="plot-color-store", data={"control": "#1f77b4", "test": "#ff7f0e"}),
+            html.H5("Plot Colors"),
+            dbc.Form(
+                [
+                    dbc.FormGroup(
+                        [
+                            dbc.Label(["Control"]),
+                            dbc.Input(
+                                type="color",
+                                id="colorpicker_control",
+                                value="#1f77b4",
+                                style={"width": 75, "height": 50},
+                                debounce=True,
+                            ),
+                        ],
+                        className="mr-1",
+                    ),
+                    dbc.FormGroup(
+                        [
+                            dbc.Label(["Test"]),
+                            dbc.Input(
+                                type="color",
+                                id="colorpicker_test",
+                                value="#ff7f0e",
+                                style={"width": 75, "height": 50},
+                                debounce=True,
+                            ),
+                        ],
+                        className="mr-1",
+                    ),
+                ],
+                inline=True,
+            ),
+            html.Hr(),
             html.H5("Datatable Options"),
             dbc.FormGroup(
                 [
@@ -455,3 +489,25 @@ def display_value_1(session_id):
     return html.Div([
         html.Div(session_id, style={"color": "#f8f9fa"})
     ])
+
+@app.callback(
+    Output('plot-color-store', 'data'),
+    [Input('colorpicker_control', 'value'),
+     Input('colorpicker_test', 'value')]
+)
+def store_selected_colors(control_col, test_color):
+    data = {
+        "control": control_col,
+        "test": test_color,
+    }
+    return data
+
+app.clientside_callback(
+    """
+    function(color) {                                      
+        return {"color": color}
+    }
+    """,
+    Output("color", "style"),
+    Input("colorpicker", "value"),
+)
