@@ -63,11 +63,12 @@ geneviewer_tab_layout = dbc.Card(
     [Output("tab6-geneviewer-div", "children"),
      Output("geneviewer-markdown", "children"),
      Output("tab6-geneviewer-datatable-div", "children")],
-    [Input("main-datatable", "selected_rows")],
+    [Input("main-datatable", "selected_rows"),
+     Input("plot-color-store", "data")],
     [State("run-status", "data"),
      State("session-id", "data")],
 )
-def create_needleplot(selected_rows, run_status, session_id):
+def create_needleplot(selected_rows, colors, run_status, session_id):
     """
     Callback to display intergenic mutations when row is selected.
     Also returns markdown of information on needleplot.
@@ -160,7 +161,7 @@ def create_needleplot(selected_rows, run_status, session_id):
         if mutation_data.empty:
             return f"No Mutations to plot within {gene_label}", "", ""
         else:
-            needleplot_img = mpl_needleplot(mutation_data, gene_label, gene_start, gene_end)
+            needleplot_img = mpl_needleplot(mutation_data, gene_label, gene_start, gene_end, color_dict=colors)
             mutation_table = main_datatable(wide_table, id="venn-datatable",
                            style_table={'height': '100em', 'overflowY': 'auto'},
                            fixed_rows={"headers":True},

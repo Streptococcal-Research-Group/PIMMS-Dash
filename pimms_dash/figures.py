@@ -303,7 +303,8 @@ def venn_diagram(set_a, set_b, backgroundcolor='white', set_labels=('Group A', '
 
 
 
-def mpl_needleplot(mutation_data: pd.DataFrame, gene_name: str, gene_start: int, gene_end: int, log=True):
+def mpl_needleplot(mutation_data: pd.DataFrame, gene_name: str, gene_start: int, gene_end: int, log=True,
+                   color_dict=None):
     """
     Create a needleplot of gene mutations using matplotlib stem.
     :param mutation_data: dataframe holding mutation information
@@ -341,6 +342,15 @@ def mpl_needleplot(mutation_data: pd.DataFrame, gene_name: str, gene_start: int,
         # Create matplotlib stem plot, baseline is white to hide, colour changes through loop
         markerline, stemlines, baseline = plt.stem(subset_df["position"], subset_df['count'], f"C{i}", basefmt="w",
                                                    markerfmt=f"C{i}o", label=group, use_line_collection=True)
+        # Choose marker color
+        if color_dict and group.lower() in color_dict:
+            clr = color_dict[group.lower()]
+        else:
+            clr = f"C{i}"
+
+        plt.setp(markerline, 'color', clr)
+        plt.setp(stemlines, 'color', clr)
+
         # Set the line width, markersize and baseline width. Baseline to 0 will hide.
         plt.setp(stemlines, "linewidth", 1)
         plt.setp(markerline, markersize=6)
@@ -348,7 +358,7 @@ def mpl_needleplot(mutation_data: pd.DataFrame, gene_name: str, gene_start: int,
 
         # Create the legend icon using line2D object and append to legend elements list
         legend_elements.append(
-            Line2D([0], [0], marker='o', color="w", label=group, markerfacecolor=f"C{i}", markersize=10))
+            Line2D([0], [0], marker='o', color="w", label=group, markerfacecolor=clr, markersize=10))
 
     if log is True:
         plt.yscale("log")
