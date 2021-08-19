@@ -18,6 +18,7 @@ from plotly.subplots import make_subplots
 
 # Local imports
 from app import plotly_template
+from utils import combine_hex_values
 
 
 def main_datatable(df, id, **kwargs):
@@ -266,7 +267,7 @@ def genome_comparison_scatter(gff_df_control, gff_df_test):
     return fig
 
 
-def venn_diagram(set_a, set_b, backgroundcolor='white', set_labels=('Group A', 'Group B')):
+def venn_diagram(set_a, set_b, backgroundcolor='white', set_labels=('Group A', 'Group B'), color_list=None):
     """
     Creates a venn diagram given two sets. As plotly venn diagrams are limited, uses matplotlib_venn package.
     The resulting matplotlib figure currently can not be directly converted to a plotly figure. As a work around the
@@ -284,8 +285,13 @@ def venn_diagram(set_a, set_b, backgroundcolor='white', set_labels=('Group A', '
     plt.figure(linewidth=10, edgecolor=backgroundcolor, facecolor=backgroundcolor)
     mpl_fig = venn2(subsets=(Ab, aB, AB), set_labels=set_labels)
 
+    if color_list and len(color_list) == 3:
+        colors = zip(["10", "01", "11"], color_list)
+    else:
+        colors = [('10', '#8FBBDA'), ('01', '#FFBF87'), ('11', '#B599C7')]
+
     # Style to plotly simple_white colours
-    for ven_id, color in [('10', '#8FBBDA'), ('01', '#FFBF87'), ('11', '#B599C7')]:
+    for ven_id, color in colors:
         if mpl_fig.get_patch_by_id(ven_id) is not None:
             mpl_fig.get_patch_by_id(ven_id).set_color(color)
             mpl_fig.get_patch_by_id(ven_id).set_alpha(1.0)

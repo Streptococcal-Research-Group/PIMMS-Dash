@@ -501,3 +501,12 @@ def manage_session_data():
         time_period = time.time() - float(ts)
         if time_period > 60*60:
             shutil.rmtree(session_dir)
+
+def combine_hex_values(d):
+    d_items = sorted(d.items())
+    tot_weight = sum(d.values())
+    red = int(sum([int(k.replace("#","")[:2], 16)*v for k, v in d_items])/tot_weight)
+    green = int(sum([int(k.replace("#","")[2:4], 16)*v for k, v in d_items])/tot_weight)
+    blue = int(sum([int(k.replace("#","")[4:6], 16)*v for k, v in d_items])/tot_weight)
+    zpad = lambda x: x if len(x)==2 else '0' + x
+    return "#" + zpad(hex(red)[2:]) + zpad(hex(green)[2:]) + zpad(hex(blue)[2:])

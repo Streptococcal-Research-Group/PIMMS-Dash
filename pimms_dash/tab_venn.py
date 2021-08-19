@@ -7,7 +7,7 @@ from dash.exceptions import PreventUpdate
 import numpy as np
 
 from app import app
-from utils import PIMMSDataFrame, load_data
+from utils import PIMMSDataFrame, load_data, combine_hex_values
 from figures import main_datatable, venn_diagram
 
 
@@ -26,6 +26,21 @@ venn_tab_layout = dbc.Card(
                     ),
                 ],
                 justify="between", align="center",
+            ),
+            html.Br(),
+            dbc.Row(
+                [
+                    dbc.RadioItems(
+                        id="venn-color-options",
+                        options=[
+                            {"label": "Default Colours", "value": 'default'},
+                            {"label": "Option Colours", "value": 'mixed'},
+                        ],
+                        value="default",
+                        inline=True,
+                        style={"margin-left": "1rem"}
+                    ),
+                ]
             ),
             html.Hr(),
             dbc.Row(
@@ -93,10 +108,12 @@ venn_tab_layout = dbc.Card(
      Input('venn-inserts-slider', 'value'),
      Input("venn-table-radioitems", "value"),
      Input("venn-table-checklist", "value"),
+     Input('plot-color-store', 'data'),
+     Input('venn-color-options', 'value'),
      State('session-id', 'data')],
     prevent_initial_call=True
 )
-def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, session_id):
+def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, colors, color_options, session_id):
     """
     Callback to create/update venn diagram when new data in dcc.store or venn options are changed.
     Also creates the venn datatable below the diagram.
@@ -153,7 +170,13 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, session_i
     # Create Venn
     control_set = df[df["_control_set_"] == True]['unique']
     test_set = df[df["_test_set_"] == True]['unique']
-    venn_img = venn_diagram(control_set, test_set, set_labels=('Control', 'Test'))
+    if color_options and ('mixed' in color_options):
+        mixed_color = combine_hex_values({colors["control"]: 0.5, colors["test"]: 0.5})
+        color_list = [colors["control"], colors["test"], mixed_color]
+    else:
+        color_list=None
+
+    venn_img = venn_diagram(control_set, test_set, set_labels=('Control', 'Test'), color_list=color_list)
 
     # Create Venn Label
     label = dcc.Markdown(f"""
