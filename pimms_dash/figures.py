@@ -311,7 +311,7 @@ def venn_diagram(set_a, set_b, backgroundcolor='white', set_labels=('Group A', '
 
 
 def mpl_needleplot(mutation_data: pd.DataFrame, gene_name: str, gene_start: int, gene_end: int, log=True,
-                   color_dict=None):
+                   color_dict=None, gene_label_width=15, stem_width=1, marker_size=6):
     """
     Create a needleplot of gene mutations using matplotlib stem.
     :param mutation_data: dataframe holding mutation information
@@ -359,8 +359,8 @@ def mpl_needleplot(mutation_data: pd.DataFrame, gene_name: str, gene_start: int,
         plt.setp(stemlines, 'color', clr)
 
         # Set the line width, markersize and baseline width. Baseline to 0 will hide.
-        plt.setp(stemlines, "linewidth", 1)
-        plt.setp(markerline, markersize=6)
+        plt.setp(stemlines, "linewidth", stem_width)
+        plt.setp(markerline, markersize=marker_size)
         plt.setp(baseline, "linewidth", 0)
 
         # Create the legend icon using line2D object and append to legend elements list
@@ -379,7 +379,7 @@ def mpl_needleplot(mutation_data: pd.DataFrame, gene_name: str, gene_start: int,
     markerline, stemlines, baseline = plt.stem([gene_start, gene_end], [0, 0], "w", markerfmt="r", basefmt="r-",
                                                use_line_collection=True, bottom=label_y)
     # Define the height of the gene label
-    plt.setp(baseline, "linewidth", 15)
+    plt.setp(baseline, "linewidth", gene_label_width)
     # Add a patch to the legend to label gene
     legend_elements.append(Patch(facecolor='r', edgecolor='r', label=gene_name))
 
