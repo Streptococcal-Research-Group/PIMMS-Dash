@@ -27,10 +27,11 @@ genome_scatter_tab_layout = dbc.Card(
     Output('tab4-scatter-div', 'children'),
     [Input("run-status", "data"),
      Input("scatter-checklist", 'value'),
+     Input('plot-color-store', 'data'),
      State("session-id", "data")],
     prevent_initial_call=True
 )
-def create_genome_scatter(run_status, checkbox, session_id):
+def create_genome_scatter(run_status, checkbox, colors, session_id):
     """
     Callback to create/update genome scatter plot.
     :param run_status: dictionary containing run success information
@@ -50,6 +51,7 @@ def create_genome_scatter(run_status, checkbox, session_id):
     # Change to log axis if checked
     if 'log' in checkbox:
         fig.update_yaxes(type="log")
-
+    fig.update_traces(marker_color=colors['control'], marker_line_width=1, marker_size=4, row=1)
+    fig.update_traces(marker_color=colors['test'], marker_line_width=1, marker_size=4, row=2)
     fig.update_layout(height=700)
     return dcc.Graph(id='gff-scatter-fig', figure=fig)
