@@ -604,7 +604,7 @@ def NIM_comparison_linked(series_control, series_test, start_positions, end_posi
 
     return fig
 
-def pca_plot(pca_df):
+def pca_plot(pca_df, control_color, test_color):
     fig = go.Figure()
     fig.add_trace(
         go.Scatter(
@@ -623,7 +623,8 @@ def pca_plot(pca_df):
                 line=dict(
                     color='black',
                     width=1
-                )
+                ),
+                color=control_color,
             ),
             showlegend=True
         )
@@ -646,7 +647,8 @@ def pca_plot(pca_df):
                 line=dict(
                     color='black',
                     width=1
-                )
+                ),
+                color=test_color,
             ),
             showlegend=True
         )

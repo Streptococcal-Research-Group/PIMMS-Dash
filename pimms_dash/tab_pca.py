@@ -26,10 +26,11 @@ pca_tab_layout = dbc.Card(
 @app.callback(
     Output('tab-pca-div', 'children'),
     [Input("run-status", "data"),
+     Input('plot-color-store', 'data'),
      State("session-id", "data")],
     prevent_initial_call=True
 )
-def create_pca_scatter(run_status, session_id):
+def create_pca_scatter(run_status, colors, session_id):
     """
     Callback to create/update pca plot.
     :param run_status: dictionary containing run success information
@@ -54,7 +55,7 @@ def create_pca_scatter(run_status, session_id):
     pca_df["group"] = pd.Series(pca_df.index).apply(lambda x: x.split("_")[-1]).to_list()
     labels = pimms_df.pca_labels
 
-    fig = pca_plot(pca_df)
+    fig = pca_plot(pca_df, colors["control"], colors["test"])
     fig.update_xaxes(title=labels["x_label"])
     fig.update_yaxes(title=labels["y_label"])
 
