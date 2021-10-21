@@ -10,6 +10,7 @@ from app import app
 from utils import PIMMSDataFrame, GffDataFrame, load_data
 from figures import main_datatable, mpl_needleplot
 
+# TODO bugfix. mpl geneviewer and venn interference during savefig. reload temp solution.
 
 geneviewer_tab_layout = dbc.Card(
     dbc.CardBody(
@@ -20,6 +21,9 @@ geneviewer_tab_layout = dbc.Card(
                 ],
                 justify="center"
             ),
+            html.Br(),
+            dbc.Button(id="geneviewer-reload-button", children="reload", color="dark", outline=True,
+                       style={"width": 75, "padding": 0}),
             html.Hr(),
             dbc.Row(
                 [
@@ -64,11 +68,12 @@ geneviewer_tab_layout = dbc.Card(
      Output("geneviewer-markdown", "children"),
      Output("tab6-geneviewer-datatable-div", "children")],
     [Input("main-datatable", "selected_rows"),
-     Input("plot-color-store", "data")],
+     Input("plot-color-store", "data"),
+     Input("geneviewer-reload-button", "n_clicks")],
     [State("run-status", "data"),
      State("session-id", "data")],
 )
-def create_needleplot(selected_rows, colors, run_status, session_id):
+def create_needleplot(selected_rows, colors, reload_clicks, run_status, session_id):
     """
     Callback to display intergenic mutations when row is selected.
     Also returns markdown of information on needleplot.

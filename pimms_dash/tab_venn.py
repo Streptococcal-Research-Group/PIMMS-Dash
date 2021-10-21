@@ -28,6 +28,9 @@ venn_tab_layout = dbc.Card(
                 justify="between", align="center",
             ),
             html.Br(),
+            dbc.Button(id="venn-reload-button", children="reload", color="dark", outline=True,
+                       style={"width": 75, "padding": 0}),
+            html.Br(),
             dbc.Row(
                 [
                     dbc.RadioItems(
@@ -110,10 +113,11 @@ venn_tab_layout = dbc.Card(
      Input("venn-table-checklist", "value"),
      Input('plot-color-store', 'data'),
      Input('venn-color-options', 'value'),
+     Input("venn-reload-button", "n_clicks"),
      State('session-id', 'data')],
     prevent_initial_call=True
 )
-def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, colors, color_options, session_id):
+def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, colors, color_options, reload_clicks, session_id):
     """
     Callback to create/update venn diagram when new data in dcc.store or venn options are changed.
     Also creates the venn datatable below the diagram.
