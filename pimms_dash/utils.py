@@ -6,6 +6,7 @@ import io
 import base64
 import time
 import shutil
+import colorsys
 
 import pandas as pd
 import rpy2.robjects as ro
@@ -510,3 +511,9 @@ def combine_hex_values(d):
     blue = int(sum([int(k.replace("#","")[4:6], 16)*v for k, v in d_items])/tot_weight)
     zpad = lambda x: x if len(x)==2 else '0' + x
     return "#" + zpad(hex(red)[2:]) + zpad(hex(green)[2:]) + zpad(hex(blue)[2:])
+
+def scale_lightness(rgb, scale_l):
+    # convert rgb to hls
+    h, l, s = colorsys.rgb_to_hls(*rgb)
+    # manipulate h, l, s values and return as rgb
+    return tuple([255*x for x in colorsys.hls_to_rgb(h, min(1, l * scale_l), s = s)])

@@ -15,10 +15,11 @@ import plotly.express as px
 from matplotlib_venn import venn2
 from dash_table.Format import Format, Scheme
 from plotly.subplots import make_subplots
+from matplotlib.colors import ColorConverter
 
 # Local imports
 from app import plotly_template
-from utils import combine_hex_values
+from utils import scale_lightness
 
 
 def main_datatable(df, id, **kwargs):
@@ -550,13 +551,33 @@ def NIM_comparison_heatmap(series_control, series_test,  start_positions, end_po
         fig.update_xaxes(matches='x')
         return fig
 
-def NIM_comparison_linked(series_control, series_test, start_positions, end_positions, locus_tags, title):
+def NIM_comparison_linked(series_control, series_test, start_positions, end_positions, locus_tags, title, color_test, color_control):
     """Create both the bar chart and heatmap but with linked xaxes"""
     fig = make_subplots(rows=3, cols=1,
                         subplot_titles=[title])
     traces = []
     traces += NIM_comparison_bar_gl(series_control, series_test, start_positions,end_positions, locus_tags, get_trace=True)
     traces += NIM_comparison_heatmap(series_control, series_test, start_positions, end_positions, locus_tags, get_trace=True)
+
+    traces[0]['line'].color = color_test
+    traces[1]['line'].color = color_control
+
+    traces[2]["colorscale"] = [
+        (0, "white"),
+        (0.0001, f'rgb{scale_lightness(ColorConverter.to_rgb(color_test), 2)}'),
+        (0.001, f'rgb{scale_lightness(ColorConverter.to_rgb(color_test), 1.75)}'),
+        (0.01, f'rgb{scale_lightness(ColorConverter.to_rgb(color_test), 1.5)}'),
+        (0.1, f'rgb{scale_lightness(ColorConverter.to_rgb(color_test), 1.25)}'),
+        (1, color_test)
+    ]
+    traces[3]["colorscale"] = [
+        (0, "white"),
+        (0.0001, f'rgb{scale_lightness(ColorConverter.to_rgb(color_control), 2)}'),
+        (0.001, f'rgb{scale_lightness(ColorConverter.to_rgb(color_control), 1.75)}'),
+        (0.001, f'rgb{scale_lightness(ColorConverter.to_rgb(color_control), 1.5)}'),
+        (0.1, f'rgb{scale_lightness(ColorConverter.to_rgb(color_control), 1.25)}'),
+        (1, color_control)
+    ]
 
     fig.append_trace(traces[0], 1, 1)
     fig.append_trace(traces[1], 1, 1)

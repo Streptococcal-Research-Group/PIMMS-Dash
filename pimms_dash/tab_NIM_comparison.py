@@ -23,10 +23,11 @@ NIM_comparison_tab_layout = dbc.Card(
     Output('NIM-comparison-div', 'children'),
     [Input('run-status', 'data'),
      Input('nim-comp-radio', 'value'),
+    Input('plot-color-store', 'data'),
      State('session-id', 'data')],
     prevent_initial_call=True
 )
-def create_comparison_subplot(run_status, mode, session_id):
+def create_comparison_subplot(run_status, mode, colors, session_id):
     """
     Callback to create bar chart and linked heatmap.
     :param run_status: dictionary containing run success information
@@ -55,7 +56,10 @@ def create_comparison_subplot(run_status, mode, session_id):
     df = pimms_df.get_data()
     series_control = df[control_col]
     series_test = df[test_col]
-    fig = NIM_comparison_linked(series_control, series_test, df["start"], df["end"], df["locus_tag"], title=title)
+    fig = NIM_comparison_linked(
+        series_control, series_test, df["start"], df["end"], df["locus_tag"], title=title,
+        color_control=colors['control'], color_test=colors['test']
+    )
 
     fig['layout']['yaxis1'].update(title=y_title)
 
