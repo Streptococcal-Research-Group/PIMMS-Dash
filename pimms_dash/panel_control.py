@@ -190,21 +190,6 @@ panel_options_tab_layout = dbc.Card(
             #     ],
             #     row=False
             # ),
-            html.Hr(),
-            html.H5("Genome Scatter Options"),
-            dbc.FormGroup(
-                [
-                    dbc.Label("Scatter Scale:", html_for="scatter-checklist"),
-                    dbc.Checklist(
-                        options=[
-                            {'label': 'Log scale', 'value': 'log'},
-                        ],
-                        value=['log'],
-                        id="scatter-checklist",
-                        switch=True,
-                    ),
-                ]
-            ),
             # # Histogram options hidden as histogram tab now hidden
             # html.Hr(),
             # html.H5("Circos Options"),

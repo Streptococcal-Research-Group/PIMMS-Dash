@@ -17,6 +17,39 @@ genome_scatter_tab_layout = dbc.Card(
                     dbc.Col(html.Div("No Coordinate-Gffs Loaded", id="tab4-scatter-div"))
                 ]
             ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dbc.Button(
+                            "Show Scatter Options",
+                            id="scatter-collapse-button",
+                            color="info",
+                            className="mt-3"
+                        ),
+                    ),
+                ],
+                justify="center"
+            ),
+            dbc.Collapse(
+                [
+                    dbc.FormGroup(
+                        [
+                            dbc.Label("Scatter Scale:", html_for="scatter-checklist"),
+                            dbc.Checklist(
+                                options=[
+                                    {'label': 'Log scale', 'value': 'log'},
+                                ],
+                                value=['log'],
+                                id="scatter-checklist",
+                                switch=True,
+                            ),
+                        ],
+                        className="mt-3"
+                    ),
+                ],
+                id="scatter-options-collapse",
+                className="ml-3"
+            ),
         ]
     ),
     className="mt-3",
@@ -55,3 +88,13 @@ def create_genome_scatter(run_status, checkbox, colors, session_id):
     fig.update_traces(marker_color=colors['test'], marker_line_width=1, marker_size=4, row=2)
     fig.update_layout(height=700)
     return dcc.Graph(id='gff-scatter-fig', figure=fig)
+
+@app.callback(
+    Output("scatter-options-collapse", "is_open"),
+    [Input("scatter-collapse-button", "n_clicks")],
+    [State("scatter-options-collapse", "is_open")],
+)
+def toggle_collapse_scatter(n, is_open):
+    if n:
+        return not is_open
+    return is_open
