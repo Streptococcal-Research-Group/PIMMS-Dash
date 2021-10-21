@@ -32,20 +32,47 @@ genome_scatter_tab_layout = dbc.Card(
             ),
             dbc.Collapse(
                 [
-                    dbc.FormGroup(
+                    dbc.Row(
                         [
-                            dbc.Label("Scatter Scale:", html_for="scatter-checklist"),
-                            dbc.Checklist(
-                                options=[
-                                    {'label': 'Log scale', 'value': 'log'},
+                            dbc.Col(
+                                [
+                                    dbc.Label("Scatter Scale:", html_for="scatter-checklist"),
+                                    dbc.Checklist(
+                                        options=[
+                                            {'label': 'Log scale', 'value': 'log'},
+                                        ],
+                                        value=['log'],
+                                        id="scatter-checklist",
+                                        switch=True,
+                                    ),
                                 ],
-                                value=['log'],
-                                id="scatter-checklist",
-                                switch=True,
                             ),
                         ],
                         className="mt-3"
                     ),
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                [
+                                    dbc.Label("Marker Size:", html_for="scatter-marker-size-input", width="auto"),
+                                    dbc.Input(
+                                        id="scatter-marker-size-input", type="number", min=0, max=10, step=0.1, value=4,
+                                    ),
+                                ],
+                                width=6
+                            ),
+                            dbc.Col(
+                                [
+                                    dbc.Label("Marker line width:", html_for="scatter-marker-line-width-input", width="auto"),
+                                    dbc.Input(
+                                        id="scatter-marker-line-width-input", type="number", min=0, max=10, step=0.1, value=1,
+                                    ),
+                                ],
+                                width=6
+                            ),
+                        ],
+                        className="mt-3"
+                    )
                 ],
                 id="scatter-options-collapse",
                 className="ml-3"
@@ -61,10 +88,12 @@ genome_scatter_tab_layout = dbc.Card(
     [Input("run-status", "data"),
      Input("scatter-checklist", 'value'),
      Input('plot-color-store', 'data'),
+     Input("scatter-marker-size-input", 'value'),
+     Input("scatter-marker-line-width-input", 'value'),
      State("session-id", "data")],
     prevent_initial_call=True
 )
-def create_genome_scatter(run_status, checkbox, colors, session_id):
+def create_genome_scatter(run_status, checkbox, colors, marker_size, marker_line_width, session_id):
     """
     Callback to create/update genome scatter plot.
     :param run_status: dictionary containing run success information
@@ -84,8 +113,8 @@ def create_genome_scatter(run_status, checkbox, colors, session_id):
     # Change to log axis if checked
     if 'log' in checkbox:
         fig.update_yaxes(type="log")
-    fig.update_traces(marker_color=colors['control'], marker_line_width=1, marker_size=4, row=1)
-    fig.update_traces(marker_color=colors['test'], marker_line_width=1, marker_size=4, row=2)
+    fig.update_traces(marker_color=colors['control'], marker_line_width=marker_line_width, marker_size=marker_size, row=1)
+    fig.update_traces(marker_color=colors['test'], marker_line_width=marker_line_width, marker_size=marker_size, row=2)
     fig.update_layout(height=700)
     return dcc.Graph(id='gff-scatter-fig', figure=fig)
 
