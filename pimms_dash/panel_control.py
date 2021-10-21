@@ -108,12 +108,12 @@ panel_options_tab_layout = dbc.Card(
                 [
                     dbc.FormGroup(
                         [
-                            dbc.Label(["Control"]),
+                            dbc.Label(["Control -"]),
                             dbc.Input(
                                 type="color",
                                 id="colorpicker_control",
                                 value="#1f77b4",
-                                style={"width": 75, "height": 50},
+                                style={"width": 60, "height": 35},
                                 debounce=True,
                             ),
                         ],
@@ -121,12 +121,12 @@ panel_options_tab_layout = dbc.Card(
                     ),
                     dbc.FormGroup(
                         [
-                            dbc.Label(["Test"]),
+                            dbc.Label(["Test -"]),
                             dbc.Input(
                                 type="color",
                                 id="colorpicker_test",
                                 value="#ff7f0e",
-                                style={"width": 75, "height": 50},
+                                style={"width": 60, "height": 35},
                                 debounce=True,
                             ),
                         ],
@@ -135,6 +135,9 @@ panel_options_tab_layout = dbc.Card(
                 ],
                 inline=True,
             ),
+            html.Br(),
+            dbc.Button(id="color-reset-button", children="reset", color="dark", outline=True,
+                       style={"width": 75, "padding": 0}),
             html.Hr(),
             html.H5("Datatable Options"),
             dbc.FormGroup(
@@ -511,3 +514,14 @@ app.clientside_callback(
     Output("color", "style"),
     Input("colorpicker", "value"),
 )
+
+@app.callback(
+    [Output('colorpicker_control', 'value'),
+     Output('colorpicker_test', 'value')],
+    [Input("color-reset-button", "n_clicks")]
+)
+def color_button_click(n):
+    if n is None:
+        raise PreventUpdate
+    else:
+        return "#1f77b4", "#ff7f0e"
