@@ -1,11 +1,18 @@
 library(DESeq2)
 
-run_deseq <- function(countsdata, metadata) {
+run_deseq <- function(countsdata, metadata, filtering=TRUE) {
   # Perform DESeq
   pimms2 <- DESeqDataSetFromMatrix(countData = countsdata, colData = metadata, design =~dex, tidy = TRUE)
-  pimms2 <- DESeq(pimms2)
-  res <- results(pimms2)
   
+  # https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#why-are-some-p-values-set-to-na
+  if (filtering) {
+    pimms2 <- DESeq(pimms2)
+    res <- results(pimms2)
+  } else {
+    pimms2 <- DESeq(pimms2, minReplicatesForReplace=Inf)
+    res <- results(pimms2, cooksCutoff = FALSE, independentFiltering=FALSE)
+  }
+
   # Get PCA plot dataframe
   if (nrow(pimms2) < 1000) {
     vsdata <- varianceStabilizingTransformation(pimms2, blind = FALSE)

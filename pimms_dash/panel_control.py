@@ -90,13 +90,17 @@ panel_options_tab_layout = dbc.Card(
                     dbc.Checklist(
                         options=[
                             {'label': 'DESeq on run', 'value': 'deseq'},
+                            {'label': 'DESeq default outlier removal and independent filtering', 'value': 'filter'}
                         ],
-                        value=['deseq'],
+                        value=['deseq', 'filter'],
                         id="data-input-checklist",
                         switch=True,
                     ),
                 ]
             ),
+            dbc.Button("DESeq filtering", color="dark", outline=True, external_link=True, target='_blank',
+                       className="text-center",
+                       href='https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#how-can-i-get-unfiltered-deseq2-results'),
             html.Hr(),
             html.H5("Datatable Options"),
             dbc.FormGroup(
@@ -291,7 +295,8 @@ def run_selection(run_clicks, test_filename, control_filename, control_gff_filen
             test_path = [i for i in all_csvs if i.name == test_filename][0]
             control_path = [i for i in all_csvs if i.name == control_filename][0]
             run_deseq = "deseq" in deseq
-            pimms_df = PIMMSDataFrame(control_path, test_path, run_deseq=run_deseq)
+            filter_deseq = "filter" in deseq
+            pimms_df = PIMMSDataFrame(control_path, test_path, run_deseq=run_deseq, deseq_filtering=filter_deseq)
             store_data(pimms_df.to_json(), 'pimms_df', session_id)
             run_status['pimms'] = True
             run_status['deseq'] = pimms_df.deseq_run_logs

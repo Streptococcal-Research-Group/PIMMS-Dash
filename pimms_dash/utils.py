@@ -131,7 +131,7 @@ class PIMMSDataFrame:
     c_suffix = '_control'
     t_suffix = '_test'
 
-    def __init__(self, control_path, test_path, data=None, comparison_cols=None, run_deseq=False, **kwargs):
+    def __init__(self, control_path, test_path, data=None, comparison_cols=None, run_deseq=False, deseq_filtering=True, **kwargs):
         self.control_path = control_path
         self.test_path = test_path
 
@@ -153,6 +153,8 @@ class PIMMSDataFrame:
         self.deseq_run_logs = {}
         self.pca_dict = {}
         self.pca_labels = {}
+
+        self.deseq_filtering = deseq_filtering
         if run_deseq:
             self.deseq_run_logs = self.run_DESeq()
 
@@ -183,7 +185,7 @@ class PIMMSDataFrame:
         if "seq_id" in columns:
             columns.remove("seq_id")
 
-        if c_metric == "all":
+        if not c_metric or c_metric == "all":
             return columns
         else:
             columns = [col for col in columns if col not in self.comparison_cols]
@@ -349,7 +351,7 @@ class PIMMSDataFrame:
 
             try:
                 # Pass pools to deseq process
-                deseq_results, pca_dict, pca_labels = run_deseq_r_script(countsdata, metadata)
+                deseq_results, pca_dict, pca_labels = run_deseq_r_script(countsdata, metadata, self.deseq_filtering)
 
                 # Save pca_dict and labels as class attribute
                 self.pca_dict = pca_dict
@@ -384,7 +386,7 @@ class PIMMSDataFrame:
         return deseqlog
 
 
-def run_deseq_r_script(countsdata, metadata):
+def run_deseq_r_script(countsdata, metadata, deseq_filtering=True):
     # Defining the R script and loading the instance in Python
     r = ro.r
     r['source']('DESeq2_process.R')
@@ -398,7 +400,7 @@ def run_deseq_r_script(countsdata, metadata):
         r_metadata = ro.conversion.py2rpy(metadata)
 
     # Invoking the R function and getting the result
-    df_result_r, pca_r = run_deseq_r(r_countsdata, r_metadata)
+    df_result_r, pca_r = run_deseq_r(r_countsdata, r_metadata, deseq_filtering)
     df_pca_r = pca_r[0]
 
     # results to pandas DataFrame
