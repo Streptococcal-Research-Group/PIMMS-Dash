@@ -12,7 +12,10 @@ from figures import NIM_comparison_linked
 NIM_comparison_tab_layout = dbc.Card(
     dbc.CardBody(
         [
-            html.Div("No Input Data Loaded", id="NIM-comparison-div"),
+            dcc.Loading(
+                html.Div("No Input Data Loaded", id="NIM-comparison-div"),
+                type="dot",
+            )
         ]
     ),
     className="mt-3",
