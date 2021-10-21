@@ -207,28 +207,6 @@ panel_options_tab_layout = dbc.Card(
                 ]
             ),
             html.Hr(),
-            html.H5("Venn Options"),
-            dbc.FormGroup(
-                [
-                    dbc.Label(html.Div("NIM score threshold", id='venn-slider-label'),
-                              html_for='venn-slider'),
-                    dcc.Slider(id='venn-slider', value=0, min=0, max=100, step=1,
-                               marks={
-                                   0: '0',
-                                   50: '50',
-                                   100: '100',
-                               }),
-                    dbc.Label(html.Div("Inserts percentile limits", id='venn-inserts-slider-label'),
-                              html_for='venn-inserts-slider'),
-                    dcc.RangeSlider(id='venn-inserts-slider', min=0, max=100, step=1, value=[0, 100],
-                                    marks={
-                                        0: '0%',
-                                        50: '50%',
-                                        100: '100%',
-                                    }),
-                ]
-            ),
-            html.Hr(),
             html.H5("Genome Scatter Options"),
             dbc.FormGroup(
                 [

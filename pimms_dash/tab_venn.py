@@ -31,20 +31,60 @@ venn_tab_layout = dbc.Card(
             html.Br(),
             dbc.Button(id="venn-reload-button", children="reload", color="dark", outline=True,
                        style={"width": 75, "padding": 0}),
-            html.Br(),
+            html.Hr(),
             dbc.Row(
                 [
-                    dbc.RadioItems(
-                        id="venn-color-options",
-                        options=[
-                            {"label": "Default Colours", "value": 'default'},
-                            {"label": "Option Colours", "value": 'mixed'},
-                        ],
-                        value="default",
-                        inline=True,
-                        style={"margin-left": "1rem"}
+                    dbc.Col(
+                        dbc.Button(
+                            "Show Venn Options",
+                            id="venn-collapse-options-button",
+                            color="info",
+                        ),
                     ),
-                ]
+                ],
+                justify="center"
+            ),
+            dbc.Collapse(
+                [
+                    dbc.Row(
+                        [
+                            dbc.RadioItems(
+                                id="venn-color-options",
+                                options=[
+                                    {"label": "Default Colours", "value": 'default'},
+                                    {"label": "Option Colours", "value": 'mixed'},
+                                ],
+                                value="default",
+                                inline=True,
+                                className="mt-3"
+                            ),
+                        ]
+                    ),
+                    dbc.FormGroup(
+                        [
+                            dbc.Label(html.Div("NIM score threshold", id='venn-slider-label'),
+                                      html_for='venn-slider'),
+                            dcc.Slider(id='venn-slider', value=0, min=0, max=100, step=1,
+                                       marks={
+                                           0: '0',
+                                           50: '50',
+                                           100: '100',
+                                       }),
+                            dbc.Label(html.Div("Inserts percentile limits", id='venn-inserts-slider-label'),
+                                      html_for='venn-inserts-slider'),
+                            dcc.RangeSlider(id='venn-inserts-slider', min=0, max=100, step=1, value=[0, 100],
+                                            marks={
+                                                0: '0%',
+                                                50: '50%',
+                                                100: '100%',
+                                            }),
+                        ],
+                        className="mt-3"
+                    ),
+                ],
+                id="venn-options-collapse",
+                is_open=True,
+                className="ml-3"
             ),
             html.Hr(),
             dbc.Row(
@@ -259,6 +299,17 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, colors, c
     Output("venn-datatable-collapse", "is_open"),
     [Input("venn-collapse-button", "n_clicks")],
     [State("venn-datatable-collapse", "is_open")],
+)
+def toggle_collapse_venn(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
+
+@app.callback(
+    Output("venn-options-collapse", "is_open"),
+    [Input("venn-collapse-options-button", "n_clicks")],
+    [State("venn-options-collapse", "is_open")],
 )
 def toggle_collapse_venn(n, is_open):
     if n:
