@@ -15,7 +15,41 @@ NIM_comparison_tab_layout = dbc.Card(
             dcc.Loading(
                 html.Div("No Input Data Loaded", id="NIM-comparison-div"),
                 type="dot",
-            )
+            ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dbc.Button(
+                            "Show NIM Options",
+                            id="nim-collapse-button",
+                            color="info",
+                            className="mt-3"
+                        ),
+                    ),
+                ],
+                justify="center"
+            ),
+            dbc.Collapse(
+                [
+                    dbc.FormGroup(
+                        [
+                            dbc.Label("Choose Mode:"),
+                            dbc.RadioItems(
+                                options=[
+                                    {"label": "NIM", "value": "nim"},
+                                    {"label": "NRM", "value": "nrm"},
+                                ],
+                                value="nim",
+                                id="nim-comp-radio",
+                                inline=True,
+                            ),
+                        ],
+                        className="mt-3"
+                    ),
+                ],
+                id="nim-options-collapse",
+                className="ml-3"
+            ),
         ]
     ),
     className="mt-3",
@@ -67,3 +101,13 @@ def create_comparison_subplot(run_status, mode, colors, session_id):
     fig['layout']['yaxis1'].update(title=y_title)
 
     return dcc.Graph(id='NIM-comparison-fig', figure=fig)
+
+@app.callback(
+    Output("nim-options-collapse", "is_open"),
+    [Input("nim-collapse-button", "n_clicks")],
+    [State("nim-options-collapse", "is_open")],
+)
+def toggle_collapse_nim(n, is_open):
+    if n:
+        return not is_open
+    return is_open
