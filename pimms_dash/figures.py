@@ -619,10 +619,8 @@ def pca_plot(pca_df, control_color, test_color):
             "PC2: %{y}<br>" +
             "<extra></extra>",
             marker=dict(
-                size=12,
                 line=dict(
                     color='black',
-                    width=1
                 ),
                 color=control_color,
             ),

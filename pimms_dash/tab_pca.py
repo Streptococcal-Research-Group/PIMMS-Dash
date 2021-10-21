@@ -18,6 +18,50 @@ pca_tab_layout = dbc.Card(
                     dbc.Col(html.Div("No Data Loaded", id="tab-pca-div"))
                 ]
             ),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        dbc.Button(
+                            "Show PCA Options",
+                            id="pca-collapse-options-button",
+                            color="info",
+                            className="mt-3"
+                        ),
+                    ),
+                ],
+                justify="center"
+            ),
+            dbc.Collapse(
+                [
+                    dbc.Row(
+                        [
+                            dbc.Col(
+                                [
+                                    dbc.Label("Marker Size:", html_for="pca-marker-size-input", width="auto"),
+                                    dbc.Input(
+                                        id="pca-marker-size-input", type="number", min=0, max=20, step=0.1, value=12,
+                                    ),
+                                ],
+                                width=6
+                            ),
+                            dbc.Col(
+                                [
+                                    dbc.Label("Marker line width:", html_for="pca-marker-line-width-input",
+                                              width="auto"),
+                                    dbc.Input(
+                                        id="pca-marker-line-width-input", type="number", min=0, max=10, step=0.1,
+                                        value=1,
+                                    ),
+                                ],
+                                width=6
+                            ),
+                        ],
+                        className="mt-3"
+                    )
+                ],
+                id="pca-options-collapse",
+                className="ml-3"
+            ),
         ]
     ),
     className="mt-3",
@@ -27,10 +71,12 @@ pca_tab_layout = dbc.Card(
     Output('tab-pca-div', 'children'),
     [Input("run-status", "data"),
      Input('plot-color-store', 'data'),
+     Input("pca-marker-size-input", 'value'),
+     Input("pca-marker-line-width-input", 'value'),
      State("session-id", "data")],
     prevent_initial_call=True
 )
-def create_pca_scatter(run_status, colors, session_id):
+def create_pca_pca(run_status, colors, marker_size, marker_line_width, session_id):
     """
     Callback to create/update pca plot.
     :param run_status: dictionary containing run success information
@@ -59,4 +105,16 @@ def create_pca_scatter(run_status, colors, session_id):
     fig.update_xaxes(title=labels["x_label"])
     fig.update_yaxes(title=labels["y_label"])
 
+    fig.update_traces(marker_line_width=marker_line_width, marker_size=marker_size)
+
     return dcc.Graph(id='pca-scatter-fig', figure=fig)
+
+@app.callback(
+    Output("pca-options-collapse", "is_open"),
+    [Input("pca-collapse-options-button", "n_clicks")],
+    [State("pca-options-collapse", "is_open")],
+)
+def toggle_collapse_venn(n, is_open):
+    if n:
+        return not is_open
+    return is_open
