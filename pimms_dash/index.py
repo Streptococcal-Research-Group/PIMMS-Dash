@@ -63,16 +63,17 @@ def serve_layout():
                     dbc.Col(
                         dbc.Tabs(
                             [
-                                dbc.Tab(about_tab_layout, label="About", labelClassName="text-dark"),
-                                dbc.Tab(datatable_tab_layout, label="DataTable", labelClassName="text-dark"),
-                                dbc.Tab(NIM_comparison_tab_layout, label="NIM Comparison", labelClassName="text-dark"),
-                                #dbc.Tab(histogram_tab_layout, label="Histogram", labelClassName="text-dark"),
-                                dbc.Tab(venn_tab_layout, label="Venn", labelClassName="text-dark"),
-                                dbc.Tab(genome_scatter_tab_layout, label="Genome Scatter", labelClassName="text-dark"),
-                                #dbc.Tab(circos_tab_layout, label="Circos", labelClassName="text-dark"),
-                                dbc.Tab(pca_tab_layout, label="Replicates PCA", labelClassName="text-dark"),
-                                dbc.Tab(geneviewer_tab_layout, label="GeneViewer", labelClassName="text-dark"),
+                                dbc.Tab(about_tab_layout, label="About", labelClassName="text-dark", tab_id='about'),
+                                dbc.Tab(datatable_tab_layout, label="DataTable", labelClassName="text-dark", tab_id='datatable'),
+                                dbc.Tab(NIM_comparison_tab_layout, label="NIM Comparison", labelClassName="text-dark", tab_id='nim'),
+                                #dbc.Tab(histogram_tab_layout, label="Histogram", labelClassName="text-dark", tab_id='histogram'),
+                                dbc.Tab(venn_tab_layout, label="Venn", labelClassName="text-dark", tab_id='venn'),
+                                dbc.Tab(genome_scatter_tab_layout, label="Genome Scatter", labelClassName="text-dark", tab_id='genomescatter'),
+                                #dbc.Tab(circos_tab_layout, label="Circos", labelClassName="text-dark", tab_id='circos'),
+                                dbc.Tab(pca_tab_layout, label="Replicates PCA", labelClassName="text-dark", tab_id='pca'),
+                                dbc.Tab(geneviewer_tab_layout, label="GeneViewer", labelClassName="text-dark", tab_id='geneviewer'),
                             ],
+                            id="dashboard-tabs"
                         ),
                         width=9
                     )

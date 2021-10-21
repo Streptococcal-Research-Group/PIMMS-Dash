@@ -3,6 +3,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+from dash import callback_context
 
 import numpy as np
 
@@ -114,10 +115,11 @@ venn_tab_layout = dbc.Card(
      Input('plot-color-store', 'data'),
      Input('venn-color-options', 'value'),
      Input("venn-reload-button", "n_clicks"),
+     State("dashboard-tabs", "active_tab"),
      State('session-id', 'data')],
     prevent_initial_call=True
 )
-def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, colors, color_options, reload_clicks, session_id):
+def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, colors, color_options, reload_clicks, active_tab, session_id):
     """
     Callback to create/update venn diagram when new data in dcc.store or venn options are changed.
     Also creates the venn datatable below the diagram.
@@ -139,7 +141,12 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, colors, c
         else:
             return np.nan
 
+    trigger = callback_context.triggered[0]['prop_id'].split('.')[0]
+
     if not run_status or not run_status["pimms"]:
+        raise PreventUpdate
+
+    if trigger == "plot-color-store" and active_tab != "venn":
         raise PreventUpdate
 
     # Load data from store

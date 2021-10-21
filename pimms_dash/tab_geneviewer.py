@@ -3,6 +3,7 @@ import dash_html_components as html
 import dash_core_components as dcc
 from dash.dependencies import Input, Output, State
 from dash.exceptions import PreventUpdate
+from dash import callback_context
 
 import numpy as np
 
@@ -10,7 +11,6 @@ from app import app
 from utils import PIMMSDataFrame, GffDataFrame, load_data
 from figures import main_datatable, mpl_needleplot
 
-# TODO bugfix. mpl geneviewer and venn interference during savefig. reload temp solution.
 
 geneviewer_tab_layout = dbc.Card(
     dbc.CardBody(
@@ -71,17 +71,22 @@ geneviewer_tab_layout = dbc.Card(
      Input("plot-color-store", "data"),
      Input("geneviewer-reload-button", "n_clicks")],
     [State("run-status", "data"),
+     State("dashboard-tabs", "active_tab"),
      State("session-id", "data")],
 )
-def create_needleplot(selected_rows, colors, reload_clicks, run_status, session_id):
+def create_needleplot(selected_rows, colors, reload_clicks, run_status, active_tab, session_id):
     """
     Callback to display intergenic mutations when row is selected.
     Also returns markdown of information on needleplot.
     Also returns Datatable object of mutations from coord gff.
     """
+    trigger = callback_context.triggered[0]['prop_id'].split('.')[0]
+
     if not (run_status["gff_control"] and run_status["gff_test"]):
         return "Load control and test coordinate gffs.\n" \
                "Select a gene in the DataTable tab", "", ""
+    elif trigger == "plot-color-store" and active_tab != "geneviewer":
+        raise PreventUpdate
     elif selected_rows:
         # Selected row can only be single value - extract from list
         row_index = selected_rows[0]
