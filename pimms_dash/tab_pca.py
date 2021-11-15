@@ -73,10 +73,12 @@ pca_tab_layout = dbc.Card(
      Input('plot-color-store', 'data'),
      Input("pca-marker-size-input", 'value'),
      Input("pca-marker-line-width-input", 'value'),
+     Input('plotlabel_control', 'value'),
+     Input('plotlabel_test', 'value'),
      State("session-id", "data")],
     prevent_initial_call=True
 )
-def create_pca_pca(run_status, colors, marker_size, marker_line_width, session_id):
+def create_pca_pca(run_status, colors, marker_size, marker_line_width, control_label, test_label, session_id):
     """
     Callback to create/update pca plot.
     :param run_status: dictionary containing run success information
@@ -101,7 +103,7 @@ def create_pca_pca(run_status, colors, marker_size, marker_line_width, session_i
     pca_df["group"] = pd.Series(pca_df.index).apply(lambda x: x.split("_")[-1]).to_list()
     labels = pimms_df.pca_labels
 
-    fig = pca_plot(pca_df, colors["control"], colors["test"])
+    fig = pca_plot(pca_df, colors["control"], colors["test"], control_label, test_label)
     fig.update_xaxes(title=labels["x_label"])
     fig.update_yaxes(title=labels["y_label"])
 

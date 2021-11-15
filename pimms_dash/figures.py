@@ -603,12 +603,12 @@ def NIM_comparison_linked(series_control, series_test, start_positions, end_posi
 
     return fig
 
-def pca_plot(pca_df, control_color, test_color):
+def pca_plot(pca_df, control_color, test_color, control_label, test_label):
     fig = go.Figure()
     fig.add_trace(
         go.Scatter(
             mode='markers',
-            name="Control",
+            name=control_label,
             x=pca_df[pca_df["group"] == "control"]["PC1"],
             y=pca_df[pca_df["group"] == "control"]["PC2"],
             text=pca_df[pca_df["group"] == "control"].index,
@@ -630,7 +630,7 @@ def pca_plot(pca_df, control_color, test_color):
     fig.add_trace(
         go.Scatter(
             mode='markers',
-            name="Test",
+            name=test_label,
             x=pca_df[pca_df["group"] == "test"]["PC1"],
             y=pca_df[pca_df["group"] == "test"]["PC2"],
             text=pca_df[pca_df["group"] == "test"].index,
