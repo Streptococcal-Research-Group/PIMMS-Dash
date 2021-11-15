@@ -91,13 +91,13 @@ def style_table(selected_rows, c_metric, checked_options, num_rows, run_status, 
     if 'simple' in checked_options:
         cols = pimms_df.get_columns(simple=True, c_metric=c_metric)
         columns = [{"name": i.replace("_", " "), "id": i, "selectable": True,
-                    "format": Format(precision=2, scheme=Scheme.fixed)} for i in cols]
+                    "format": Format(precision=5, scheme=Scheme.fixed)} for i in cols]
     else:
         cols = pimms_df.get_columns(simple=False, c_metric=c_metric)
         columns = [{"name": i.replace("_", " "),
                       "id": i,
                       "selectable": True,
-                      "format": Format(precision=2, scheme=Scheme.fixed)} for i in cols]
+                      "format": Format(precision=5, scheme=Scheme.fixed)} for i in cols]
 
     # Add styling dicts to style_data_conditional. See datatable docs
     style_data_conditional = []

@@ -41,7 +41,7 @@ class GffDataFrame:
         return pd.read_csv(path, sep="\t", comment="#", names=self.gff3_cols)
 
     def get_data(self):
-        return self._data.round(3)
+        return self._data.round(5)
 
     def _read_header(self):
         if not self._data.empty:
@@ -166,7 +166,7 @@ class PIMMSDataFrame:
         return len(self._data)
 
     def get_data(self):
-        return self._data.round(3)
+        return self._data.round(5)
 
     def get_columns(self, simple=False, c_metric='all'):
         if c_metric not in self.comparison_cols + [None, 'all']:
