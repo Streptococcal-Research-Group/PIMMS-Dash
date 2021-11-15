@@ -90,10 +90,13 @@ genome_scatter_tab_layout = dbc.Card(
      Input('plot-color-store', 'data'),
      Input("scatter-marker-size-input", 'value'),
      Input("scatter-marker-line-width-input", 'value'),
+     Input('plotlabel_control', 'value'),
+     Input('plotlabel_test', 'value'),
      State("session-id", "data")],
     prevent_initial_call=True
 )
-def create_genome_scatter(run_status, checkbox, colors, marker_size, marker_line_width, session_id):
+def create_genome_scatter(run_status, checkbox, colors, marker_size, marker_line_width,
+                          label_control, label_test, session_id):
     """
     Callback to create/update genome scatter plot.
     :param run_status: dictionary containing run success information
@@ -109,7 +112,10 @@ def create_genome_scatter(run_status, checkbox, colors, marker_size, marker_line
     gff_df_control = GffDataFrame.from_json(data_control)
     gff_df_test = GffDataFrame.from_json(data_test)
     # Create figure
-    fig = genome_comparison_scatter(gff_df_control, gff_df_test)
+    control_title = f"Insertions Across {label_control} Phenotype"
+    test_title = f"Insertions Across {label_test} Phenotype"
+    fig = genome_comparison_scatter(
+        gff_df_control, gff_df_test, control_title, test_title)
     # Change to log axis if checked
     if 'log' in checkbox:
         fig.update_yaxes(type="log")

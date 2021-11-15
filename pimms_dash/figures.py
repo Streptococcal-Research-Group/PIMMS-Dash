@@ -224,7 +224,7 @@ def genome_scatter(gff_df):
     return fig
 
 
-def genome_comparison_scatter(gff_df_control, gff_df_test):
+def genome_comparison_scatter(gff_df_control, gff_df_test, control_title, test_title):
     """
     Create a subplot of two scatter plots of genome insertions from Gff dataframe objects.
     :param gff_df_control: GffDataFrame object
@@ -234,7 +234,7 @@ def genome_comparison_scatter(gff_df_control, gff_df_test):
     fig = make_subplots(rows=2, cols=1,
                         shared_xaxes=True,
                         vertical_spacing=0.15,
-                        subplot_titles=["Insertions Across Control Phenotype", "Insertions Across Test Phenotype"],
+                        subplot_titles=[control_title, test_title],
                         y_title="Number of Mutations / base")
     for row, gff_df in enumerate([gff_df_control, gff_df_test]):
         # If gff has score values - assume these are insert counts
