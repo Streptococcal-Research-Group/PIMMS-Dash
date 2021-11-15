@@ -11,7 +11,6 @@ import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 import dash_table
 import plotly.graph_objects as go
-import plotly.express as px
 from matplotlib_venn import venn2
 from dash_table.Format import Format, Scheme
 from plotly.subplots import make_subplots
@@ -452,7 +451,7 @@ def NIM_comparison_bar(series_control, series_test, start_positions, end_positio
                           ))
         return fig
 
-def NIM_comparison_bar_gl(series_control, series_test, start_positions, end_positions, locus_tags, get_trace=False):
+def NIM_comparison_bar_gl(series_control, series_test, start_positions, end_positions, locus_tags, test_label, control_label, get_trace=False):
     """
     To address performance issues in standard plotly bar with large datasets. Hack scattergl (better performance)
     to produce a bar-like chart using fill.
@@ -464,14 +463,14 @@ def NIM_comparison_bar_gl(series_control, series_test, start_positions, end_posi
     locus_labels = [item for x in locus_tags.to_list() for item in ["", x, x, ""]]
     # Create figure
     fig = go.Figure()
-    t1 = go.Scattergl(x=x_points, y=y_points_test, fill='tozeroy', name='Test Condition',
+    t1 = go.Scattergl(x=x_points, y=y_points_test, fill='tozeroy', name=test_label,
                       hovertemplate='<b>Score</b>: %{text}' +
                                     '<br><b>Position</b>: %{x}' +
                                     '<br><b>Locus Tag</b>: %{customdata}<br>',
                       text=[str(abs(y)) for y in y_points_test],
                       customdata=locus_labels
                       )
-    t2 = go.Scattergl(x=x_points, y=y_points_control, fill='tozeroy', name='Control Condition',
+    t2 = go.Scattergl(x=x_points, y=y_points_control, fill='tozeroy', name=control_label,
                       hovertemplate='<b>Score</b>: %{text}' +
                                     '<br><b>Position</b>: %{x}' +
                                     '<br><b>Locus Tag</b>: %{customdata}<br>',
@@ -495,9 +494,9 @@ def NIM_comparison_bar_gl(series_control, series_test, start_positions, end_posi
                           ))
         return fig
 
-def NIM_comparison_heatmap(series_control, series_test,  start_positions, end_positions, locus_tags, get_trace=False):
+def NIM_comparison_heatmap(series_control, series_test,  start_positions, end_positions, locus_tags, test_label, control_label, get_trace=False):
     """ Create a heatmap comparison between the two conditions"""
-    conditions = ["test", "control"]
+    conditions = [test_label, control_label]
     # Zip start and end positions into one list
     x_points = [item for x in zip(start_positions.to_list(), end_positions.to_list()) for item in x]
     # Create z values array - insert 0 between elements for sections inbetween loci
@@ -551,13 +550,13 @@ def NIM_comparison_heatmap(series_control, series_test,  start_positions, end_po
         fig.update_xaxes(matches='x')
         return fig
 
-def NIM_comparison_linked(series_control, series_test, start_positions, end_positions, locus_tags, title, color_test, color_control):
+def NIM_comparison_linked(series_control, series_test, start_positions, end_positions, locus_tags, title, color_test, color_control, test_label, control_label):
     """Create both the bar chart and heatmap but with linked xaxes"""
     fig = make_subplots(rows=3, cols=1,
                         subplot_titles=[title])
     traces = []
-    traces += NIM_comparison_bar_gl(series_control, series_test, start_positions,end_positions, locus_tags, get_trace=True)
-    traces += NIM_comparison_heatmap(series_control, series_test, start_positions, end_positions, locus_tags, get_trace=True)
+    traces += NIM_comparison_bar_gl(series_control, series_test, start_positions,end_positions, locus_tags, test_label, control_label, get_trace=True)
+    traces += NIM_comparison_heatmap(series_control, series_test, start_positions, end_positions, locus_tags, test_label, control_label, get_trace=True)
 
     traces[0]['line'].color = color_test
     traces[1]['line'].color = color_control
