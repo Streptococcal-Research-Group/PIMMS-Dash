@@ -155,11 +155,14 @@ venn_tab_layout = dbc.Card(
      Input('plot-color-store', 'data'),
      Input('venn-color-options', 'value'),
      Input("venn-reload-button", "n_clicks"),
+     Input('plotlabel_control', 'value'),
+     Input('plotlabel_test', 'value'),
      State("dashboard-tabs", "active_tab"),
      State('session-id', 'data')],
     prevent_initial_call=True
 )
-def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, colors, color_options, reload_clicks, active_tab, session_id):
+def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, colors, color_options,
+                reload_clicks, control_label, test_label, active_tab, session_id):
     """
     Callback to create/update venn diagram when new data in dcc.store or venn options are changed.
     Also creates the venn datatable below the diagram.
@@ -227,7 +230,7 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, colors, c
     else:
         color_list=None
 
-    venn_img = venn_diagram(control_set, test_set, set_labels=('Control', 'Test'), color_list=color_list)
+    venn_img = venn_diagram(control_set, test_set, set_labels=(control_label, test_label), color_list=color_list)
 
     # Create Venn Label
     label = dcc.Markdown(f"""
