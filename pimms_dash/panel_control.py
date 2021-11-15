@@ -103,7 +103,8 @@ panel_options_tab_layout = dbc.Card(
                        href='https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#how-can-i-get-unfiltered-deseq2-results'),
             html.Hr(),
             dcc.Store(id="plot-color-store", data={"control": "#1f77b4", "test": "#ff7f0e"}),
-            html.H5("Plot Colors"),
+            html.H5("Plot Options"),
+            dbc.Label("Colours:", html_for="color-input-form"),
             dbc.Form(
                 [
                     dbc.FormGroup(
@@ -134,10 +135,42 @@ panel_options_tab_layout = dbc.Card(
                     ),
                 ],
                 inline=True,
+                id="color-input-form"
             ),
-            html.Br(),
             dbc.Button(id="color-reset-button", children="reset", color="dark", outline=True,
-                       style={"width": 75, "padding": 0}),
+                       style={"width": 150, "padding": 0}, className="mt-1"),
+            html.Br(),
+            dbc.Label("Labels:", html_for="plotlabel-input-form", className="mt-3"),
+            dbc.Form(
+                [
+                    dbc.FormGroup(
+                        [
+                            dbc.Input(
+                                type="text",
+                                id="plotlabel_control",
+                                value="Control",
+                                placeholder="Control Label",
+                                debounce=True,
+                            ),
+                        ],
+                        className="mr-1",
+                    ),
+                    dbc.FormGroup(
+                        [
+                            dbc.Input(
+                                type="text",
+                                id="plotlabel_test",
+                                value="Test",
+                                placeholder="Test Label",
+                                debounce=True,
+                            ),
+                        ],
+                        className="mr-1",
+                    ),
+                ],
+                inline=True,
+                id="plotlabel-input-form"
+            ),
             html.Hr(),
             html.H5("Datatable Options"),
             dbc.FormGroup(
