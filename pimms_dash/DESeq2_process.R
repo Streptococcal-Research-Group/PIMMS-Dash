@@ -14,7 +14,7 @@ run_deseq <- function(countsdata, metadata, filtering=TRUE) {
   }
 
   # Get PCA plot dataframe
-  if (nrow(pimms2) < 1000) {
+  if (any(lapply(countsdata, function(x){ length(which(x!=0))<1000}))) {
     vsdata <- varianceStabilizingTransformation(pimms2, blind = FALSE)
   } else {
     vsdata <- vst(pimms2, blind = FALSE)
