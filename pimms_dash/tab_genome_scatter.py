@@ -104,8 +104,11 @@ def create_genome_scatter(run_status, checkbox, colors, marker_size, marker_line
     :param checkbox: scatter options checkbox
     :return:
     """
-    if not run_status or not run_status["gff_control"]:
+    if not run_status or not (run_status["gff_control"] and run_status["gff_test"]):
         raise PreventUpdate
+
+    if run_status["control-run"]:
+        return "Control Run: Genome Scatter Not Available"
 
     data_control = load_data("gff_df_control", session_id)
     data_test = load_data("gff_df_test", session_id)

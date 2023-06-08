@@ -85,8 +85,13 @@ def create_pca_pca(run_status, colors, marker_size, marker_line_width, control_l
     :param session_id: uuid of session
     :return:
     """
+    if run_status["control-run"]:
+        return "Control Run: PCA Not Available"
+
     if (not run_status or not run_status["pimms"]):
         return "No Data Loaded"
+    elif not run_status["deseq"]:
+        return "DESeq not run"
     elif run_status["deseq"]["mutantpools"] == 0:
         return "No replicates found"
     elif run_status["deseq"]["run"] is False:

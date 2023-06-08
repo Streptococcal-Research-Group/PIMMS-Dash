@@ -90,7 +90,9 @@ panel_options_tab_layout = dbc.Card(
                     dbc.Checklist(
                         options=[
                             {'label': 'DESeq on run', 'value': 'deseq'},
-                            {'label': 'DESeq default outlier removal and independent filtering', 'value': 'filter'}
+                            {'label': 'DESeq default outlier removal and independent '
+                                      'filtering', 'value': 'filter'},
+                            {'label': 'Control run only', 'value': 'control-run'},
                         ],
                         value=['deseq', 'filter'],
                         id="data-input-checklist",
@@ -266,10 +268,12 @@ control_panel_layout = dbc.Tabs(
      State("session-id", "data")],
     prevent_initial_call=True
 )
-def run_selection(run_clicks, test_filename, control_filename, control_gff_filename, test_gff_filename, deseq, session_id):
+def run_selection(run_clicks, test_filename, control_filename, control_gff_filename,
+                  test_gff_filename, run_options, session_id):
 
     # Create empty run status
-    run_status = {'pimms': None, 'gff_control': None, 'gff_test': None, 'deseq': None}
+    run_status = {'pimms': None, 'gff_control': None, 'gff_test': None, 'deseq':
+        None, "control-run": False}
 
     # Prevent update if all dropdowns unselected.
     if ((test_filename in [0, None]) or (control_filename in [0, None])) and \
@@ -311,12 +315,26 @@ def run_selection(run_clicks, test_filename, control_filename, control_gff_filen
         try:
             test_path = [i for i in all_csvs if i.name == test_filename][0]
             control_path = [i for i in all_csvs if i.name == control_filename][0]
-            run_deseq = "deseq" in deseq
-            filter_deseq = "filter" in deseq
+            run_deseq = "deseq" in run_options
+            filter_deseq = "filter" in run_options
             pimms_df = PIMMSDataFrame(control_path, test_path, run_deseq=run_deseq, deseq_filtering=filter_deseq)
             store_data(pimms_df.to_json(), 'pimms_df', session_id)
             run_status['pimms'] = True
             run_status['deseq'] = pimms_df.deseq_run_logs
+        except Exception as e:
+            # Todo Log exception
+            run_status['pimms'] = False
+    elif ('control-run' in run_options) and (control_filename not in [0, None]):
+        try:
+            control_path = [i for i in all_csvs if i.name == control_filename][0]
+            pimms_df = PIMMSDataFrame(
+                control_path,
+                test_path=None,
+            )
+            store_data(pimms_df.to_json(), 'pimms_df', session_id)
+            run_status['pimms'] = True
+            run_status['deseq'] = pimms_df.deseq_run_logs
+            run_status["control-run"] = True
         except Exception as e:
             # Todo Log exception
             run_status['pimms'] = False
@@ -429,8 +447,8 @@ def run_status_feedback(run_status, dropdown1, dropdown2, dropdown3, dropdown4):
         not run_status['pimms'],
         run_status['gff_control'],
         not run_status['gff_control'],
-        run_status['gff_test'],
-        not run_status['gff_test']
+        (run_status['gff_test'] or run_status['control-run']),
+        not (run_status['gff_test'] or run_status['control-run'])
     ]
     # If this callback was triggered by change in dropdown not a run. Remove dropdown ticks.
     if callback_trigger != 'run-status':
@@ -505,3 +523,24 @@ def color_button_click(n):
         raise PreventUpdate
     else:
         return "#1f77b4", "#ff7f0e"
+
+@app.callback(
+    Output('data-input-checklist', 'options'),
+    Output('data-input-checklist', 'value'),
+    Input('data-input-checklist', 'value'),
+)
+def update_checklist(selected_values):
+    if 'control-run' in selected_values:
+        return [
+            {'label': 'DESeq on run', 'value': 'deseq', 'disabled': True},
+            {'label': 'DESeq default outlier removal and independent filtering',
+             'value': 'filter', 'disabled': True},
+            {'label': 'Control run only', 'value': 'control-run'},
+        ], ['control-run']
+    else:
+        return [
+            {'label': 'DESeq on run', 'value': 'deseq'},
+            {'label': 'DESeq default outlier removal and independent filtering',
+             'value': 'filter'},
+            {'label': 'Control run only', 'value': 'control-run'},
+        ], selected_values

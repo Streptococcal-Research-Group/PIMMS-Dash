@@ -136,6 +136,11 @@ class PIMMSDataFrame:
         self.control_path = control_path
         self.test_path = test_path
 
+        if test_path is None:
+            self.control_run = True
+        else:
+            self.control_run = False
+
         if data is None:
             self._data = self.load_and_merge(control_path, test_path)
         else:
@@ -147,8 +152,9 @@ class PIMMSDataFrame:
             self.comparison_cols = []
 
         # Calculate comparison columns
-        self.calc_NIM_comparision_metric(fold_change_comparision, 'fold_change')
-        self.calc_NIM_comparision_metric(percentile_rank_comparision, 'pctl_rank')
+        if not self.control_run:
+            self.calc_NIM_comparision_metric(fold_change_comparision, 'fold_change')
+            self.calc_NIM_comparision_metric(percentile_rank_comparision, 'pctl_rank')
 
         # Pass pools to deseq
         self.deseq_run_logs = {}
@@ -212,6 +218,9 @@ class PIMMSDataFrame:
         else:
             raise ValueError("Unaccepted file type")
 
+        if control_data_path and test_data_path is None:
+            return df_control
+
         # Read input test file into pandas dataframe
         if ".csv" in test_data_path.suffix:
             df_test = pd.read_csv(test_data_path)
@@ -250,8 +259,14 @@ class PIMMSDataFrame:
         deserialised_data = json.loads(json_data)
         deserialised_data['data'] = deserialised_data.pop('_data')
         deserialised_data['data'] = pd.read_json(deserialised_data['data'], orient='split')
-        deserialised_data['control_path'] = pathlib.Path(deserialised_data['control_path'])
-        deserialised_data['test_path'] = pathlib.Path(deserialised_data['test_path'])
+        if deserialised_data['control_path'] != 'None':
+            deserialised_data['control_path'] = pathlib.Path(deserialised_data['control_path'])
+        else:
+            deserialised_data['control_path'] = None
+        if deserialised_data['test_path'] != 'None':
+            deserialised_data['test_path'] = pathlib.Path(deserialised_data['test_path'])
+        else:
+            deserialised_data['test_path'] = None
         # If already ran deseq, prevent trigger on new class instance
         deserialised_data['run_deseq'] = False
         return cls(**deserialised_data)

@@ -63,6 +63,9 @@ def create_circos(run_status, g_len, checkbox, c_metric, session_id):
     if not run_status or not run_status["pimms"]:
         raise PreventUpdate
 
+    if run_status["control-run"]:
+        return "Control Run: Circos Not Available"
+
     data = load_data('pimms_df', session_id)
 
     hide_zeros = 'hide_zero' in checkbox

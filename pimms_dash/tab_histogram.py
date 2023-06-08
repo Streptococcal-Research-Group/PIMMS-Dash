@@ -39,6 +39,10 @@ def create_hist(run_status, hist_type, bin_size, session_id):
     if not run_status or not run_status["pimms"]:
         raise PreventUpdate
 
+    if run_status["control-run"]:
+        return "Control Run: Histogram Not Available"
+
+
     data = load_data('pimms_df', session_id)
 
     # Load data from store

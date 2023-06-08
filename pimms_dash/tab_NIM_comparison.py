@@ -76,6 +76,9 @@ def create_comparison_subplot(run_status, mode, colors, test_label, control_labe
     if not run_status or not run_status["pimms"]:
         raise PreventUpdate
 
+    if run_status["control-run"]:
+        return "Control Run: NIM Comparison Not Available"
+
     data = load_data('pimms_df', session_id)
 
     # Load data from store

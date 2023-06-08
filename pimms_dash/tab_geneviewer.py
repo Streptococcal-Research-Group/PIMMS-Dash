@@ -6,6 +6,7 @@ from dash.exceptions import PreventUpdate
 from dash import callback_context
 
 import numpy as np
+import pandas as pd
 
 from app import app
 from utils import PIMMSDataFrame, GffDataFrame, load_data
@@ -131,7 +132,13 @@ def create_needleplot(selected_rows, colors, reload_clicks, marker_size, stem_wi
     """
     trigger = callback_context.triggered[0]['prop_id'].split('.')[0]
 
-    if not (run_status["gff_control"] and run_status["gff_test"]):
+    if (
+        not (
+            run_status["gff_control"] and run_status["gff_test"]
+        ) and not run_status['control-run']
+    ) or (
+        run_status['control-run'] and not run_status["gff_control"]
+    ):
         return "Load control and test coordinate gffs.\n" \
                "Select a gene in the DataTable tab", "", ""
     elif trigger == "plot-color-store" and active_tab != "geneviewer":
@@ -143,14 +150,6 @@ def create_needleplot(selected_rows, colors, reload_clicks, marker_size, stem_wi
         # Load pimms gff
         data = load_data('pimms_df', session_id)
         pimms_df = PIMMSDataFrame.from_json(data)
-
-        # Load test coordinate gff
-        data_test = load_data("gff_df_test", session_id)
-        gff_df_test = GffDataFrame.from_json(data_test)
-
-        # Load control coordinate gff
-        data_control = load_data("gff_df_control", session_id)
-        gff_df_control = GffDataFrame.from_json(data_control)
 
         # Get gene start and end
         gene_start = pimms_df.get_data().at[row_index, "start"]
@@ -164,12 +163,31 @@ def create_needleplot(selected_rows, colors, reload_clicks, marker_size, stem_wi
         else:
             gene_label = gene_id
 
-        # get mutations in test from gff df
-        if gff_df_test.empty_score():
-            inserts_data_t = gff_df_test.value_counts('start').reset_index().rename(
-                columns={"index": "position", "start": "count"})
+        buffer_prc = 0 #Todo control intergenic buffer with slider.
+        buffer = buffer_prc * (gene_end - gene_start)
+
+        if not run_status['control-run']:
+            # Load test coordinate gff
+            data_test = load_data("gff_df_test", session_id)
+            gff_df_test = GffDataFrame.from_json(data_test)
+
+            # get mutations in test from gff df
+            if gff_df_test.empty_score():
+                inserts_data_t = gff_df_test.value_counts('start').reset_index().rename(
+                    columns={"index": "position", "start": "count"})
+            else:
+                inserts_data_t = gff_df_test[['start', 'score']].rename(columns={"start": "position", "score": "count"})
+
+            # tRestrict mutations in test to gene plus a percentage buffer
+            inserts_data_t = inserts_data_t[
+                (inserts_data_t["position"] > (gene_start - buffer)) & (inserts_data_t["position"] < (gene_end + buffer))]
         else:
-            inserts_data_t = gff_df_test[['start', 'score']].rename(columns={"start": "position", "score": "count"})
+            inserts_data_t = pd.DataFrame(columns=['position', 'count'])
+
+        # Load control coordinate gff
+        data_control = load_data("gff_df_control", session_id)
+        gff_df_control = GffDataFrame.from_json(data_control)
+
         # get mutations in control from gff df
         if gff_df_control.empty_score():
             inserts_data_c = gff_df_control.value_counts('start').reset_index().rename(
@@ -177,13 +195,9 @@ def create_needleplot(selected_rows, colors, reload_clicks, marker_size, stem_wi
         else:
             inserts_data_c = gff_df_control[['start', 'score']].rename(columns={"start": "position", "score": "count"})
 
-        # Restrict mutations to gene plus a percentage buffer
-        buffer_prc = 0 #Todo control intergenic buffer with slider.
-        buffer = buffer_prc * (gene_end - gene_start)
+        # Restrict mutations in control to gene plus a percentage buffer
         inserts_data_c = inserts_data_c[
             (inserts_data_c["position"] > (gene_start - buffer)) & (inserts_data_c["position"] < (gene_end + buffer))]
-        inserts_data_t = inserts_data_t[
-            (inserts_data_t["position"] > (gene_start - buffer)) & (inserts_data_t["position"] < (gene_end + buffer))]
 
         # Create wide data view for table
         wide_table = inserts_data_c.merge(inserts_data_t, how="outer", on="position")

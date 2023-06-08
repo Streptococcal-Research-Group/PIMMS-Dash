@@ -70,6 +70,9 @@ def style_table(selected_rows, c_metric, checked_options, num_rows, run_status, 
     if not run_status or not run_status['pimms']:
         raise PreventUpdate
 
+    if run_status["control-run"]:
+        raise PreventUpdate
+
     # read data from data store
     data = load_data("pimms_df", session_id)
     pimms_df = PIMMSDataFrame.from_json(data)

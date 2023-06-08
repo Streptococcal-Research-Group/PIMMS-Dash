@@ -192,6 +192,9 @@ def create_venn(run_status, thresh_c, slider_c, radioitems, checklist, colors, c
     if trigger == "plot-color-store" and active_tab != "venn":
         raise PreventUpdate
 
+    if run_status["control-run"]:
+        return "Control Run: Venn Not Available"
+
     # Load data from store
     data = load_data('pimms_df', session_id)
     pimms_df = PIMMSDataFrame.from_json(data)
