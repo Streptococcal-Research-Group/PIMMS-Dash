@@ -1,3 +1,6 @@
+import json
+import urllib
+
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
@@ -241,6 +244,18 @@ panel_options_tab_layout = dbc.Card(
             #         ),
             #     ]
             # ),
+
+            # uss dcc.download in future dash versions
+            html.Hr(),
+            html.A(
+                "Download Selected Options",
+                id="download-link",
+                download="selected_options.txt",
+                href="",
+                target="_blank",
+                className="btn btn-info mt-3"
+            ),
+
             html.Div(id="session-display")
         ]
     ),
@@ -544,3 +559,48 @@ def update_checklist(selected_values):
              'value': 'filter'},
             {'label': 'Control run only', 'value': 'control-run'},
         ], selected_values
+
+
+@app.callback(
+    Output('download-link', 'href'),
+    [Input('comparison-metric-dropdown', 'value'),
+     Input('control-dropdown', 'value'),
+     Input('test-dropdown', 'value'),
+     Input('gff-dropdown-control', 'value'),
+     Input('gff-dropdown-test', 'value'),
+     Input('data-input-checklist', 'value'),
+     Input('plot-color-store', 'data'),
+     Input('plotlabel_control', 'value'),
+     Input('plotlabel_test', 'value'),
+     Input('datatable-checklist', 'value'),
+     Input('datatable-numrows', 'value')]
+)
+def update_download_link(
+        comparison_metric, control_file, test_file, gff_control, gff_test,
+        data_input_options, colors, control_label, test_label, datatable_options,
+        datatable_numrows):
+    # Prepare the selected options as a dictionary
+    selected_options = {
+        "comparison_metric": comparison_metric,
+        "control_file": control_file,
+        "test_file": test_file,
+        "gff_control": gff_control,
+        "gff_test": gff_test,
+        "data_input_options": data_input_options,
+        "plot_colors": colors,
+        "control_label": control_label,
+        "test_label": test_label,
+        "datatable_options": datatable_options,
+        "datatable_numrows": datatable_numrows,
+    }
+
+    # Convert dictionary to JSON-formatted text
+    content = json.dumps(selected_options, indent=2)
+
+    # URL-encode the content to prevent issues with special characters like `#`
+    encoded_content = urllib.parse.quote(content)
+
+    # Create data URL with encoded content
+    href = "data:text/plain;charset=utf-8," + encoded_content
+
+    return href
