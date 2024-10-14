@@ -37,7 +37,10 @@ This project is also deployed on Azure App Service. You can access the live vers
 
 - [PIMMS Dashboard on Azure](https://pimms-dashboard-uon.azurewebsites.net/)
 
-- Citation https://doi.org/10.1101/2024.04.10.588854
+
+### Citation 
+
+https://doi.org/10.1101/2024.04.10.588854
 
 # Usage
 
